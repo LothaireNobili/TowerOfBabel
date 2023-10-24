@@ -12,15 +12,23 @@ class Fight extends Phaser.Scene {
 
         var arbiter = new Arbiter()
 
-        for (let i = 0; i < heroList.length; i++){
-            heroList[i] = this.add.image(arbiter.getVerticalPosition(i+1, "hero"), arbiter.floor, heroList[i]); //place each hero
-            heroList[i].setOrigin(0.5, 1);  //center them properly
-        }
+        var heroSprites = [];
+        var enemySprites = [];
 
+        console.log("starting to place heroes")
+        for (let i = 0; i < heroList.length; i++){
+            console.log("1")
+            var hero = this.add.sprite(arbiter.getVerticalPosition(i+1, "hero"),arbiter.floor,heroList[i]).play("crusader_wait"); //place each hero
+            console.log("2")
+            hero.setOrigin(0.5, 1);  //center them properly
+            heroSprites.push(hero);
+        }
+        
+        console.log("starting to place enemies")
         for (let i = 0; i < enemyList.length; i++){
-            enemyList[i] = this.add.image(arbiter.getVerticalPosition(i+1, "enemy"), arbiter.floor, enemyList[i]); //place each ennemy
-            enemyList[i].flipX = true;  //flip them because they're on the opposite side
-            enemyList[i].setOrigin(0.5, 1); //
+            enemySprites[i] = this.add.image(arbiter.getVerticalPosition(i+1, "enemy"), arbiter.floor, enemyList[i]); //place each ennemy
+            enemySprites[i].flipX = true;  //flip them because they're on the opposite side
+            enemySprites[i].setOrigin(0.5, 1); //
         }
     }
 }
