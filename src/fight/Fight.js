@@ -2,6 +2,9 @@
 class Fight extends Phaser.Scene {
     constructor(){
         super("playFight"); //REMEMBER TO CHANGE THAT WHEN NOT IN PROTOTYPING STATE ANYMORE (for team composition)
+        this.currentTurn = 'player';
+        this.playerTeam = [];
+        this.enemyTeam = [];
     }
 
     create(){
@@ -48,6 +51,4 @@ class Fight extends Phaser.Scene {
             enemySprites[i].setOrigin(0.5, 1); //
         }*/
     }
-
-    
 }
