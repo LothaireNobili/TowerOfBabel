@@ -19,6 +19,7 @@ class Fight extends Phaser.Scene {
         for (let i = 0; i < heroList.length; i++){
             var hero = this.add.sprite(arbiter.getVerticalPosition(i+1, "hero"),arbiter.floor,heroList[i]).play(heroList[i]+"_wait"); //place each hero
             hero.setOrigin(0.5, 1);  //center them properly
+            hero.setScale(arbiter.defaultScale)
             heroSprites.push(hero);
         }
         
@@ -28,6 +29,7 @@ class Fight extends Phaser.Scene {
             var enemy = this.add.sprite(arbiter.getVerticalPosition(i+1, "enemy"),arbiter.floor,enemyList[i]).play(enemyList[i]+"_wait"); //place each enemy
             console.log(enemyList[i])
             enemy.setOrigin(0.5, 1);  //center them properly
+            enemy.setScale(arbiter.defaultScale)
             enemy.flipX = true;
             enemySprites.push(enemy);
         }
@@ -46,4 +48,6 @@ class Fight extends Phaser.Scene {
             enemySprites[i].setOrigin(0.5, 1); //
         }*/
     }
+
+    
 }

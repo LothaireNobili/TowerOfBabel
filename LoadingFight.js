@@ -1,5 +1,5 @@
 var heroList = ["crusader", "bandit"];
-var enemyList = ["skeleton", "spider"];
+var enemyList = ["skeleton", "skeleton", "spider", "spider"];
 var fighterList = [...heroList, ...enemyList]; //combine both list by reference, if a hero die, it will be removed from figtherList
 
 class LoadingFight extends Phaser.Scene {
@@ -45,6 +45,7 @@ class LoadingFight extends Phaser.Scene {
             this.anims.create({
                 key: heroList[i]+'_wait', // Animation key (can be any string)
                 frames: this.anims.generateFrameNumbers(heroList[i], {
+                    scale: 2,
                     start: 0,
                     end: this.graphicManager.spriteSheetDatas[heroList[i]].waitEnd //index of the last frame of the animation
                 }),

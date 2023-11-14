@@ -10,6 +10,7 @@ class Arbiter {
         this.firstOffSet = 90               //how far away the first fighter is from the center
         this.fightersOffSet = 120           //how far each fighter is from eachother (front to front)
         this.floor = 530                    //where the characters are placed vertically
+        this.defaultScale = 0.73
     }
 
     getVerticalPosition(rank, team){

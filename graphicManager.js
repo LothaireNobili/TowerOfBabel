@@ -2,26 +2,26 @@ class GraphicManager{
     constructor(){
         this.spriteSheetDatas = {
             crusader : {
-                waitFrameWidth: 117,
-                waitFrameHeight: 298,
+                waitFrameWidth: 158,
+                waitFrameHeight: 401,
                 waitEnd: 30
             },
 
             bandit : {
-                waitFrameWidth: 132,
-                waitFrameHeight: 215,
+                waitFrameWidth: 182,
+                waitFrameHeight: 296,
                 waitEnd: 28
             },
 
             skeleton : {
-                waitFrameWidth: 112,
-                waitFrameHeight: 220,
+                waitFrameWidth: 144,
+                waitFrameHeight: 284,
                 waitEnd: 28 
             },
 
             spider : {
-                waitFrameWidth: 151,
-                waitFrameHeight: 150,
+                waitFrameWidth: 244,
+                waitFrameHeight: 242,
                 waitEnd: 30 
             }
         }
