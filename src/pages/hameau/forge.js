@@ -1,11 +1,9 @@
-import BarreInfo from "../../util/classBarreInfo.js";
-
-export default class Forge extends Phaser.Scene {
+class Forge extends Phaser.Scene {
   constructor() {
     super({ key: 'Forge' });
   }
   preload() {
-    this.load.setBaseURL('src/assets/')
+    this.load.setBaseURL('../../../assets/')
     this.load.image("crusaderPortrait", "images/heroes/crusader/portrait.png")
     this.load.image("crusaderIdle", "images/heroes/crusader/idle.png")
     this.load.image("crusaberSkill1", "images/heroes/crusader/icons_skill/coup_epee.png")

@@ -1,11 +1,9 @@
-import BarreInfo from "../../util/classBarreInfo.js";
-
-export default class Laboratoire extends Phaser.Scene {
+class Laboratoire extends Phaser.Scene {
   constructor() {
     super({ key: 'Laboratoire' });
   }
   preload() {
-    this.load.setBaseURL('src/assets/')
+    this.load.setBaseURL('../../../assets/')
     this.load.image("gandoulf", "images/hameau/Gandoulf_ancien.png")
     this.load.image("boutiqueBg", "images/hameau/boutique_bg.png");
     this.load.image("inventaire", "icons/inventaire.png")

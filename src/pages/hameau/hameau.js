@@ -1,13 +1,10 @@
-import BarreInfo from "../../util/classBarreInfo.js";
-import { game } from '../../../game.js';
-
-export default class Hameau extends Phaser.Scene {
+class Hameau extends Phaser.Scene {
     constructor() {
         super({ key: 'Hameau' });
     }
 
     preload() {
-        this.load.setBaseURL('src/assets/')
+        this.load.setBaseURL('../../../assets/')
         this.load.image("hameauBg", "images/hameau/hameau_bg.png");
         this.load.image("Laboratoire", "images/hameau/laboratoire.png");
         this.load.image("Forge", "images/hameau/forge.png");

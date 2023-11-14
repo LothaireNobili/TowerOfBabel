@@ -1,5 +1,5 @@
 // Barre d'information
-export default class BarreInfo {
+class BarreInfo {
 
     constructor(hudBackground,userIDText,nbPiecesText) {
         this.userID = localStorage.getItem('userID') || "USER_ID"; // Obtenir ID de l'utilisateur à partir du  localstorage. S'il n'existe pas, utiliser la valeur par défaut.
