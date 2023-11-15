@@ -44,21 +44,20 @@ class Vestal extends Phaser.GameObjects.Sprite {
                 heal: 6,  //how much it heals
             },
             blindingLight: {
-                name: 'blinding Light',
+                name: 'Blinding light',
                 target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2, 3], //spot reach
                 requiered_pos : [3, 4], //where the hero must be placed to cast it
                 stun: 140  //chance of the stun to proc, ennemies have some resistance so <100 doesn't guarantee the stun
             },
-            battleMedicine: {
-                name: "Battle Medicine",
-                target: "team", //ennemy is offensive, team is passive for the team, self is only for the caster
+            escapeSmash: {
+                name: "Escape smash",
+                target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//all reachable target are touched
-                reach: [1, 2, 3, 4], //spot reach
-                requiered_pos: [2, 3], //where the hero must be placed to cast it
-                heal: 10, //how much it heals
-                cure: ["bleed", "poison"] //gets rid of bleed and poison
+                reach: [1, 2], //spot reach
+                requiered_pos: [1, 2], //where the hero must be placed to cast it
+                move: -1, //backward of 1
             }
         };
 /*
