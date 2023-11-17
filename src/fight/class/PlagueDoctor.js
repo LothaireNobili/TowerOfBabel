@@ -1,6 +1,6 @@
-class PlagueDoctor extends Phaser.GameObjects.Sprite {
+class Plaguedoctor extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y) {
-        super(scene, x, y, 'plagueDoctor'); 
+        super(scene, x, y, 'plaguedoctor'); 
 
         //base stats
         this.max_hp = 30;   
