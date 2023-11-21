@@ -1,3 +1,12 @@
+// supprimer /--
+var allHeroList = ["crusader", "bandit"];
+var allPotionsList = [{ name: "exemple1", description: "description", prix: 550, sellQuantity: 1 }, { name: "exemple2", description: "description", prix: 300, sellQuantity: 1 }]; 
+addSellQuantityToPotions(allPotionsList)
+// --/
+
+var userHeroList = user.heroes
+var userPotionList = user.potions
+
 class Hameau extends Phaser.Scene {
     constructor() {
         super({ key: 'Hameau' });
@@ -20,19 +29,28 @@ class Hameau extends Phaser.Scene {
         this.load.image("card", "images/hameau/card.jpg")
         this.load.image("cardFocus", "images/hameau/card_focus.jpg")
         this.load.image("boutiqueBg", "images/hameau/boutique_bg.png");
+
+        for (let i = 0; i < allHeroList.length; i++) {
+            this.load.image("portrait_" + allHeroList[i], "images/heroes/" + heroList[i] + "/portrait.png")
+            this.load.image("idle_" + allHeroList[i], "images/heroes/" + heroList[i] + "/idle.png")
+        }
     }
 
     create() {
-        // var buildingImages = [];
+        
+        document.body.style.cursor = "default";
+
         var descriptions = {};
-        var userID = localStorage.getItem('userID') || "USER_ID"; // Obtenir ID de l'utilisateur à partir du  localstorage. S'il n'existe pas, utiliser la valeur par défaut.
-        var nbPiece = localStorage.getItem('nbPiece') || "0"; // Obtenir la quantité de pièces depuis le localstorage.
 
         this.add.image(540, 360, "hameauBg");
 
+        // Barre d'information
         var enseigne = this.add.image(540, 85, "enseigne");
         enseigne.setScale(0.55)
         this.add.text(490, 115, "HAMEAU", setFontStyles());
+
+        const barreInfo = new BarreInfo(this);
+        barreInfo.creerBarreInfo();  // Crée la barre d'information
 
         // Créez un objet image et stockez-le dans un tableau
         createInteractiveImage(this, 680, 580, 200, 200, "Diligence", "recruter de nouveaux héros")
@@ -40,20 +58,6 @@ class Hameau extends Phaser.Scene {
         createInteractiveImage(this, 150, 590, 230, 230, "Forge", "acheter des armes et armures")
         createInteractiveImage(this, 400, 570, 200, 200, "Depart", "débuter l'aventure")
 
-        // Barre d'information
-        var hudBackground = this.add.graphics();
-        var userIDText = this.add.text(30, 10, '', setFontStyles());
-        var nbPiecesText = this.add.text(970, 9, '', setFontStyles());
-        var piece = this.add.image(940, 25, "pieces");
-        piece.setScale(0.28);
-        this.add.text(448, 10, "Tower of Babel", setFontStyles(undefined, "26px"));
-
-        const barreInfo = new BarreInfo(hudBackground, userIDText, nbPiecesText)
-        barreInfo.creerBarreInfo()
-        barreInfo.setUserInfo()
-
-        // Enregistrer les informations dans localstorage lors du rafraîchissement de la page.
-        window.addEventListener('beforeunload', barreInfo.saveUserInfoToLocalStorage);
 
         // Créez une fonction pour les objets image, les paramètres de description
         function createInteractiveImage(scene, x, y, width, height, key, descriptionText) {
@@ -66,7 +70,7 @@ class Hameau extends Phaser.Scene {
                 x - 100,
                 y - 170,
                 key.toUpperCase() + "\n" + descriptionText,
-                setFontStyles(undefined, "22px")
+                setFontStyles("22px")
             );
 
             description.visible = false; // Initialisation en tant qu'invisible
@@ -91,19 +95,19 @@ class Hameau extends Phaser.Scene {
 
             image.on("pointerdown", function () {
                 game.scene.stop('Hameau')
-                if(key == "Depart"){
-                    game.scene.start("bootGame");
+                if (key == "Depart") {
+                    game.scene.start("Hameau");
                 }
-                else{
+                else {
                     game.scene.start(key);
                 }
-                  
+
             });
 
             return image;
         }
     }
-    
+
     update() { }
 }
 
