@@ -13,8 +13,15 @@ class Arbiter {
         this.fightersOffSet = 120           //how far each fighter is from eachother (front to front)
         this.floor = 530                    //where the characters are placed vertically
         this.defaultScale = 0.73
+
+        //cursors values
         this.cursorOffSet = 45
         this.cursorScale = 0.92
+
+        //skills values
+        this.skillYPlacement = 640
+        this.skillXPlacement = 150
+        this.skillXPlacementOffSet = 75
 
         //define stats of the fight
         this.fightState = [
@@ -28,7 +35,7 @@ class Arbiter {
             "Wait",     //brief pause after attack animation
             "Next",  //we go to the next player, maybe it's not an actual state
             "FightOver" //one of the team is defeated
-        ]
+        ]//--> actually we can delete that whole things
 
         this.currentState = this.fightState[0]
 
@@ -40,6 +47,7 @@ class Arbiter {
         //prepare variables to deal with the rounds
         this.roundNumber = 0; //we start at round 0, the first startTurn will make it 1s
         this.fighterOrder = [];
+        this.currentFighterTrackNumber = 0; //to save the index of the current player in the list, reset each round
         this.currentFighter;
         this.currentAttack;
         this.currentTarget = [];
@@ -77,10 +85,24 @@ class Arbiter {
         return team
     }
 
-    /*
-    getHeroSprite(hero){
-        return this.fight_scene.heroSprites[hero.position]
-    }*/
+    checkIfSkillIsAvaible(skillToCheck){
+        console.warn("The function checkIfSkillIsAvaible doesn't check if there are valid targets yet")
+
+        let pos = this.currentFighter.position
+
+        var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
+        let okPos = foundSkill.requiered_pos
+
+        let okFirstTarget = foundSkill.reach[0]
+
+        if (okPos.includes(pos) && okFirstTarget <= enemyTeam.length){
+            return true
+        }
+        else{
+            return false
+        }
+        
+    }
 
     showMessage(message) {
         return new Promise((resolve) => {
@@ -130,15 +152,113 @@ class Arbiter {
         });
     }
 
+    placeTargetCursors(skillToCheck){
+        var that = this// save the context
 
+        //erase the previous cursors
+        for (let cursor of this.currentTargetCursor){
+            cursor.destroy()
+        }
+        this.currentTargetCursor = []
+
+        //we get the skill
+        var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
+
+        //initialize temporary variable
+        var tempoTargetCursor
+
+
+        //* The code below looks redoundant but making it smoother would imply to make a lot of ugy code elsewhere
+        //(we use a lot of different variables that don't have the same nomenclature)
+
+        if (foundSkill.target === "enemy"){
+            for(let targetPos of foundSkill.reach){
+                if (targetPos <= enemyTeam.length){
+    
+                    tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(targetPos, "enemy")
+                    ,this.floor+this.cursorOffSet,"target_select");
+    
+                    tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
+                    tempoTargetCursor.setScale(this.cursorScale)
+    
+                    that.currentTargetCursor.push(tempoTargetCursor)
+                }
+            }
+        }
+        else if(foundSkill.target === "team"){
+            for(let targetPos of foundSkill.reach){
+                if (targetPos <= playerTeam.length){
+                    tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(targetPos, "hero")
+                    ,this.floor+this.cursorOffSet,"passive_select");
+    
+                    tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
+                    tempoTargetCursor.setScale(this.cursorScale)
+    
+                    that.currentTargetCursor.push(tempoTargetCursor)
+                }
+            }
+        }
+        
+
+        //
+
+
+        /*
+        for (let target of this.currentTarget){
+            //console.log(target)
+            tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(target.position, "hero")//ennemies only have offensive move
+                ,this.floor+this.cursorOffSet,"target_select");
+            tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
+            tempoTargetCursor.setScale(this.cursorScale)
+
+            that.currentTargetCursor.push(tempoTargetCursor)
+        } */
+
+    }
+
+    placeSkillIcon(hero) {
+        // Variable pour stocker la valeur
+        var selectedValue = null;
+
+        var that = this
+
+        // Liste des icônes et de leurs valeurs associées
+        var icons = [
+            { key: hero.name+'_skill1_icon', value: hero.skills[0].id },
+            { key: hero.name+'_skill2_icon', value: hero.skills[1].id },
+            { key: hero.name+'_skill3_icon', value: hero.skills[2].id },
+            { key: hero.name+'_skill4_icon', value: hero.skills[3].id }
+        ];
+    
+        // Créer les icônes cliquables
+        icons.forEach((icon, index) => {
+            var xPosition = that.skillXPlacement + index * that.skillXPlacementOffSet;
+            var yPosition = that.skillYPlacement;
+            
+            var clickableIcon = that.fight_scene.add.sprite(xPosition, yPosition, icon.key)
+            if (this.checkIfSkillIsAvaible(icon.value)){
+                clickableIcon.setInteractive({ cursor: 'pointer' })
+                    .on('pointerdown', function () {
+                        that.placeTargetCursors(icon.value)
+
+                }); 
+            }
+            else{
+                clickableIcon.setTint(0x808080);
+            }
+            
+        });
+    }
+
+    //!the animation requiere improvement but does the trick for now
     playAttackAnimation(attacker, targets){
         var that = this;
 
         attacker.sprite.anims.stop(); 
-        attacker.sprite.setTexture(attacker.name+"_"+that.currentAttack.animation);
+        attacker.sprite.setTexture(attacker.name+"_"+that.currentAttack.animation).setScale(0.7);
 
         targets.forEach(target => target.sprite.anims.stop());
-        targets.forEach(target => target.sprite.setTexture(target.name+'_defend'));
+        targets.forEach(target => target.sprite.setTexture(target.name+'_defend').setScale(0.7));
 
         return new Promise((resolve) => {
             this.fight_scene.tweens.add({
@@ -149,8 +269,8 @@ class Arbiter {
                 onComplete: function () {
                     // Changer la texture de l'attaquant et des cibles
                     that.fight_scene.time.delayedCall(500, function () {
-                        attacker.sprite.play(attacker.name+"_wait");
-                        targets.forEach(target => target.sprite.play(target.name+"_wait"));
+                        attacker.sprite.play(attacker.name+"_wait").setScale(that.defaultScale);
+                        targets.forEach(target => target.sprite.play(target.name+"_wait").setScale(that.defaultScale));
 
                         resolve(); // Résoudre la promesse après le remplacement
                     }, [], that);
@@ -174,7 +294,7 @@ class Arbiter {
         console.log("fight order :")
         this.fighterOrder = this.getBothTeam().sort((a, b) => b.speed - a.speed)
         console.log(this.fighterOrder)
-        this.currentFighter = this.fighterOrder[0]
+        this.currentFighterTrackNumber = 0;
         this.startTurn()
         /*
         console.log("scene")
@@ -182,6 +302,7 @@ class Arbiter {
     }
 
     startTurn(){
+        this.currentFighter = this.fighterOrder[this.currentFighterTrackNumber]
         this.placeTurnCursor()
         this.getInput()
     }
@@ -238,7 +359,7 @@ class Arbiter {
 
     getHeroInput(){
         //TODO : display attack icons, select target
-        console.log("TODO")
+        this.placeSkillIcon(this.currentFighter)
     }
 
     engageAttackAnimation(){
@@ -267,7 +388,8 @@ class Arbiter {
     }
 
     ontoTheNext(){
-        
+        this.currentFighterTrackNumber += 1;
+        this.startTurn()
     }
 
 

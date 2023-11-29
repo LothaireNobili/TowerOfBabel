@@ -13,8 +13,8 @@ class Crusader{
 
         this.prot = 20; //20% of protection
 
-        this.speed = 3;
-
+        this.speed = 15;
+        //increased speed for debug, actual speed is 3
         this.crit = 5; //in %
 
         this.damage_low_range = 10;
@@ -32,45 +32,52 @@ class Crusader{
 
         
         
-        this.skills = {
-            smite: {
+        this.skills = [
+            {
+                id:"smite",
                 name: 'Smite',
-                target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
                 damage_mod: 10 //modifier in %
             },
-            stunningBlow: {
+            {
+                id: "stunningBlow",
                 name: 'Stunning blow',
-                target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
                 damage_mod: -40,
                 stun: 140  //chance of the stun to proc, ennemies have some resistance so <100 doesn't guarantee the stun
             },
-            holyLance: {
+            {
+                id: "holyLance",
                 name: 'Holy lance',
-                target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
+                /*
                 reach: [2, 3, 4], //spot reach
-                requiered_pos : [3, 4], //where the hero must be placed to cast it
+                requiered_pos : [3, 4], //where the hero must be placed to cast it*/
+                reach: [4], //spot reach
+                requiered_pos : [1], //where the hero must be placed to cast it
                 move: 1, //forward 1
                 crit_mod: 5 //flat modifier in %
             },
-            warCry: {
+            {
+                id: "warCry",
                 name: "War cry",
-                target: "team", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "team", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2, 3, 4], //spot reach
-                requiered_pos : [3, 4], //where the hero must be placed to cast it
+                requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
                 bonus : {
                     damage: [20, 3], //bonus of 50% damage for the target for 3 turn
                     speed: [5, 3] //bonus of +5 speed for 3 turn
                 }
             }
-        };
+        ];
     }
 
 }

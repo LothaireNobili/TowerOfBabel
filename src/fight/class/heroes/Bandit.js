@@ -29,7 +29,7 @@ class Bandit extends Phaser.GameObjects.Sprite {
         this.skills = {
             slice: {
                 name: 'Slice',
-                target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
@@ -37,7 +37,7 @@ class Bandit extends Phaser.GameObjects.Sprite {
             },
             cut: {
                 name: 'Cut',
-                target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
@@ -46,7 +46,7 @@ class Bandit extends Phaser.GameObjects.Sprite {
             },
             gunShot: {
                 name: 'Gun shot',
-                target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [2, 3, 4], //spot reach
                 requiered_pos : [2, 3, 4], //where the hero must be placed to cast it
@@ -55,7 +55,7 @@ class Bandit extends Phaser.GameObjects.Sprite {
             },
             grapeShot: {
                 name: "Grape shot",
-                target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "continuous",//all reachable target are touched
                 reach: [1, 2, 3], //spot reach
                 requiered_pos: [2, 3], //where the hero must be placed to cast it

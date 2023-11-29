@@ -29,7 +29,7 @@ class Vestal extends Phaser.GameObjects.Sprite {
         this.skills = {
             divineGrace: {
                 name: 'Divine grace',
-                target: "team", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "team", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2, 3, 4], //spot reach
                 requiered_pos : [3, 4], //where the hero must be placed to cast it
@@ -37,7 +37,7 @@ class Vestal extends Phaser.GameObjects.Sprite {
             },
             divineComfort: {
                 name: 'Divine grace',
-                target: "team", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "team", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "continuous",//one target only
                 reach: [1, 2, 3, 4], //spot reach
                 requiered_pos : [3, 4], //where the hero must be placed to cast it
@@ -45,7 +45,7 @@ class Vestal extends Phaser.GameObjects.Sprite {
             },
             blindingLight: {
                 name: 'Blinding light',
-                target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2, 3], //spot reach
                 requiered_pos : [3, 4], //where the hero must be placed to cast it
@@ -53,7 +53,7 @@ class Vestal extends Phaser.GameObjects.Sprite {
             },
             escapeSmash: {
                 name: "Escape smash",
-                target: "ennemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//all reachable target are touched
                 reach: [1, 2], //spot reach
                 requiered_pos: [1, 2], //where the hero must be placed to cast it
