@@ -91,7 +91,7 @@ class Hameau extends Phaser.Scene {
 
             image.on("pointerdown", function () {
                 if(key == "Depart")
-                    game.scene.start("bootGame");
+                    game.scene.start("bootFight");
                 else
                     game.scene.start(key);
                 
