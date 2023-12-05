@@ -49,7 +49,9 @@ class Fight extends Phaser.Scene {
         for (var h of heroList){
             
             if(h==="crusader"){
-                playerTeam.push(new Crusader(i, this.heroSprites[i-1]));
+                let newHero = new Crusader(i, this.heroSprites[i-1])
+                newHero.lifeBar = new LifeBar(this, newHero, "hero", arbiter);
+                playerTeam.push(newHero);
             }
             i++;/*
             if(h==="bandit"){
@@ -60,7 +62,9 @@ class Fight extends Phaser.Scene {
         i=1//reset the position for the ennemy
         for (var e of enemyList){
             if(e==="skeleton"){
-                enemyTeam.push(new Skeleton(i, this.enemySprites[i-1]));
+                let newEnemy = new Skeleton(i, this.enemySprites[i-1])
+                newEnemy.lifeBar = new LifeBar(this, newEnemy, "enemy", arbiter);
+                enemyTeam.push(newEnemy);
             }i++;/*
             if(h==="spider"){
                 playerTeam.push(new SPider());

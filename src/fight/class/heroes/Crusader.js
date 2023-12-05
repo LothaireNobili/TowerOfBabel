@@ -36,6 +36,7 @@ class Crusader{
             {
                 id:"smite",
                 name: 'Smite',
+                animation: "skill1",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
@@ -45,6 +46,7 @@ class Crusader{
             {
                 id: "stunningBlow",
                 name: 'Stunning blow',
+                animation: "skill2",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
@@ -55,6 +57,7 @@ class Crusader{
             {
                 id: "holyLance",
                 name: 'Holy lance',
+                animation: "skill3",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 /*
@@ -68,6 +71,7 @@ class Crusader{
             {
                 id: "warCry",
                 name: "War cry",
+                animation: "skill4",
                 target: "team", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2, 3, 4], //spot reach

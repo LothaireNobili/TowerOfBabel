@@ -42,6 +42,7 @@ class Arbiter {
         //preparing some sprite values
         this.currentFighterCursor;
         this.currentTargetCursor = [];
+        this.currentFighterSkillIcons = [];
 
 
         //prepare variables to deal with the rounds
@@ -74,23 +75,27 @@ class Arbiter {
         return [...playerTeam, ...enemyTeam]
     }
 
-    getTeam(fighter){
+    getFighterTeam(fighter){
         var team;
-        if (playerTeam.includes(this.currentFighter)){
+        if (playerTeam.includes(fighter)){
             team="hero"
         }
-        else if (enemyTeam.includes(this.currentFighter)){
+        else if (enemyTeam.includes(fighter)){
             team="enemy"
         }
         return team
     }
 
-    checkIfSkillIsAvaible(skillToCheck){
-        console.warn("The function checkIfSkillIsAvaible doesn't check if there are valid targets yet")
+    getSKill(fighter, skillId){
+        return (fighter.skills.find(skill => skill.id === skillId))
+    }
 
+    checkIfSkillIsAvaible(skillToCheck){
         let pos = this.currentFighter.position
 
-        var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
+        //var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
+
+        var foundSkill = this.getSKill(this.currentFighter, skillToCheck)
         let okPos = foundSkill.requiered_pos
 
         let okFirstTarget = foundSkill.reach[0]
@@ -162,8 +167,10 @@ class Arbiter {
         this.currentTargetCursor = []
 
         //we get the skill
-        var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
+        //var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
+        //var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
 
+        var foundSkill = this.getSKill(this.currentFighter, skillToCheck)   
         //initialize temporary variable
         var tempoTargetCursor
 
@@ -180,11 +187,24 @@ class Arbiter {
     
                     tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
                     tempoTargetCursor.setScale(this.cursorScale)
+
+                    tempoTargetCursor.setInteractive({ cursor: 'pointer' })
+                        .on('pointerdown', function () {
+
+                            that.currentTarget.push(enemyTeam[targetPos - 1]) //!here
+                            for (let icon of that.currentFighterSkillIcons){
+                                icon.destroy()
+                            }
+                            this.currentFighterSkillIcons = []
+                            that.engageAttackAnimation()
+                            
+                    }); 
     
                     that.currentTargetCursor.push(tempoTargetCursor)
                 }
             }
         }
+
         else if(foundSkill.target === "team"){
             for(let targetPos of foundSkill.reach){
                 if (targetPos <= playerTeam.length){
@@ -193,6 +213,17 @@ class Arbiter {
     
                     tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
                     tempoTargetCursor.setScale(this.cursorScale)
+
+                    tempoTargetCursor.setInteractive({ cursor: 'pointer' })
+                        .on('pointerdown', function () {
+
+                            that.currentTarget.push(playerTeam[targetPos - 1])
+                            for (let icon of that.currentFighterSkillIcons){
+                                icon.destroy()
+                            }
+                            this.currentFighterSkillIcons = []
+                            that.engageAttackAnimation()
+                    }); 
     
                     that.currentTargetCursor.push(tempoTargetCursor)
                 }
@@ -239,6 +270,8 @@ class Arbiter {
             if (this.checkIfSkillIsAvaible(icon.value)){
                 clickableIcon.setInteractive({ cursor: 'pointer' })
                     .on('pointerdown', function () {
+
+                        that.currentAttack = that.getSKill(that.currentFighter, icon.value)  
                         that.placeTargetCursors(icon.value)
 
                 }); 
@@ -247,6 +280,7 @@ class Arbiter {
                 clickableIcon.setTint(0x808080);
             }
             
+            that.currentFighterSkillIcons.push(clickableIcon)
         });
     }
 
@@ -257,18 +291,21 @@ class Arbiter {
         attacker.sprite.anims.stop(); 
         attacker.sprite.setTexture(attacker.name+"_"+that.currentAttack.animation).setScale(0.7);
 
-        targets.forEach(target => target.sprite.anims.stop());
-        targets.forEach(target => target.sprite.setTexture(target.name+'_defend').setScale(0.7));
+        if (this.currentAttack.target != "team" && this.currentAttack.target != "self"){
+            targets.forEach(target => target.sprite.anims.stop());
+            targets.forEach(target => target.sprite.setTexture(target.name+'_defend').setScale(0.7));
+        }
+
 
         return new Promise((resolve) => {
             this.fight_scene.tweens.add({
 
                 targets: [attacker, ...targets],
                 ease: 'Power2',
-                duration: 500,
+                duration: 1000,
                 onComplete: function () {
                     // Changer la texture de l'attaquant et des cibles
-                    that.fight_scene.time.delayedCall(500, function () {
+                    that.fight_scene.time.delayedCall(1000, function () {
                         attacker.sprite.play(attacker.name+"_wait").setScale(that.defaultScale);
                         targets.forEach(target => target.sprite.play(target.name+"_wait").setScale(that.defaultScale));
 
@@ -308,7 +345,7 @@ class Arbiter {
     }
 
     placeTurnCursor(){
-        let team = this.getTeam()
+        let team = this.getFighterTeam(this.currentFighter)
         this.currentFighterCursor = this.fight_scene.add.image(this.getVerticalPosition(this.currentFighter.position, team)
             ,this.floor+this.cursorOffSet,"current_fighter_select");
         this.currentFighterCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
@@ -317,7 +354,7 @@ class Arbiter {
     }
 
     getInput(){
-        let team = this.getTeam()
+        let team = this.getFighterTeam(this.currentFighter)
         if (team==="enemy"){
             this.getEnemyInput()
         }
@@ -381,15 +418,31 @@ class Arbiter {
         }
         this.currentTargetCursor = []
 
+        console.log("current fighter : " +this.currentFighter.name)
+        console.log("list of targets :")
+        for (let target of this.currentTarget){
+            console.log(target.name)//c'est une liste c'est pour ça que ça marche pas
+        }
+        console.log("current skill : " +this.currentAttack.name)
         this.playAttackAnimation(this.currentFighter, this.currentTarget)
             .then(() => {
-                this.ontoTheNext();
+                this.currentTarget = []
+                setTimeout(() => {  //a brief break after an attack to make the game more understandable
+                    this.ontoTheNext();
+                }, 1000);
             });
     }
 
     ontoTheNext(){
         this.currentFighterTrackNumber += 1;
-        this.startTurn()
+        
+        if (this.fighterOrder[this.currentFighterTrackNumber] != undefined){
+            this.startTurn()
+        }
+        else{
+            this.startRound()
+        }
+        
     }
 
 
