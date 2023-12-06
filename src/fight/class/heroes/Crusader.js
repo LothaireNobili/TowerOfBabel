@@ -17,8 +17,10 @@ class Crusader{
         //increased speed for debug, actual speed is 3
         this.crit = 5; //in %
 
+        this.damage_mult = 1
+        /*
         this.damage_low_range = 10;
-        this.damage_high_range = 15;
+        this.damage_high_range = 15;*/
 
         //resistance stats
         this.stun_res = 60;
