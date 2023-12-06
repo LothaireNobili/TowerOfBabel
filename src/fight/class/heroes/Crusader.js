@@ -44,7 +44,8 @@ class Crusader{
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
                 damage_low: 10, //minimum damage
-                damage_high: 13 //max damage
+                //damage_high: 13 //max damage
+                damage_high: 100
 
             },
             {
@@ -119,6 +120,15 @@ class Crusader{
         }
         console.log("PV restant de la cible : "+this.hp)
         this.healthBar.update()
+    }
+
+    isDead(){
+        return (this.hp == 0)
+    }
+
+    destroyGraphics() {
+        this.healthBar.destroy();
+        this.sprite.destroy();
     }
         
         

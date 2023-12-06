@@ -433,13 +433,70 @@ class Arbiter {
                     target.isTargeted(that.currentAttack, that.currentFighter)
                 }
                 setTimeout(() => {  //a brief break after an attack to make the game more understandable
-                    this.ontoTheNext(); //!reminder to replace by checkDeath
+                    this.checkDeath(); 
                 }, 1000);
             });
     }
 
     checkDeath(){
-        let team = getFighterTeam(this.currentTarget[0])
+        var that = this
+        let team = this.getFighterTeam(this.currentTarget[0])
+        let anyDeaths = false
+    
+        for(let target of this.currentTarget){
+            if (target.isDead()){
+
+                let index ; //initalize temporary value
+                anyDeaths=true //there is at least one death
+                target.destroyGraphics() //destroy the sprite and health bars
+
+
+                index = that.fighterOrder.indexOf(target); //get the index in the fighterOrder list
+
+                if (index < that.currentFighterTrackNumber){ //check if victim already played
+                    that.currentFighterTrackNumber -= 1; //remove one to the tracker if the victim already player to shift it correctly
+                }
+                
+                
+                if (index !== -1) {
+                    that.fighterOrder.splice(index, 1) //remove the victim from the fighterOrder
+                }
+                
+
+                if(team == "hero"){
+                    index = playerTeam.indexOf(target);
+
+                    for (let hero of playerTeam){
+                        if (index < hero.position){ //check if victim already played
+                            hero.position -= 1; //remove one to the tracker if the victim already player to shift it correctly
+                            enemy.updatePosition();//!maybe use a tween
+                        }
+                    }
+                    
+
+                    if (index !== -1) {
+                        playerTeam.splice(index, 1)//remove the victim from the hero list if they were a hero
+                    }
+                }
+
+                else if (team == "enemy"){
+                    index = enemyTeam.indexOf(target);
+
+                    for (let enemy of enemyTeam){
+                        if (index < enemy.position){ //check if victim already played
+                            enemy.position -= 1; //remove one to the tracker if the victim already player to shift it correctly
+                            enemy.updatePosition();//!maybe use a tween
+                        }
+                    }
+
+                    if (index !== -1) {
+                        enemyTeam.splice(index, 1)//remove the victim from the enemy list if they were an enemy
+                    }
+                }
+            }
+        }
+
+        this.ontoTheNext(); 
 
     }
 

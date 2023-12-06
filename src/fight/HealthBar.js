@@ -34,4 +34,10 @@ class HealthBar {
         // Calculate and return the healthbar width based on character health
         return (this.character.hp / this.character.max_hp) * 100;
     }
+
+    destroy() {
+        // Destroy the lifebar and its components
+        this.background.destroy();
+        this.bar.destroy();
+    }
 }

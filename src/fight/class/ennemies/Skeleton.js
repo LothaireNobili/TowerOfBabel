@@ -79,5 +79,14 @@ class Skeleton{
         console.log("PV restant de la cible : "+this.hp)
     }
 
+    isDead(){
+        return (this.hp == 0)
+    }
+
+    destroyGraphics() {
+        this.healthBar.destroy();
+        this.sprite.destroy();
+    }
+
     
 }
