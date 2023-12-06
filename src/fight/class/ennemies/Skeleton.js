@@ -37,18 +37,21 @@ class Skeleton{
             strike: {
                 name: 'Strike',
                 animation: "attack",
-                target: "heroes", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "hero", //ennemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2, 3, 4], //spot reach
                 requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
+                damage_low: 7, //minimum damage
+                damage_high: 10, //max damage
             },
             cut: {
                 name: 'Cut',
-                target: "heroes", //ennemy is offensive, team is passive for the team, self is only for the caster
+                target: "hero", //ennemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2, 3, 4], //spot reach
                 requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
-                damage_mod: -30,
+                damage_low: 5, //minimum damage
+                damage_high: 7, //max damage
                 bleed: [100, 2, 3]  //120% chance to proc bleed, 4 damage for 3 turns
             }
         }; 
@@ -61,4 +64,21 @@ class Skeleton{
         return randomSkill*///->that's for actual random, for debug we'll just return strike
         return [this.skills.strike, playerTeam[0]]//also the playerTeam[0] should be selected randomly
     }
+
+    isTargeted(skill, caster){
+        console.warn("PV de la cible : "+this.hp)
+        let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
+        
+        if (this.hp <= damage){
+            this.hp = 0
+            //self.die
+        }
+        else{
+            this.hp -= damage
+        }
+        this.healthBar.update()
+        console.warn("PV de la cible : "+this.hp)
+    }
+
+    
 }

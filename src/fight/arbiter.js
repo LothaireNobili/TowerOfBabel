@@ -411,6 +411,8 @@ class Arbiter {
         //console.log(this.getHeroSprite(this.currentFighter))
         //console.log(this.getHeroSprite(this.currentTarget)) //note : it won't work as well for multiple target stuff
         //targets.forEach(target => console.log(target));
+
+        var that = this
         this.currentFighterCursor.destroy()
         this.currentFighterCursor = null
         for (let cursor of this.currentTargetCursor){
@@ -424,8 +426,12 @@ class Arbiter {
             console.log(target.name)//c'est une liste c'est pour ça que ça marche pas
         }
         console.log("current skill : " +this.currentAttack.name)
+
         this.playAttackAnimation(this.currentFighter, this.currentTarget)
             .then(() => {
+                for(let target of that.currentTarget){
+                    target.isTargeted(that.currentAttack, that.currentFighter)
+                }
                 this.currentTarget = []
                 setTimeout(() => {  //a brief break after an attack to make the game more understandable
                     this.ontoTheNext();

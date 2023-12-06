@@ -43,7 +43,9 @@ class Crusader{
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
-                damage_mod: 10 //modifier in %
+                damage_low: 10, //minimum damage
+                damage_high: 13 //max damage
+
             },
             {
                 id: "stunningBlow",
@@ -53,7 +55,8 @@ class Crusader{
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
-                damage_mod: -40,
+                damage_low: 4, //minimum damage
+                damage_high: 7, //max damage
                 stun: 140  //chance of the stun to proc, ennemies have some resistance so <100 doesn't guarantee the stun
             },
             {
@@ -67,6 +70,8 @@ class Crusader{
                 requiered_pos : [3, 4], //where the hero must be placed to cast it*/
                 reach: [4], //spot reach
                 requiered_pos : [1], //where the hero must be placed to cast it
+                damage_low: 13, //minimum damage
+                damage_high: 16, //max damage
                 move: 1, //forward 1
                 crit_mod: 5 //flat modifier in %
             },
@@ -78,12 +83,46 @@ class Crusader{
                 type: "single",//one target only
                 reach: [1, 2, 3, 4], //spot reach
                 requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
-                bonus : {
+                /*bonus : {
                     damage: [20, 3], //bonus of 50% damage for the target for 3 turn
                     speed: [5, 3] //bonus of +5 speed for 3 turn
-                }
+                }*/
+                heal: 10
             }
         ];
     }
+
+    isTargeted(skill, caster){
+        console.warn("PV de la cible : "+this.hp)
+        if (skill.target == "hero"){
+                let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
+            
+                if (this.hp <= damage){
+                    this.hp = 0
+                    //self.die
+                }
+                else{
+                    this.hp -= damage
+                }
+            }
+            else if(skill.target == "team" && skill.target == "self"){
+                if (skill.hasOwnProperty("heal")){
+
+                    let heal = skill.heal * caster.damage_mult
+
+                    if (this.max_hp >= this.hp + heal){
+                        this.hp = this.max_hp
+                    }
+                    else{
+                        this.hp += heal
+                    }
+                }
+            }
+
+            this.healthBar.update()
+            console.warn("PV de la cible : "+this.hp)
+        }
+        
+        
 
 }
