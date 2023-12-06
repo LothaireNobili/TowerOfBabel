@@ -1,21 +1,51 @@
-var heroList = ["crusader", "bandit"];
-var enemyList = ["skeleton", "skeleton", "spider", "spider"];
-var fighterList = [...heroList, ...enemyList]; //combine both list by reference, if a hero die, it will be removed from figtherList
+var heroList = ["crusader"];
+var enemyList = ["skeleton","skeleton"];
+var initialFighterList = [...heroList, ...enemyList]; //->contrary to previous indication, it doesn't merge the lists by reference, it just merges them
 
 class LoadingFight extends Phaser.Scene {
     constructor(){
-        super("bootGame"); //REMEMBER TO CHANGE THAT WHEN NOT IN PROTOTYPING STATE ANYMORE (for team composition)
+        super("bootFight"); //REMEMBER TO CHANGE THAT WHEN NOT IN PROTOTYPING STATE ANYMORE (for team composition)
         this.graphicManager = new GraphicManager();
     }
 
     preload(){
+
         this.load.image("background", "assets/images/ruin_background1.png")
+        this.load.image('fight_announcement', 'assets/images/fight_misc/announcement_combat.png');
+
+        this.load.image("current_fighter_select", "assets/images/fight_misc/current_fighter_select.png")
+        this.load.image("move", "assets/images/fight_misc/move.png")
+        this.load.image("passive_select", "assets/images/fight_misc/passive_select.png")
+        this.load.image("passive_plus", "assets/images/fight_misc/passive_plus.png")
+        this.load.image("target_select", "assets/images/fight_misc/target_select.png")
+        this.load.image("target_plus", "assets/images/fight_misc/target_plus.png")
+
+        let heroSpriteList = [
+            "defend",
+            "skill1",
+            "skill2",
+            "skill3",
+            "skill4",
+            "skill1_icon",
+            "skill2_icon",
+            "skill3_icon",
+            "skill4_icon"
+        ]
+
+        let enemySpriteList = [
+            "defend",
+            "attack"
+        ]
 
         for (let i = 0; i < heroList.length; i++){
             this.load.spritesheet(heroList[i], "assets/images/heroes/"+heroList[i]+"/animations/wait.png", {
                 frameWidth: this.graphicManager.spriteSheetDatas[heroList[i]].waitFrameWidth,
                 frameHeight: this.graphicManager.spriteSheetDatas[heroList[i]].waitFrameHeight
             })
+
+            for (let j = 0; j < heroSpriteList.length; j++){
+                this.load.image(heroList[i]+"_"+heroSpriteList[j], "assets/images/heroes/"+heroList[i]+"/"+heroSpriteList[j]+".png")
+            }
         }  
 
         for (let i = 0; i < enemyList.length; i++){
@@ -23,11 +53,12 @@ class LoadingFight extends Phaser.Scene {
                 frameWidth: this.graphicManager.spriteSheetDatas[enemyList[i]].waitFrameWidth,
                 frameHeight: this.graphicManager.spriteSheetDatas[enemyList[i]].waitFrameHeight
             })
+
+            for (let j = 0; j < enemySpriteList.length; j++){
+                this.load.image(enemyList[i]+"_"+enemySpriteList[j], "assets/images/enemies/"+enemyList[i]+"/"+enemySpriteList[j]+".png")
+            }
         } 
 
-        /*debug lines to correctly size a new character*/
-        //this.load.image("surface", "assets/images/enemies/spider/animations/wait.webp")
-        /*end of debug lines*/
 
         /*
         for (let i = 0; i < enemyList.length; i++){
