@@ -93,7 +93,6 @@ class Crusader{
     }
 
     isTargeted(skill, caster){
-        console.warn("PV de la cible : "+this.hp)
         if (skill.target == "hero"){
                 let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
             
@@ -105,23 +104,22 @@ class Crusader{
                     this.hp -= damage
                 }
             }
-            else if(skill.target == "team" && skill.target == "self"){
-                if (skill.hasOwnProperty("heal")){
+        else if(skill.target == "team" || skill.target == "self"){
+            if (skill.hasOwnProperty("heal")){
 
-                    let heal = skill.heal * caster.damage_mult
+                let heal = skill.heal * caster.damage_mult
 
-                    if (this.max_hp >= this.hp + heal){
-                        this.hp = this.max_hp
-                    }
-                    else{
-                        this.hp += heal
-                    }
+                if (this.max_hp <= this.hp + heal){
+                    this.hp = this.max_hp
+                }
+                else{
+                    this.hp += heal
                 }
             }
-
-            this.healthBar.update()
-            console.warn("PV de la cible : "+this.hp)
         }
+        console.log("PV restant de la cible : "+this.hp)
+        this.healthBar.update()
+    }
         
         
 

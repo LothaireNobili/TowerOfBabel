@@ -432,14 +432,19 @@ class Arbiter {
                 for(let target of that.currentTarget){
                     target.isTargeted(that.currentAttack, that.currentFighter)
                 }
-                this.currentTarget = []
                 setTimeout(() => {  //a brief break after an attack to make the game more understandable
-                    this.ontoTheNext();
+                    this.ontoTheNext(); //!reminder to replace by checkDeath
                 }, 1000);
             });
     }
 
+    checkDeath(){
+        let team = getFighterTeam(this.currentTarget[0])
+
+    }
+
     ontoTheNext(){
+        this.currentTarget = []
         this.currentFighterTrackNumber += 1;
         
         if (this.fighterOrder[this.currentFighterTrackNumber] != undefined){

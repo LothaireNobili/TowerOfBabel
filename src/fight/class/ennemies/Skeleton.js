@@ -66,7 +66,6 @@ class Skeleton{
     }
 
     isTargeted(skill, caster){
-        console.warn("PV de la cible : "+this.hp)
         let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
         
         if (this.hp <= damage){
@@ -77,7 +76,7 @@ class Skeleton{
             this.hp -= damage
         }
         this.healthBar.update()
-        console.warn("PV de la cible : "+this.hp)
+        console.log("PV restant de la cible : "+this.hp)
     }
 
     
