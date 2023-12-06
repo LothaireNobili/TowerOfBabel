@@ -6,7 +6,7 @@ class Diligence extends Phaser.Scene {
     this.load.setBaseURL('../../../assets/')
     this.load.image("crusaderPortrait", "images/heroes/crusader/portrait.png")
     this.load.image("crusaderIdle", "images/heroes/crusader/idle.png")
-    this.load.image("crusaberSkill1", "images/heroes/crusader/icons_skill/coup_epee.png")
+    // this.load.image("crusaberSkill1", "images/heroes/crusader/icons_skill/coup_epee.png")
     this.load.image("cercleRed", "icons/cercle_red.png")
     this.load.image("cercleWhite", "icons/cercle_white.png")
     this.load.image("cercleYellow", "icons/cercle_yellow.png")
