@@ -109,6 +109,24 @@ class Arbiter {
         
     }
 
+    updatePosition(character){
+        let sprite = character.sprite
+        character.healthBar.update()
+        let that = this;
+        return new Promise((resolve) => {
+            this.fight_scene.tweens.add({
+                targets: sprite,
+                x: that.getVerticalPosition(character.position, that.getFighterTeam(character)),
+                y: that.floor,  
+                ease: 'Power2.inOut',  // Vous pouvez ajuster l'interpolation ici (voir les options dans la documentation Phaser)
+                duration: 150,
+                onComplete: () => {
+                    resolve();  // Résoudre la promesse une fois que le tween est terminé
+                }
+            });
+        });
+    }
+
     showMessage(message) {
         return new Promise((resolve) => {
             var text = this.fight_scene.add.text(game.config.width/2, game.config.height*1/5, message, {
@@ -448,7 +466,7 @@ class Arbiter {
 
                 let index ; //initalize temporary value
                 anyDeaths=true //there is at least one death
-                target.destroyGraphics() //destroy the sprite and health bars
+                
 
 
                 index = that.fighterOrder.indexOf(target); //get the index in the fighterOrder list
@@ -469,7 +487,9 @@ class Arbiter {
                     for (let hero of playerTeam){
                         if (index < hero.position){ //check if victim already played
                             hero.position -= 1; //remove one to the tracker if the victim already player to shift it correctly
-                            enemy.updatePosition();//!maybe use a tween
+                            that.updatePosition(hero).then(() => {
+                                console.log("Déplacement terminé !");
+                            });
                         }
                     }
                     
@@ -485,7 +505,9 @@ class Arbiter {
                     for (let enemy of enemyTeam){
                         if (index < enemy.position){ //check if victim already played
                             enemy.position -= 1; //remove one to the tracker if the victim already player to shift it correctly
-                            enemy.updatePosition();//!maybe use a tween
+                            that.updatePosition(enemy).then(() => {
+                                console.log("Déplacement terminé !");
+                            });
                         }
                     }
 
@@ -493,6 +515,8 @@ class Arbiter {
                         enemyTeam.splice(index, 1)//remove the victim from the enemy list if they were an enemy
                     }
                 }
+
+                target.destroyGraphics() //destroy the sprite and health bars
             }
         }
 
