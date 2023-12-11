@@ -465,8 +465,7 @@ class Arbiter {
             if (target.isDead()){
 
                 let index ; //initalize temporary value
-                anyDeaths=true //there is at least one death
-                
+                anyDeaths=true //there is at least one death                
 
 
                 index = that.fighterOrder.indexOf(target); //get the index in the fighterOrder list

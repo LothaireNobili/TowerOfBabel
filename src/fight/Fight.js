@@ -53,6 +53,11 @@ class Fight extends Phaser.Scene {
                 newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
                 playerTeam.push(newHero);
             }
+            else if(h==="bandit"){
+                let newHero = new Bandit(i, this.heroSprites[i-1])
+                newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
+                playerTeam.push(newHero);
+            }
             i++;/*
             if(h==="bandit"){
                 playerTeam.push(new Bandit());

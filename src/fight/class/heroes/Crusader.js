@@ -17,7 +17,8 @@ class Crusader{
         //increased speed for debug, actual speed is 3
         this.crit = 5; //in %
 
-        this.damage_mult = 1
+        //this.damage_mult = 1
+        this.damage_mult = 1000
         /*
         this.damage_low_range = 10;
         this.damage_high_range = 15;*/
@@ -44,8 +45,8 @@ class Crusader{
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
                 damage_low: 10, //minimum damage
-                //damage_high: 13 //max damage
-                damage_high: 100
+                damage_high: 13 //max damage
+                //damage_high: 100
 
             },
             {
