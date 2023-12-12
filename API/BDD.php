@@ -1,6 +1,6 @@
 <?php 
 declare(strict_types=1);
-
+///https://devweb.iutmetz.univ-lorraine.fr/~sahinine1u/TowerOfBabel/API/nom_de_la_requete.php
 $db_config['SGBD'] = 'mysql';
 $db_config['HOST'] = 'devbdd.iutmetz.univ-lorraine.fr';
 $db_config['DB_NAME'] = 'nobili2u_TowerOfBabel';
