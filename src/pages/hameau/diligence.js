@@ -4,70 +4,37 @@ class Diligence extends Phaser.Scene {
   }
   preload() {
     this.load.setBaseURL('../../../assets/')
-    this.load.image("crusaderPortrait", "images/heroes/crusader/portrait.png")
-    this.load.image("crusaderIdle", "images/heroes/crusader/idle.png")
-    // this.load.image("crusaberSkill1", "images/heroes/crusader/icons_skill/coup_epee.png")
     this.load.image("cercleRed", "icons/cercle_red.png")
     this.load.image("cercleWhite", "icons/cercle_white.png")
     this.load.image("cercleYellow", "icons/cercle_yellow.png")
+    this.load.image("skill1", "icons/pointy_sword.png")
   }
   create() {
+    document.body.style.cursor = "default";
+
     this.add.image(540, 360, "hameauBg");
 
     // Barre d'information
     var enseigne = this.add.image(200, 85, "enseigne");
-    enseigne.setScale(0.55)
-    var retourText = this.add.text(150, 115, "RETOUR", setFontStyles());
-    enseigne.setInteractive();
+    createEnseigneReturnBtn(this, enseigne)
+    const barreInfo = new BarreInfo(this);
+    barreInfo.creerBarreInfo();  // Crée la barre d'information
 
-    enseigne.on("pointerover", function () {
-      enseigne.setTexture("enseigneFocus");
-      retourText.setTint("0xD2BA70")
-      document.body.style.cursor = "pointer";
-    });
-
-    enseigne.on("pointerout", function () {
-      enseigne.setTexture("enseigne");
-      retourText.setTint("0xffffff")
-      document.body.style.cursor = "default";
-    });
-
-    enseigne.on('pointerdown', function () {
-      this.scene.start('Hameau');
-      setTimeout(() => {
-        this.scene.setVisible(false, 'PassDataScene')
-        setTimeout(() => {
-          this.scene.setVisible(true, 'PassDataScene')
-        }, 5000)
-      }, 5000)
-    }, this);
-
-    var hudBackground = this.add.graphics();
-    var userIDText = this.add.text(30, 10, '', setFontStyles());
-    var nbPiecesText = this.add.text(970, 9, '', setFontStyles());
-    var piece = this.add.image(940, 25, "pieces");
-    piece.setScale(0.28);
-    this.add.text(448, 10, "Tower of Babel", setFontStyles(undefined, "26px"));
-
-    const barreInfo = new BarreInfo(hudBackground, userIDText, nbPiecesText)
-    barreInfo.creerBarreInfo()
-    barreInfo.setUserInfo()
-
-    // Enregistrer les informations dans localstorage lors du rafraîchissement de la page.
-    window.addEventListener('beforeunload', barreInfo.saveUserInfoToLocalStorage);
-
+    // La boutique
     var boutiqueBackground = this.add.image(430, 440, "boutiqueBg")
     boutiqueBackground.displayWidth = 830;
     boutiqueBackground.displayHeight = 580;
-
     var diligence = this.add.image(300, 450, "Diligence")
     diligence.setScale(0.6)
-
-
     // Ajouter des heros
     var intervalleY = 72
-    for (var i = 0; i < 7; i++) {
-      createInteractiveImage(this, 670, 230 + i * intervalleY, "crusader", 1000)
+    for (var i = 0; i < heroList.length; i++) {
+      const heroIndex = userHeroList.findIndex(hero => hero.heroName === heroList[i]);
+      let nb = 0
+      if (heroIndex == -1) {
+        createInteractiveImage(this, 670, 230 + nb * intervalleY, heroList[i], 1000, true)
+        nb++;
+      }
     }
 
 
@@ -86,28 +53,28 @@ class Diligence extends Phaser.Scene {
     text.setFixedSize(200, 50);
 
     var intervalleY = 72
-    for (var i = 0; i < 5; i++) {
-      createInteractiveImage(this, 1025, 230 + i * intervalleY, "crusader")
+    for (let i = 0; i < userHeroList.length; i++) {
+      createInteractiveImage(this, 1025, 230 + i * intervalleY, userHeroList[i].heroName)
     }
 
 
     // Créez une fonction pour les objets image, les paramètres de description
-    function createInteractiveImage(scene, x, y, key, prix) {
+    function createInteractiveImage(scene,x, y, key, prix, onSale) {
       var card = scene.add.container(x, y);
       var image = scene.add.image(0, 0, "card");
 
-      var portrait = scene.add.image(-85, 0, key + "Portrait");
+      var portrait = scene.add.image(-85, 0, "portrait_" + key);
       portrait.setScale(0.75);
       image.displayHeight = 65;
       image.displayWidth = 230;
 
-      var name = scene.add.text(-47, -30, key, setFontStyles(undefined, "22px"));
+      var name = scene.add.text(-47, -30, key, setFontStyles("22px"));
       card.add([image, portrait, name]);
 
       if (prix !== undefined) {
         var piecesIcon = scene.add.image(-38, 16, "pieces");
         piecesIcon.setScale(0.12);
-        var prixText = scene.add.text(-20, 5, prix, setFontStyles(undefined, "20px"));
+        var prixText = scene.add.text(-20, 5, prix, setFontStyles("20px"));
         card.add([piecesIcon, prixText]);
       }
 
@@ -119,15 +86,15 @@ class Diligence extends Phaser.Scene {
       descriptionBg.displayWidth = 460;
       descriptionBg.displayHeight = 500;
       var heroName = scene.add.text(-200, -200, key.toUpperCase(), setFontStyles());
-      var heroImage = scene.add.image(-130, 65, key + "Idle");
+      var heroImage = scene.add.image(-130, 65, "idle_" + key);
       heroImage.setScale(0.5);
 
       descriptionContainer.add([descriptionBg, heroName, heroImage]);
 
       for (var i = 0; i < 4; i++) {
-        var skillCard = scene.add.image(0, -50 + i * 80, "crusaberSkill1");
+        var skillCard = scene.add.image(0, -50 + i * 80, "skill1");
         skillCard.setScale(0.15);
-        var skillName = scene.add.text(30, -72 + i * 80, "Coup d'épée", setFontStyles(undefined, "18px"));
+        var skillName = scene.add.text(30, -72 + i * 80, "Coup d'épée", setFontStyles("18px"));
         descriptionContainer.add([skillCard, skillName]);
 
         var positionCard = createPositionCard(scene, -40 + i * 80, [0, 0, 1, 1], [1, 1, 0, 0]);
@@ -148,13 +115,37 @@ class Diligence extends Phaser.Scene {
         document.body.style.cursor = "default";
       });
 
+      if (onSale) {
+        image.on('pointerdown', function () {
+          if (user.coins - prix >= 0) {
+            //exemple
+            let eqpWeapon = {
+              equipmentName: "eqpWeapon",
+              level: 1,
+              attack: 9
+            }
+            let eqpArmour = {
+              equipmentName: "eqpArmour",
+              level: 1,
+              defense: 4
+            }
+
+            user.addHero(key, eqpWeapon, eqpArmour)
+            user.updateCoins(-prix)
+            
+            scene.scene.restart();
+          }
+
+        });
+
+      }
+
       return image;
     }
 
     function createPositionCard(scene, y, teamPosition, attackRange) {
       var card = scene.add.container(0, 0);
-      var positions = [];
-      var attackRanges = [];
+
       for (var i = 0; i < 4; i++) {
         var position = scene.add.image(36 + i * 13, y, "cercle" + (teamPosition[i] ? "Yellow" : "White"));
         var range = scene.add.image(100 + i * 13, y, "cercle" + (attackRange[i] ? "Red" : "White"));

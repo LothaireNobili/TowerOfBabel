@@ -1,31 +1,33 @@
 // Barre d'information
 class BarreInfo {
 
-    constructor(hudBackground,userIDText,nbPiecesText) {
-        this.userID = localStorage.getItem('userID') || "USER_ID"; // Obtenir ID de l'utilisateur à partir du  localstorage. S'il n'existe pas, utiliser la valeur par défaut.
-        this.nbPieces = localStorage.getItem('nbPiece') || 0; // Obtenir la quantité de pièces depuis le localstorage.
-        this.hudBackground = hudBackground
-        this.userIDText = userIDText
-        this.nbPiecesText = nbPiecesText
+    constructor(scene) {
+        this.userID = user.username; // Obtenez ID depuis le class User
+        this.nbPieces = user.coins; // Obtenez nombre de pièces depuis depuis le class User
+        this.scene = scene;
+
+        // Créer des éléments dans la scène
+        this.hudBackground = this.scene.add.graphics();
+        this.userIDText = this.scene.add.text(30, 10, '', setFontStyles());
+        this.nbPiecesText = this.scene.add.text(970, 9, '', setFontStyles());
+        this.pieceIcon = this.scene.add.image(940, 25, "pieces");
+        this.scene.add.text(448, 10, "Tower of Babel", setFontStyles("26px"));
+        this.pieceIcon.setScale(0.28);
+
+        // Initialiser les informations utilisateur
+        this.userIDText.setText(this.userID);
+        this.nbPiecesText.setText(this.nbPieces);
     }
 
     creerBarreInfo() {
         this.hudBackground.fillStyle(0x181818, 1);
         this.hudBackground.fillRect(0, 0, 1080, 50);
-        return this.hudBackground
+        return this.hudBackground;
     }
 
-    // Enregistrer ID et la quantité de pièces dans Localstorage
-    saveUserInfoToLocalStorage() {
-        localStorage.setItem('userID', userID);
-        localStorage.setItem('nbPiece', nbPiece);
-    }
-
-    // La fonction de mise à jour du nom et du nombre de pièces
-    setUserInfo() {
-        this.userIDText.setText(this.userID);
-        this.nbPiecesText.setText(this.nbPieces);
-
-        return [this.userIDText, this.nbPiecesText]
+    // Mettre à jour les informations utilisateur
+    updateCoins(nbPieces) {
+        this.nbPiecesText.setText(nbPieces);
+        return this.nbPiecesText;
     }
 }
