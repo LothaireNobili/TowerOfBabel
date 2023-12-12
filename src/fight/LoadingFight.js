@@ -1,4 +1,4 @@
-var heroList = ["crusader","bandit"];
+var heroList = ["crusader"];
 var enemyList = ["skeleton","skeleton","skeleton"];
 var initialFighterList = [...heroList, ...enemyList]; //->contrary to previous indication, it doesn't merge the lists by reference, it just merges them
 

@@ -519,7 +519,10 @@ class Arbiter {
             }
         }
 
-        this.ontoTheNext(); 
+        setTimeout(function(){ 
+            that.ontoTheNext(); 
+        }, 700);
+        
 
     }
 
