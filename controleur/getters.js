@@ -1,5 +1,5 @@
 function getAllUser() {
-  console.log("Icitte mon cheum");
+
   $.getJSON(PATH+"SelectAllUser.php", function (data) {
    
   if (typeof data === "object") {
