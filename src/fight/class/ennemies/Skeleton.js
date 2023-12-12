@@ -25,12 +25,15 @@ class Skeleton{
         //resistance stats
         this.stun_res = 20;
         this.move_res = 20;
-        this.bleed_res = 200;
+        //this.bleed_res = 200;
+        this.bleed_res = 98;
         this.poison_res = 20;
         this.debuff_res = 20;
 
         //prepare status effect variables
-        this.status_effect = []
+        this.status_effect = {
+            bleed:[]  
+        }
         
         
         this.skills = {
@@ -67,12 +70,24 @@ class Skeleton{
 
     isTargeted(skill, caster){
         let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
-        
-        if (this.hp <= damage){
+        let that = this
+
+        if (this.hp <= damage){ //if enemy dies on the spot
             this.hp = 0
-            //self.die
         }
-        else{
+        else{ 
+
+            if(skill.bleed != undefined){ //si l'attaque inflige du saignement
+                let proba = skill.bleed[0] - that.bleed_res //get the power of the probability of success
+                let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
+                let success = proba >= randomNum //check if bleed is a success
+
+                if(success){
+                    that.status_effect.bleed.push([skill.bleed[1],skill.bleed[2]]) //apply bleed as a list
+                    console.warn(that.status_effect.bleed)
+                }
+            }
+
             this.hp -= damage
         }
         this.healthBar.update()
