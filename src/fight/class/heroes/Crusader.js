@@ -13,7 +13,7 @@ class Crusader{
 
         this.prot = 20; //20% of protection
 
-        this.speed = 15;
+        this.speed = 3;
         //increased speed for debug, actual speed is 3
         this.crit = 5; //in %
 
