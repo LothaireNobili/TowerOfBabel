@@ -70,8 +70,8 @@ class Crusader{
                 /*
                 reach: [2, 3, 4], //spot reach
                 requiered_pos : [3, 4], //where the hero must be placed to cast it*/
-                reach: [4], //spot reach
-                requiered_pos : [1], //where the hero must be placed to cast it
+                reach: [2, 3, 4], //spot reach
+                requiered_pos : [3, 4], //where the hero must be placed to cast it
                 damage_low: 13, //minimum damage
                 damage_high: 16, //max damage
                 move: 1, //forward 1
