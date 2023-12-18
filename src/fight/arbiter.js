@@ -392,8 +392,10 @@ class Arbiter {
     }
 
     checkForStatusEffect(){
-        if (this.currentFighter.bleed != []){
+        console.log(this.currentFighter.status_effect.bleed.length)
+        if (this.currentFighter.status_effect.bleed.length != 0){
             console.warn("that guy is bleeding!")
+            this.currentFighter.applyBleedDamage()
         }
     }
 
@@ -486,18 +488,23 @@ class Arbiter {
                 for(let target of that.currentTarget){
                     target.isTargeted(that.currentAttack, that.currentFighter)
                 }
+                
                 setTimeout(() => {  //a brief break after an attack to make the game more understandable
                     this.checkDeath(); 
-                }, 1000);
+                }, 700);
+                setTimeout(() => {  //a brief break after an attack to make the game more understandable
+                    that.ontoTheNext();
+                }, 1500);
             });
     }
 
-    checkDeath(){
+
+    checkDeath(checkTargets){//checkTargets MUST be a list
         var that = this
-        let team = this.getFighterTeam(this.currentTarget[0])
+        let team = this.getFighterTeam(checkTargets[0])
         let anyDeaths = false
     
-        for(let target of this.currentTarget){
+        for(let target of checkTargets){
             if (target.isDead()){
 
                 let index ; //initalize temporary value
@@ -554,13 +561,13 @@ class Arbiter {
                 target.destroyGraphics() //destroy the sprite and health bars
             }
         }
-
+/*
         setTimeout(function(){ 
             that.ontoTheNext(); 
-        }, 700);
-        
+        }, 700);*/ 
 
     }
+
 
     ontoTheNext(){
         this.currentTarget = []

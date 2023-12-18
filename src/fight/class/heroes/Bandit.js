@@ -18,7 +18,7 @@ class Bandit{
 
         this.crit = 15; //in %
 
-        this.damage_mult = 1
+        this.damage_mult = 15
         /*
         this.damage_low_range = 12;
         this.damage_high_range = 16;*/
@@ -29,6 +29,12 @@ class Bandit{
         this.bleed_res = 40;
         this.poison_res = 40;
         this.debuff_res = 40;
+
+        //prepare status effect variables
+        this.status_effect = {
+            bleed:[]  
+        }
+
 
         
         
@@ -54,7 +60,7 @@ class Bandit{
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
                 damage_low: 6, //minimum damage
                 damage_high: 8, //max damage
-                bleed: [120, 4, 3]  //120% chance to proc bleed, 4 damage for 3 turns
+                bleed: [180, 120, 3]  //120% chance to proc bleed, 4 damage for 3 turns
             },{
                 id:"gunshot",
                 name: 'Gun shot',

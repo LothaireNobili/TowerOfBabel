@@ -87,21 +87,3 @@ class Etage {
     }
 
 }
-
-
-let etageTest = new Etage(1);
-etageTest.genererEtage();
-etageTest.toString();
-console.log(etageTest.lookupRoom(0, 0));
-let premier = etageTest.lookupRoom(0, 0);
-/*
-//premier.genererNouvelleSalleNord();
-//premier.genererNouvelleSalleSud();
-premier.genererNouvelleSalleOuest();
-//etageTest.salles.push(premier.nord)
-//etageTest.salles.push(premier.sud)
-etageTest.salles.push(premier.ouest)
-console.log(etageTest.lookupRoom(0, 1));
-*/
-console.log(etageTest.canHaveMoreNeighbours(premier));
-console.log("free neighbours "+etageTest.lookupFreeNeighbours(premier))
