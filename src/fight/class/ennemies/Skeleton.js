@@ -105,14 +105,12 @@ class Skeleton{
 
                 if(success){
                     that.status_effect.bleed.push([skill.bleed[1],skill.bleed[2]]) //apply bleed as a list
-                    console.warn(that.status_effect.bleed)
                 }
             }
 
             this.hp -= damage
         }
         this.healthBar.update()
-        console.log("PV restant de la cible : "+this.hp)
     }
 
     isDead(){

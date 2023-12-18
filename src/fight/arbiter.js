@@ -277,20 +277,6 @@ class Arbiter {
         }
         
 
-        //
-
-
-        /*
-        for (let target of this.currentTarget){
-            //console.log(target)
-            tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(target.position, "hero")//ennemies only have offensive move
-                ,this.floor+this.cursorOffSet,"target_select");
-            tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
-            tempoTargetCursor.setScale(this.cursorScale)
-
-            that.currentTargetCursor.push(tempoTargetCursor)
-        } */
-
     }
 
     placeSkillIcon(hero) {
@@ -371,17 +357,13 @@ class Arbiter {
     }
 
     startRound(){
-        /*
-        console.log("fighter list :")
-        console.log(initialFighterList)*/
+
         console.log("fight order :")
         this.fighterOrder = this.getBothTeam().sort((a, b) => b.speed - a.speed)
         console.log(this.fighterOrder)
         this.currentFighterTrackNumber = 0;
         this.startTurn()
-        /*
-        console.log("scene")
-        console.log(this.fight_scene.pwet)*/
+
     }
 
     startTurn(){
@@ -428,7 +410,6 @@ class Arbiter {
         var tempoTargetCursor
 
         for (let target of this.currentTarget){
-            //console.log(target)
             tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(target.position, "hero")//ennemies only have offensive move
                 ,this.floor+this.cursorOffSet,"target_select");
             tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
@@ -443,10 +424,8 @@ class Arbiter {
         this.showMessage(this.currentAttack.name).then(function(){ //play the a inimation THEN start the fight
             that.engageAttackAnimation()
             
-            //that.startRound() //"that" is the arbiter
         })  
 
-        //console.log(attack)
     }
 
     getHeroInput(){
@@ -456,16 +435,6 @@ class Arbiter {
 
     engageAttackAnimation(){
         //oskur
-        
-        //console.log(this.currentFighter)
-        //console.log(this.currentAttack)
-        //console.log(this.currentTarget)
-        /*
-        console.log(this.fight_scene.heroSprites) 
-        console.log(this.fight_scene.enemySprites)*/
-        //console.log(this.getHeroSprite(this.currentFighter))
-        //console.log(this.getHeroSprite(this.currentTarget)) //note : it won't work as well for multiple target stuff
-        //targets.forEach(target => console.log(target));
 
         var that = this
         this.currentFighterCursor.destroy()
@@ -474,14 +443,6 @@ class Arbiter {
             cursor.destroy()
         }
         this.currentTargetCursor = []
-
-        console.log("current fighter : " +this.currentFighter.name)
-        console.log("list of targets :")
-        console.log(this.currentTarget)
-        for (let target of this.currentTarget){
-            console.log(target.name)
-        }
-        console.log("current skill : " +this.currentAttack.name)
 
         this.playAttackAnimation(this.currentFighter, this.currentTarget)
             .then(() => {

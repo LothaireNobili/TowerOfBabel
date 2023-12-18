@@ -121,7 +121,6 @@ class Crusader{
                 }
             }
         }
-        console.log("PV restant de la cible : "+this.hp)
         this.healthBar.update()
     }
 
