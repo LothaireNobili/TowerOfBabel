@@ -18,7 +18,7 @@ class Bandit{
 
         this.crit = 15; //in %
 
-        this.damage_mult = 15
+        this.damage_mult = 1
         /*
         this.damage_low_range = 12;
         this.damage_high_range = 16;*/

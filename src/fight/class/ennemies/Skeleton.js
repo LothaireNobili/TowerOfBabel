@@ -26,7 +26,7 @@ class Skeleton{
         this.stun_res = 20;
         this.move_res = 20;
         //this.bleed_res = 200;
-        this.bleed_res = 98;
+        this.bleed_res = 20;
         this.poison_res = 20;
         this.debuff_res = 20;
 

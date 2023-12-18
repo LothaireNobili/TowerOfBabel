@@ -367,10 +367,20 @@ class Arbiter {
     }
 
     startTurn(){
+        var that = this
         this.currentFighter = this.fighterOrder[this.currentFighterTrackNumber]
         this.checkForStatusEffect()
-        this.placeTurnCursor()
-        this.getInput()
+
+        if (this.currentFighter.hp <= 0) {
+            setTimeout(() => {  //a brief break after an attack to make the game more understandable
+                that.ontoTheNext();
+            }, 1500);
+        }
+        else{
+            this.placeTurnCursor()
+            this.getInput()
+        }
+        
     }
 
     checkForStatusEffect(){
@@ -378,6 +388,7 @@ class Arbiter {
         if (this.currentFighter.status_effect.bleed.length != 0){
             console.warn("that guy is bleeding!")
             this.currentFighter.applyBleedDamage()
+            this.checkDeath([this.currentFighter])
         }
     }
 
@@ -451,7 +462,7 @@ class Arbiter {
                 }
                 
                 setTimeout(() => {  //a brief break after an attack to make the game more understandable
-                    this.checkDeath(); 
+                    this.checkDeath(this.currentTarget); 
                 }, 700);
                 setTimeout(() => {  //a brief break after an attack to make the game more understandable
                     that.ontoTheNext();
@@ -462,6 +473,7 @@ class Arbiter {
 
     checkDeath(checkTargets){//checkTargets MUST be a list
         var that = this
+        console.log(checkTargets)
         let team = this.getFighterTeam(checkTargets[0])
         let anyDeaths = false
     
