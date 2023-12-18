@@ -17,6 +17,8 @@ class Arbiter {
         //cursors values
         this.cursorOffSet = 45
         this.cursorScale = 0.92
+        this.plusCursorScale = 0.95
+        this.plusCursorVerticalOffSet = 35
 
         //skills values
         this.skillYPlacement = 640
@@ -175,6 +177,7 @@ class Arbiter {
         });
     }
 
+    //this functuion is called only for heroes. Placement of cursor for enemies happen in the getInput function
     placeTargetCursors(skillToCheck){
         var that = this// save the context
 
@@ -201,7 +204,7 @@ class Arbiter {
                 if (targetPos <= enemyTeam.length){
     
                     tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(targetPos, "enemy")
-                    ,this.floor+this.cursorOffSet,"target_select");
+                        ,this.floor+this.cursorOffSet,"target_select");
     
                     tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
                     tempoTargetCursor.setScale(this.cursorScale)
@@ -209,7 +212,17 @@ class Arbiter {
                     tempoTargetCursor.setInteractive({ cursor: 'pointer' })
                         .on('pointerdown', function () {
 
-                            that.currentTarget.push(enemyTeam[targetPos - 1]) //!here
+                            if (foundSkill.type == "single"){
+                                that.currentTarget.push(enemyTeam[targetPos - 1]) //!here
+                            }
+                            else if (foundSkill.type == "continuous"){
+                                for(let thisTarget of foundSkill.reach){
+                                    if (targetPos <= enemyTeam.length){
+                                        that.currentTarget.push(enemyTeam[thisTarget - 1])
+                                    }
+                                }
+                            }
+
                             for (let icon of that.currentFighterSkillIcons){
                                 icon.destroy()
                             }
@@ -219,6 +232,18 @@ class Arbiter {
                     }); 
     
                     that.currentTargetCursor.push(tempoTargetCursor)
+
+                    //to check if the skill type is on several targets or not
+                    if (foundSkill.type == "continuous" && targetPos>1){  //we don't add the + cursor for target in pos1 
+
+                        tempoTargetCursor = this.fight_scene.add.image(
+                            ((this.getVerticalPosition(targetPos, "enemy") + this.getVerticalPosition(targetPos-1, "enemy")) / 2)
+                            ,this.floor+this.plusCursorVerticalOffSet,"target_plus");
+                        
+                        tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
+                        tempoTargetCursor.setScale(this.plusCursorScale)
+                        that.currentTargetCursor.push(tempoTargetCursor)
+                    }
                 }
             }
         }
@@ -245,6 +270,8 @@ class Arbiter {
     
                     that.currentTargetCursor.push(tempoTargetCursor)
                 }
+
+                //TODO : add + cursors for passive abilities
             }
         }
         
