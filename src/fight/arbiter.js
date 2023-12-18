@@ -215,9 +215,10 @@ class Arbiter {
                             if (foundSkill.type == "single"){
                                 that.currentTarget.push(enemyTeam[targetPos - 1]) //!here
                             }
+
                             else if (foundSkill.type == "continuous"){
                                 for(let thisTarget of foundSkill.reach){
-                                    if (targetPos <= enemyTeam.length){
+                                    if (thisTarget <= enemyTeam.length){
                                         that.currentTarget.push(enemyTeam[thisTarget - 1])
                                     }
                                 }
@@ -385,8 +386,15 @@ class Arbiter {
 
     startTurn(){
         this.currentFighter = this.fighterOrder[this.currentFighterTrackNumber]
+        this.checkForStatusEffect()
         this.placeTurnCursor()
         this.getInput()
+    }
+
+    checkForStatusEffect(){
+        if (this.currentFighter.bleed != []){
+            console.warn("that guy is bleeding!")
+        }
     }
 
     placeTurnCursor(){
@@ -451,7 +459,7 @@ class Arbiter {
         //console.log(this.currentAttack)
         //console.log(this.currentTarget)
         /*
-        console.log(this.fight_scene.heroSprites)
+        console.log(this.fight_scene.heroSprites) 
         console.log(this.fight_scene.enemySprites)*/
         //console.log(this.getHeroSprite(this.currentFighter))
         //console.log(this.getHeroSprite(this.currentTarget)) //note : it won't work as well for multiple target stuff
@@ -467,8 +475,9 @@ class Arbiter {
 
         console.log("current fighter : " +this.currentFighter.name)
         console.log("list of targets :")
+        console.log(this.currentTarget)
         for (let target of this.currentTarget){
-            console.log(target.name)//c'est une liste c'est pour ça que ça marche pas
+            console.log(target.name)
         }
         console.log("current skill : " +this.currentAttack.name)
 

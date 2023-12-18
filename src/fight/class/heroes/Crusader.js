@@ -31,7 +31,9 @@ class Crusader{
         this.debuff_res = 40;
 
         //prepare status effect variables
-        this.status_effect = []
+        this.status_effect = {
+            bleed:[]  
+        }
 
         
         
