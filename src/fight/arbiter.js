@@ -384,7 +384,7 @@ class Arbiter {
     }
 
     checkForStatusEffect(){
-        console.log(this.currentFighter.status_effect.bleed.length)
+        //console.log(this.currentFighter.status_effect.bleed.length)
         if (this.currentFighter.status_effect.bleed.length != 0){
             console.warn("that guy is bleeding!")
             this.currentFighter.applyBleedDamage()
@@ -478,6 +478,7 @@ class Arbiter {
         let anyDeaths = false
     
         for(let target of checkTargets){
+            console.log(that.currentFighterTrackNumber)
             if (target.isDead()){
 
                 let index ; //initalize temporary value
@@ -486,14 +487,19 @@ class Arbiter {
 
                 index = that.fighterOrder.indexOf(target); //get the index in the fighterOrder list
 
-                if (index < that.currentFighterTrackNumber){ //check if victim already played
-                    that.currentFighterTrackNumber -= 1; //remove one to the tracker if the victim already player to shift it correctly
+                //console.log(checkTargets[0])
+                if (!(checkTargets.length==1 && checkTargets[0]==that.currentFighter)){
+                    if (index < that.currentFighterTrackNumber){ //check if victim already played
+                        that.currentFighterTrackNumber -= 1; //remove one to the tracker if the victim already player to shift it correctly
+                    }
+
+                    if (index !== -1) {
+                        that.fighterOrder.splice(index, 1) //remove the victim from the fighterOrder
+                    }
                 }
                 
+              
                 
-                if (index !== -1) {
-                    that.fighterOrder.splice(index, 1) //remove the victim from the fighterOrder
-                }
                 
 
                 if(team == "hero"){
@@ -503,7 +509,7 @@ class Arbiter {
                         if (index < hero.position){ //check if victim already played
                             hero.position -= 1; //remove one to the tracker if the victim already player to shift it correctly
                             that.updatePosition(hero).then(() => {
-                                console.log("Déplacement terminé !");
+                                //console.log("Déplacement terminé !");
                             });
                         }
                     }
@@ -521,7 +527,7 @@ class Arbiter {
                         if (index < enemy.position){ //check if victim already played
                             enemy.position -= 1; //remove one to the tracker if the victim already player to shift it correctly
                             that.updatePosition(enemy).then(() => {
-                                console.log("Déplacement terminé !");
+                                //console.log("Déplacement terminé !");
                             });
                         }
                     }
