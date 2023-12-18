@@ -25,22 +25,6 @@ class Arbiter {
         this.skillXPlacement = 150
         this.skillXPlacementOffSet = 75
 
-        //define stats of the fight
-        this.fightState = [
-            "Start",
-            "StatutEffectAnim", //animations if the current fight is poisoned/bleed/stnned/etc
-            "EnemyInput",   //the ennemy makes an input
-            "CheckAvaibleSkill", //the machine greys out unusable skills, maybe it's not an actual state of the game
-            "PlayerSelectSkill", //waiting for the player to click an avaible skill
-            "PlayerSelectTarget", //waiting for player to click a valid target
-            "AttackAnim",   //attack animation playing
-            "Wait",     //brief pause after attack animation
-            "Next",  //we go to the next player, maybe it's not an actual state
-            "FightOver" //one of the team is defeated
-        ]//--> actually we can delete that whole things
-
-        this.currentState = this.fightState[0]
-
         //preparing some sprite values
         this.currentFighterCursor;
         this.currentTargetCursor = [];
@@ -95,8 +79,6 @@ class Arbiter {
     checkIfSkillIsAvaible(skillToCheck){
         let pos = this.currentFighter.position
 
-        //var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
-
         var foundSkill = this.getSKill(this.currentFighter, skillToCheck)
         let okPos = foundSkill.requiered_pos
 
@@ -120,10 +102,10 @@ class Arbiter {
                 targets: sprite,
                 x: that.getVerticalPosition(character.position, that.getFighterTeam(character)),
                 y: that.floor,  
-                ease: 'Power2.inOut',  // Vous pouvez ajuster l'interpolation ici (voir les options dans la documentation Phaser)
+                ease: 'Power2.inOut',  //we can change the parameter to have different effects
                 duration: 150,
                 onComplete: () => {
-                    resolve();  // Résoudre la promesse une fois que le tween est terminé
+                    resolve();  // Resolve the promise once the tween is completed
                 }
             });
         });
@@ -169,7 +151,6 @@ class Arbiter {
                 delay: 1100, // Pause avant la disparition (1.1 sec)
                 ease: 'Power2',
                 onComplete: function () {
-                    // Supprimer l'image une fois l'animation terminée
                     image.destroy();
                     resolve();// promise is resolved
                 }
@@ -186,10 +167,6 @@ class Arbiter {
             cursor.destroy()
         }
         this.currentTargetCursor = []
-
-        //we get the skill
-        //var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
-        //var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
 
         var foundSkill = this.getSKill(this.currentFighter, skillToCheck)   
         //initialize temporary variable
@@ -540,10 +517,6 @@ class Arbiter {
                 target.destroyGraphics() //destroy the sprite and health bars
             }
         }
-/*
-        setTimeout(function(){ 
-            that.ontoTheNext(); 
-        }, 700);*/ 
 
     }
 
