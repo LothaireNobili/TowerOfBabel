@@ -25,6 +25,7 @@ function createEnseigneReturnBtn(scene,enseigne) {
     });
 
     enseigne.on("pointerout", function () {
+        document.body.style.cursor = "default";
         enseigne.setTexture("enseigne");
         retourText.setTint("0xffffff")
     });
@@ -47,3 +48,7 @@ function addSellQuantityToPotions(potionsList) {
         potionsList[i].sellQuantity = sellQuantity;
     }
 }
+
+// function InitialisationCompte(user) {
+//     user.
+// }

@@ -1,36 +1,88 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        
-        <script type="text/javascript" src="phaser.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<html lang="fr">
 
-        <script src="/src/util/util.js"></script>
-        <script type="text/javascript" src="/src/util/userInfo.js"></script>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tower of Babel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="styles.css" />
 
-        <script src="/controleur/utils.js"></script>
-        <script src="/controleur/getters.js"></script>
-        <script src="/controleur/updateSaveFile.js"></script>
+    <script type="text/javascript" src="phaser.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <script src="/src/util/util.js"></script>
+    <script type="text/javascript" src="/src/util/userInfo.js"></script>
 
-        <script type="text/javascript" src="./src/fight/class/heroes/Crusader.js"></script>
-        <script type="text/javascript" src="./src/fight/class/heroes/Bandit.js"></script>
-        <script type="text/javascript" src="./src/fight/class/ennemies/Skeleton.js"></script>
+    <script type="text/javascript" src="./src/pages/accueil.js"></script>
 
-        <script type="text/javascript" src="./src/pages/navigation/couloir.js"></script>
-        <script type="text/javascript" src="./src/pages/navigation/salle.js"></script>
-        <script type="text/javascript" src="./src/pages/navigation/etage.js"></script>
+    <script src="/controleur/utils.js"></script>
+    <script src="/controleur/getters.js"></script>
+    <script src="/controleur/updateSaveFile.js"></script>
 
-        <script type="text/javascript" src="./src/fight/arbiter.js"></script>
-        <script type="text/javascript" src="./src/fight/LoadingFight.js"></script>
-        <script type="text/javascript" src="./src/fight/Fight.js"></script>
+    <script type="text/javascript" src="./src/pages/hameau/hameau.js"></script>
+    <script type="text/javascript" src="./src/pages/hameau/forge.js"></script>
+    <script type="text/javascript" src="./src/pages/hameau/laboratoire.js"></script>
+    <script type="text/javascript" src="./src/pages/hameau/diligence.js"></script>
+    <script type="text/javascript" src="./src/util/classBarreInfo.js"></script>
+    <script src="./src/login/login.js"></script>
 
-        <script type="text/javascript" src="./src/util/graphicManager.js"></script>
-        <script type="text/javascript" src="./src/fight/HealthBar.js"></script>
+    <script type="text/javascript" src="./src/fight/class/heroes/Crusader.js"></script>
+    <script type="text/javascript" src="./src/fight/class/heroes/Bandit.js"></script>
+    <script type="text/javascript" src="./src/fight/class/ennemies/Skeleton.js"></script>
 
-        <script type="text/javascript" src="game.js"></script>
-    </head>
+    <script type="text/javascript" src="./src/pages/navigation/couloir.js"></script>
+    <script type="text/javascript" src="./src/pages/navigation/salle.js"></script>
+    <script type="text/javascript" src="./src/pages/navigation/etage.js"></script>
 
-    <body>
-    </body>
+    <script type="text/javascript" src="./src/fight/arbiter.js"></script>
+    <script type="text/javascript" src="./src/fight/LoadingFight.js"></script>
+    <script type="text/javascript" src="./src/fight/Fight.js"></script>
+
+    <script type="text/javascript" src="./src/util/graphicManager.js"></script>
+    <script type="text/javascript" src="./src/fight/HealthBar.js"></script>
+
+    <script type="text/javascript" src="game.js"></script>
+</head>
+
+<body>
+    <nav class="navbar bg-dark border-bottom border-body z-index-top" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Tower of Babel</a>
+            <form class="d-flex" role="search">
+                <a class="btn btn-outline-warning btn-login" href="./src/login/login.html">
+                    Connexion
+                </a>
+            </form>
+        </div>
+    </nav>
+    
+    <div id="game-container"></div>
+
+    <div class="card text-bg-dark mb-3 border-light card-presentation">
+        <h5 class="card-header">Tower of Babel</h5>
+        <div class="card-body border-light">
+            <p class="card-text">
+                Tower of Babel est un jeu d'exploration et de combat au tour par tour.
+                Le joueur doit explorer une tour, composée d'étages, eux même composés
+                de salles et de couloirs. Le joueur pourra trouver du butin et
+                rencontrer des ennemis dans ces derniers. L'objectif est d'atteindre
+                le niveau le plus haut possible d'une tour infinie. Cette tour
+                mystérieuse semble se reconstruire à chaque exploration, rendant
+                chaque expédition unique, et est parsemée d'embuches de plus en plus
+                dangereuses.
+            </p>
+            <p class="card-text">
+                Ce projet se déroule dans le cadre d'un projet universitaire.
+            </p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <img src="assets/images/iut-logo.png" />
+        <p>NOBILI Lothaire | SAHININE Haroun | WANG Nuoxi</p>
+    </footer>
+</body>
+
 </html>

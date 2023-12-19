@@ -4,16 +4,13 @@ var allPotionsList = [{ name: "exemple1", description: "description", prix: 550,
 addSellQuantityToPotions(allPotionsList)
 // --/
 
-var userHeroList = user.heroes
-var userPotionList = user.potions
-
 class Hameau extends Phaser.Scene {
     constructor() {
         super({ key: 'Hameau' });
     }
 
     preload() {
-        this.load.setBaseURL('../../../assets/')
+        this.load.setBaseURL('assets/')
         this.load.image("hameauBg", "images/hameau/hameau_bg.png");
         this.load.image("Laboratoire", "images/hameau/laboratoire.png");
         this.load.image("Forge", "images/hameau/forge.png");
@@ -37,7 +34,7 @@ class Hameau extends Phaser.Scene {
     }
 
     create() {
-        
+         
         document.body.style.cursor = "default";
 
         var descriptions = {};

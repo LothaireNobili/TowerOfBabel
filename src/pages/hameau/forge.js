@@ -15,9 +15,9 @@ class Forge extends Phaser.Scene {
     this.load.image("attack", "icons/pointy_sword.png")
     this.load.image("defense", "icons/shield_echoes.png")
 
-    for (let i = 0; i < userHeroList.length; i++) {
-      this.load.image("armour_" + userHeroList[i].heroName, "images/heroes/" + userHeroList[i].heroName + "/icons_equip/eqp_armour_0.png")
-      this.load.image("weapon_" + userHeroList[i].heroName, "images/heroes/" + userHeroList[i].heroName + "/icons_equip/eqp_weapon_0.png")
+    for (let i = 0; i < user.heroes.length; i++) {
+      this.load.image("armour_" + user.heroes[i].heroName, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_armour_0.png")
+      this.load.image("weapon_" + user.heroes[i].heroName, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_weapon_0.png")
     }
   }
   create() {
@@ -41,10 +41,10 @@ class Forge extends Phaser.Scene {
 
     // equipe    
     var boutiqueCard = this.add.container(0, 350)
-    for (let i = 0; i < userHeroList.length; i++) {
+    for (let i = 0; i < user.heroes.length; i++) {
       var eqpCard = this.add.container(0, 0)
-      eqpCard.add(createEquipmentCard(this, 0, "weapon_" + userHeroList[i].heroName, userHeroList[i].equipment[0].attack, userHeroList[i].equipment[0].level,barreInfo))
-      eqpCard.add(createEquipmentCard(this, 210, "armour_" + userHeroList[i].heroName, userHeroList[i].equipment[1].defense, userHeroList[i].equipment[1].level))
+      eqpCard.add(createEquipmentCard(this, 0, "weapon_" + user.heroes[i].heroName, user.heroes[i].equipment[0].attack, user.heroes[i].equipment[0].level,barreInfo))
+      eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName, user.heroes[i].equipment[1].defense, user.heroes[i].equipment[1].level))
       eqpCard.visible = false
       boutiqueCard.add(eqpCard)
     }
@@ -66,13 +66,13 @@ class Forge extends Phaser.Scene {
     var intervalleY = 72
 
     var herosListCard = this.add.container(1020, 210)
-    for (let i = 0; i < userHeroList.length; i++) {
+    for (let i = 0; i < user.heroes.length; i++) {
       if (i == 0) {
-        herosListCard.add(createInteractiveImageContainer(this, 0, 10 + i * intervalleY, userHeroList[i].heroName, true))
+        herosListCard.add(createInteractiveImageContainer(this, 0, 10 + i * intervalleY, user.heroes[i].heroName, true))
         boutiqueCard.list[0].visible = true
       }
       else
-        herosListCard.add(createInteractiveImageContainer(this, 0, 10 + i * intervalleY, userHeroList[i].heroName, false))
+        herosListCard.add(createInteractiveImageContainer(this, 0, 10 + i * intervalleY, user.heroes[i].heroName, false))
     }
 
     for (let i = 0; i < herosListCard.length; i++) {
@@ -165,7 +165,7 @@ class Forge extends Phaser.Scene {
       }
 
       if (level != MAX_EQUIPEMENT_LEVEL) { 
-        setPadlockEvents(scene, heroName, eqpType == "weapon" ? 0 : 1, padlockList, level, addValue, valueCard, eqpValue, barreInfo) // eqpValue : puissance d'attaque ou puissance de défense
+        setPadlockEvents(heroName, eqpType == "weapon" ? 0 : 1, padlockList, level, addValue, valueCard, eqpValue, barreInfo) // eqpValue : puissance d'attaque ou puissance de défense
         padlockList.list[level - 1].setInteractive()
       }
 
@@ -176,7 +176,7 @@ class Forge extends Phaser.Scene {
       return card;
     }
 
-    function setPadlockEvents(scene, heroName, eqpType, padlockList, level, addValue, valueCard, value, barreInfo) {
+    function setPadlockEvents(heroName, eqpType, padlockList, level, addValue, valueCard, value, barreInfo) {
 
       for (let i = 0; i < padlockList.length; i++) {
         padlockList.list[i].on("pointerover", function () {

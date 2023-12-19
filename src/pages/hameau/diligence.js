@@ -26,11 +26,13 @@ class Diligence extends Phaser.Scene {
     boutiqueBackground.displayHeight = 580;
     var diligence = this.add.image(300, 450, "Diligence")
     diligence.setScale(0.6)
+
     // Ajouter des heros
     var intervalleY = 72
-    for (var i = 0; i < heroList.length; i++) {
-      const heroIndex = userHeroList.findIndex(hero => hero.heroName === heroList[i]);
-      let nb = 0
+    let nb = 0
+    for (let i = 0; i < allHeroList.length; i++) {
+      const heroIndex = user.heroes.findIndex(hero => hero.heroName === heroList[i]);
+  
       if (heroIndex == -1) {
         createInteractiveImage(this, 670, 230 + nb * intervalleY, heroList[i], 1000, true)
         nb++;
@@ -53,8 +55,8 @@ class Diligence extends Phaser.Scene {
     text.setFixedSize(200, 50);
 
     var intervalleY = 72
-    for (let i = 0; i < userHeroList.length; i++) {
-      createInteractiveImage(this, 1025, 230 + i * intervalleY, userHeroList[i].heroName)
+    for (let i = 0; i < user.heroes.length; i++) {
+      createInteractiveImage(this, 1025, 230 + i * intervalleY, user.heroes[i].heroName)
     }
 
 
