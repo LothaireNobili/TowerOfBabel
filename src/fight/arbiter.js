@@ -93,6 +93,18 @@ class Arbiter {
         
     }
 
+    displayDamage(amount, target, type){
+
+        targetX = this.getVerticalPosition(/*index of enemy in the list*/)
+        targetY = 150
+
+        let damageText = new FloatingText(this.fight_scene, 
+            targetX, 
+            targetY, 
+            amount, 
+            { fontFamily: 'Arial', fontSize: '24px', color: '#ff0000' });
+    }
+
     updatePosition(character){
         let sprite = character.sprite
         character.healthBar.update()
