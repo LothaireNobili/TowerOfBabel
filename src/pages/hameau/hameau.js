@@ -13,7 +13,7 @@ class Hameau extends Phaser.Scene {
     }
 
     preload() {
-        this.load.setBaseURL('../../../assets/')
+        this.load.setBaseURL('./assets/')
         this.load.image("hameauBg", "images/hameau/hameau_bg.png");
         this.load.image("Laboratoire", "images/hameau/laboratoire.png");
         this.load.image("Forge", "images/hameau/forge.png");
