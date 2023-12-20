@@ -30,6 +30,12 @@ class Bandit{
         this.poison_res = 40;
         this.debuff_res = 40;
 
+        //prepare status effect variables
+        this.status_effect = {
+            bleed:[]  
+        }
+
+
         
         
         this.skills = [
@@ -54,7 +60,7 @@ class Bandit{
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
                 damage_low: 6, //minimum damage
                 damage_high: 8, //max damage
-                bleed: [120, 4, 3]  //120% chance to proc bleed, 4 damage for 3 turns
+                bleed: [5, 120, 3]  //120% chance to proc bleed, 5 damage for 3 turns
             },{
                 id:"gunshot",
                 name: 'Gun shot',
@@ -108,7 +114,7 @@ class Bandit{
                 }
             }
         }
-        console.log("PV restant de la cible : "+this.hp)
+
         this.healthBar.update()
     }
 
