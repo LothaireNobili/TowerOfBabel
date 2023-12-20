@@ -18,7 +18,7 @@ class Salle extends Phaser.Scene {
   fighting;
   coffre;
   nouvelEtage = false;
-  maxSalle = 3;
+  nbSalle=0;
   content;
 
   salleVisitee = 0;
@@ -50,7 +50,6 @@ class Salle extends Phaser.Scene {
 
   create() {
     for(var i = 0; i <10;i++)
-    console.log(this.determinerMaxSalle());
     this.reset();
     window.myScene = this;
 
@@ -217,7 +216,7 @@ class Salle extends Phaser.Scene {
 
       this.salleVisitee += 1;
     }
-    if (this.maxSalle <= this.salleVisitee) {
+    if (this.nbSalle <= this.salleVisitee) {
       this.prochaineSalle = "Fin";
     }
   }
@@ -242,14 +241,13 @@ class Salle extends Phaser.Scene {
 
   reset() {
     try {
-      this.determinerMaxSalle();
-
       if (window.myScene.nouvelEtage) {
         this.prochaineSalle = "Debut";
         this.etage += 1;
         this.clear = true;
         this.fight = false;
         this.nouvelEtage = false;
+        this.nbSalle=window.myScene.nbSalle;
         window.myScene = this;
         this.salleVisitee = 0;
       }

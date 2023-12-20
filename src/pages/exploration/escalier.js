@@ -29,6 +29,7 @@ class Escalier extends Phaser.Scene
         prochainEtage.setInteractive();
         prochainEtage.on("pointerdown", () => {        
            window.myScene.nouvelEtage=true;
+           window.myScene.nbSalle=this.determinerMaxSalle()
            this.scene.start("Salle");
           });
 
@@ -50,7 +51,7 @@ class Escalier extends Phaser.Scene
         var max = max_salle.length-1;
         for (var i = 0; i < max_salle.length-1; i++) 
         {     
-          if ( max_salle[i][0]<= window.etage &&  window.etage < max_salle[i+1][0]) 
+          if ( max_salle[i][0]<= window.myScene.etage &&  window.myScene.etage < max_salle[i+1][0]) 
           {
             return Math.floor(Math.random()*(max_salle[i][2]-max_salle[i][1])+max_salle[i][1]);
           }
