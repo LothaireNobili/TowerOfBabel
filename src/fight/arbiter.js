@@ -17,27 +17,13 @@ class Arbiter {
         //cursors values
         this.cursorOffSet = 45
         this.cursorScale = 0.92
+        this.plusCursorScale = 0.95
+        this.plusCursorVerticalOffSet = 35
 
         //skills values
         this.skillYPlacement = 640
         this.skillXPlacement = 150
         this.skillXPlacementOffSet = 75
-
-        //define stats of the fight
-        this.fightState = [
-            "Start",
-            "StatutEffectAnim", //animations if the current fight is poisoned/bleed/stnned/etc
-            "EnemyInput",   //the ennemy makes an input
-            "CheckAvaibleSkill", //the machine greys out unusable skills, maybe it's not an actual state of the game
-            "PlayerSelectSkill", //waiting for the player to click an avaible skill
-            "PlayerSelectTarget", //waiting for player to click a valid target
-            "AttackAnim",   //attack animation playing
-            "Wait",     //brief pause after attack animation
-            "Next",  //we go to the next player, maybe it's not an actual state
-            "FightOver" //one of the team is defeated
-        ]//--> actually we can delete that whole things
-
-        this.currentState = this.fightState[0]
 
         //preparing some sprite values
         this.currentFighterCursor;
@@ -93,8 +79,6 @@ class Arbiter {
     checkIfSkillIsAvaible(skillToCheck){
         let pos = this.currentFighter.position
 
-        //var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
-
         var foundSkill = this.getSKill(this.currentFighter, skillToCheck)
         let okPos = foundSkill.requiered_pos
 
@@ -109,6 +93,18 @@ class Arbiter {
         
     }
 
+    displayDamage(amount, target, type){
+
+        targetX = this.getVerticalPosition(/*index of enemy in the list*/)
+        targetY = 150
+
+        let damageText = new FloatingText(this.fight_scene, 
+            targetX, 
+            targetY, 
+            amount, 
+            { fontFamily: 'Arial', fontSize: '24px', color: '#ff0000' });
+    }
+
     updatePosition(character){
         let sprite = character.sprite
         character.healthBar.update()
@@ -118,10 +114,10 @@ class Arbiter {
                 targets: sprite,
                 x: that.getVerticalPosition(character.position, that.getFighterTeam(character)),
                 y: that.floor,  
-                ease: 'Power2.inOut',  // Vous pouvez ajuster l'interpolation ici (voir les options dans la documentation Phaser)
+                ease: 'Power2.inOut',  //we can change the parameter to have different effects
                 duration: 150,
                 onComplete: () => {
-                    resolve();  // Résoudre la promesse une fois que le tween est terminé
+                    resolve();  // Resolve the promise once the tween is completed
                 }
             });
         });
@@ -167,7 +163,6 @@ class Arbiter {
                 delay: 1100, // Pause avant la disparition (1.1 sec)
                 ease: 'Power2',
                 onComplete: function () {
-                    // Supprimer l'image une fois l'animation terminée
                     image.destroy();
                     resolve();// promise is resolved
                 }
@@ -175,6 +170,7 @@ class Arbiter {
         });
     }
 
+    //this functuion is called only for heroes. Placement of cursor for enemies happen in the getInput function
     placeTargetCursors(skillToCheck){
         var that = this// save the context
 
@@ -183,10 +179,6 @@ class Arbiter {
             cursor.destroy()
         }
         this.currentTargetCursor = []
-
-        //we get the skill
-        //var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
-        //var foundSkill = this.currentFighter.skills.find(skill => skill.id === skillToCheck);
 
         var foundSkill = this.getSKill(this.currentFighter, skillToCheck)   
         //initialize temporary variable
@@ -201,7 +193,7 @@ class Arbiter {
                 if (targetPos <= enemyTeam.length){
     
                     tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(targetPos, "enemy")
-                    ,this.floor+this.cursorOffSet,"target_select");
+                        ,this.floor+this.cursorOffSet,"target_select");
     
                     tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
                     tempoTargetCursor.setScale(this.cursorScale)
@@ -209,7 +201,18 @@ class Arbiter {
                     tempoTargetCursor.setInteractive({ cursor: 'pointer' })
                         .on('pointerdown', function () {
 
-                            that.currentTarget.push(enemyTeam[targetPos - 1]) //!here
+                            if (foundSkill.type == "single"){
+                                that.currentTarget.push(enemyTeam[targetPos - 1]) //!here
+                            }
+
+                            else if (foundSkill.type == "continuous"){
+                                for(let thisTarget of foundSkill.reach){
+                                    if (thisTarget <= enemyTeam.length){
+                                        that.currentTarget.push(enemyTeam[thisTarget - 1])
+                                    }
+                                }
+                            }
+
                             for (let icon of that.currentFighterSkillIcons){
                                 icon.destroy()
                             }
@@ -219,6 +222,18 @@ class Arbiter {
                     }); 
     
                     that.currentTargetCursor.push(tempoTargetCursor)
+
+                    //to check if the skill type is on several targets or not
+                    if (foundSkill.type == "continuous" && targetPos>1){  //we don't add the + cursor for target in pos1 
+
+                        tempoTargetCursor = this.fight_scene.add.image(
+                            ((this.getVerticalPosition(targetPos, "enemy") + this.getVerticalPosition(targetPos-1, "enemy")) / 2)
+                            ,this.floor+this.plusCursorVerticalOffSet,"target_plus");
+                        
+                        tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
+                        tempoTargetCursor.setScale(this.plusCursorScale)
+                        that.currentTargetCursor.push(tempoTargetCursor)
+                    }
                 }
             }
         }
@@ -245,23 +260,11 @@ class Arbiter {
     
                     that.currentTargetCursor.push(tempoTargetCursor)
                 }
+
+                //TODO : add + cursors for passive abilities
             }
         }
         
-
-        //
-
-
-        /*
-        for (let target of this.currentTarget){
-            //console.log(target)
-            tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(target.position, "hero")//ennemies only have offensive move
-                ,this.floor+this.cursorOffSet,"target_select");
-            tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
-            tempoTargetCursor.setScale(this.cursorScale)
-
-            that.currentTargetCursor.push(tempoTargetCursor)
-        } */
 
     }
 
@@ -343,23 +346,39 @@ class Arbiter {
     }
 
     startRound(){
-        /*
-        console.log("fighter list :")
-        console.log(initialFighterList)*/
+
         console.log("fight order :")
         this.fighterOrder = this.getBothTeam().sort((a, b) => b.speed - a.speed)
         console.log(this.fighterOrder)
         this.currentFighterTrackNumber = 0;
         this.startTurn()
-        /*
-        console.log("scene")
-        console.log(this.fight_scene.pwet)*/
+
     }
 
     startTurn(){
+        var that = this
         this.currentFighter = this.fighterOrder[this.currentFighterTrackNumber]
-        this.placeTurnCursor()
-        this.getInput()
+        this.checkForStatusEffect()
+
+        if (this.currentFighter.hp <= 0) {
+            setTimeout(() => {  //a brief break after an attack to make the game more understandable
+                that.ontoTheNext();
+            }, 1500);
+        }
+        else{
+            this.placeTurnCursor()
+            this.getInput()
+        }
+        
+    }
+
+    checkForStatusEffect(){
+        //console.log(this.currentFighter.status_effect.bleed.length)
+        if (this.currentFighter.status_effect.bleed.length != 0){
+            console.warn("that guy is bleeding!")
+            this.currentFighter.applyBleedDamage()
+            this.checkDeath([this.currentFighter])
+        }
     }
 
     placeTurnCursor(){
@@ -384,14 +403,13 @@ class Arbiter {
     getEnemyInput(){
         var that = this; //to save the context
 
-        let attack = this.currentFighter.getInput(playerTeam) //!THIS PROBABLY DOESN'T WORK AS INTENDED FOR MULTI TARGET ATTACK
+        let attack = this.currentFighter.getInput(playerTeam) 
         this.currentAttack=attack[0]
         this.currentTarget.push(attack[1])
 
         var tempoTargetCursor
 
         for (let target of this.currentTarget){
-            //console.log(target)
             tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(target.position, "hero")//ennemies only have offensive move
                 ,this.floor+this.cursorOffSet,"target_select");
             tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
@@ -406,10 +424,8 @@ class Arbiter {
         this.showMessage(this.currentAttack.name).then(function(){ //play the a inimation THEN start the fight
             that.engageAttackAnimation()
             
-            //that.startRound() //"that" is the arbiter
         })  
 
-        //console.log(attack)
     }
 
     getHeroInput(){
@@ -419,16 +435,6 @@ class Arbiter {
 
     engageAttackAnimation(){
         //oskur
-        
-        //console.log(this.currentFighter)
-        //console.log(this.currentAttack)
-        //console.log(this.currentTarget)
-        /*
-        console.log(this.fight_scene.heroSprites)
-        console.log(this.fight_scene.enemySprites)*/
-        //console.log(this.getHeroSprite(this.currentFighter))
-        //console.log(this.getHeroSprite(this.currentTarget)) //note : it won't work as well for multiple target stuff
-        //targets.forEach(target => console.log(target));
 
         var that = this
         this.currentFighterCursor.destroy()
@@ -438,30 +444,30 @@ class Arbiter {
         }
         this.currentTargetCursor = []
 
-        console.log("current fighter : " +this.currentFighter.name)
-        console.log("list of targets :")
-        for (let target of this.currentTarget){
-            console.log(target.name)//c'est une liste c'est pour ça que ça marche pas
-        }
-        console.log("current skill : " +this.currentAttack.name)
-
         this.playAttackAnimation(this.currentFighter, this.currentTarget)
             .then(() => {
                 for(let target of that.currentTarget){
                     target.isTargeted(that.currentAttack, that.currentFighter)
                 }
+                
                 setTimeout(() => {  //a brief break after an attack to make the game more understandable
-                    this.checkDeath(); 
-                }, 1000);
+                    this.checkDeath(this.currentTarget); 
+                }, 700);
+                setTimeout(() => {  //a brief break after an attack to make the game more understandable
+                    that.ontoTheNext();
+                }, 1500);
             });
     }
 
-    checkDeath(){
+
+    checkDeath(checkTargets){//checkTargets MUST be a list
         var that = this
-        let team = this.getFighterTeam(this.currentTarget[0])
+        console.log(checkTargets)
+        let team = this.getFighterTeam(checkTargets[0])
         let anyDeaths = false
     
-        for(let target of this.currentTarget){
+        for(let target of checkTargets){
+            console.log(that.currentFighterTrackNumber)
             if (target.isDead()){
 
                 let index ; //initalize temporary value
@@ -470,14 +476,19 @@ class Arbiter {
 
                 index = that.fighterOrder.indexOf(target); //get the index in the fighterOrder list
 
-                if (index < that.currentFighterTrackNumber){ //check if victim already played
-                    that.currentFighterTrackNumber -= 1; //remove one to the tracker if the victim already player to shift it correctly
+                //console.log(checkTargets[0])
+                if (!(checkTargets.length==1 && checkTargets[0]==that.currentFighter)){
+                    if (index < that.currentFighterTrackNumber){ //check if victim already played
+                        that.currentFighterTrackNumber -= 1; //remove one to the tracker if the victim already player to shift it correctly
+                    }
+
+                    if (index !== -1) {
+                        that.fighterOrder.splice(index, 1) //remove the victim from the fighterOrder
+                    }
                 }
                 
+              
                 
-                if (index !== -1) {
-                    that.fighterOrder.splice(index, 1) //remove the victim from the fighterOrder
-                }
                 
 
                 if(team == "hero"){
@@ -487,7 +498,7 @@ class Arbiter {
                         if (index < hero.position){ //check if victim already played
                             hero.position -= 1; //remove one to the tracker if the victim already player to shift it correctly
                             that.updatePosition(hero).then(() => {
-                                console.log("Déplacement terminé !");
+                                //console.log("Déplacement terminé !");
                             });
                         }
                     }
@@ -505,7 +516,7 @@ class Arbiter {
                         if (index < enemy.position){ //check if victim already played
                             enemy.position -= 1; //remove one to the tracker if the victim already player to shift it correctly
                             that.updatePosition(enemy).then(() => {
-                                console.log("Déplacement terminé !");
+                                //console.log("Déplacement terminé !");
                             });
                         }
                     }
@@ -519,20 +530,33 @@ class Arbiter {
             }
         }
 
-        this.ontoTheNext(); 
-
     }
+
 
     ontoTheNext(){
         this.currentTarget = []
         this.currentFighterTrackNumber += 1;
-        
-        if (this.fighterOrder[this.currentFighterTrackNumber] != undefined){
-            this.startTurn()
+
+
+        if (enemyTeam.length==0 || playerTeam.length==0){
+            console.warn("Le combat est fini")
+            if(playerTeam.length==0){  //on vérifie d'abord l'équipe du joueur, en cas d'égalité (impossible pour l'instant), il a perdu
+                console.log("Vous avez perdu")
+            }
+            else{
+                console.log("Victoire!")
+            }
         }
+
         else{
-            this.startRound()
+            if (this.fighterOrder[this.currentFighterTrackNumber] != undefined){
+                this.startTurn()
+            }
+            else{
+                this.startRound()
+            }
         }
+        
         
     }
 

@@ -1,5 +1,5 @@
 // supprimer /--
-var allHeroList = ["crusader", "bandit"];
+var allHeroList = ["crusader", "bandit","plaguedoctor","vestal"];
 var allPotionsList = [{ name: "exemple1", description: "description", prix: 550, sellQuantity: 1 }, { name: "exemple2", description: "description", prix: 300, sellQuantity: 1 }]; 
 addSellQuantityToPotions(allPotionsList)
 // --/
@@ -10,7 +10,7 @@ class Hameau extends Phaser.Scene {
     }
 
     preload() {
-        this.load.setBaseURL('assets/')
+        this.load.setBaseURL('./assets/')
         this.load.image("hameauBg", "images/hameau/hameau_bg.png");
         this.load.image("Laboratoire", "images/hameau/laboratoire.png");
         this.load.image("Forge", "images/hameau/forge.png");
@@ -28,8 +28,8 @@ class Hameau extends Phaser.Scene {
         this.load.image("boutiqueBg", "images/hameau/boutique_bg.png");
 
         for (let i = 0; i < allHeroList.length; i++) {
-            this.load.image("portrait_" + allHeroList[i], "images/heroes/" + heroList[i] + "/portrait.png")
-            this.load.image("idle_" + allHeroList[i], "images/heroes/" + heroList[i] + "/idle.png")
+            this.load.image("portrait_" + allHeroList[i], "images/heroes/" + allHeroList[i] + "/portrait.png")
+            this.load.image("idle_" + allHeroList[i], "images/heroes/" + allHeroList[i] + "/idle.png")
         }
     }
 
@@ -94,7 +94,7 @@ class Hameau extends Phaser.Scene {
 
                 game.scene.stop('Hameau')
                 if(key == "Depart"){
-                    game.scene.start("bootFight");
+                    game.scene.start("ComposerEquipe");
                 }
                 else{
 

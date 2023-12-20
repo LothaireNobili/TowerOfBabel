@@ -30,4 +30,12 @@ class BarreInfo {
         this.nbPiecesText.setText(nbPieces);
         return this.nbPiecesText;
     }
+
+    message(text) {
+        let message = this.scene.add.text(450, 70, text, setFontStyles(undefined, "red"))
+        setTimeout(() => {
+            message.destroy();
+        }, 1500);
+
+    }
 }

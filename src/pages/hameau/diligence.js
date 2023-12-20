@@ -3,11 +3,17 @@ class Diligence extends Phaser.Scene {
     super({ key: 'Diligence' });
   }
   preload() {
-    this.load.setBaseURL('../../../assets/')
+    this.load.setBaseURL('./assets/')
     this.load.image("cercleRed", "icons/cercle_red.png")
     this.load.image("cercleWhite", "icons/cercle_white.png")
     this.load.image("cercleYellow", "icons/cercle_yellow.png")
-    this.load.image("skill1", "icons/pointy_sword.png")
+
+    for (let i = 0; i < allHeroList.length; i++) {
+      for (let j = 0; j < 4; j++) {
+        this.load.image(allHeroList[i] + "Skill" + (j + 1) + "Icon",
+          "images/heroes/" + allHeroList[i] + "/skill" + (j + 1) + "_icon.png")
+      }
+    }
   }
   create() {
     document.body.style.cursor = "default";
@@ -20,6 +26,8 @@ class Diligence extends Phaser.Scene {
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();  // Crée la barre d'information
 
+
+
     // La boutique
     var boutiqueBackground = this.add.image(430, 440, "boutiqueBg")
     boutiqueBackground.displayWidth = 830;
@@ -29,13 +37,12 @@ class Diligence extends Phaser.Scene {
 
     // Ajouter des heros
     var intervalleY = 72
-    let nb = 0
-    for (let i = 0; i < allHeroList.length; i++) {
-      const heroIndex = user.heroes.findIndex(hero => hero.heroName === heroList[i]);
-  
+    let count = 0;
+    for (var i = 0; i < allHeroList.length; i++) {
+      const heroIndex = user.heroes.findIndex(hero => hero.heroName === allHeroList[i]);
       if (heroIndex == -1) {
-        createInteractiveImage(this, 670, 230 + nb * intervalleY, heroList[i], 1000, true)
-        nb++;
+        createInteractiveImage(this, 670, 230 + count * intervalleY, allHeroList[i], 1000, true)
+        count++;
       }
     }
 
@@ -61,7 +68,7 @@ class Diligence extends Phaser.Scene {
 
 
     // Créez une fonction pour les objets image, les paramètres de description
-    function createInteractiveImage(scene,x, y, key, prix, onSale) {
+    function createInteractiveImage(scene, x, y, key, prix, onSale) {
       var card = scene.add.container(x, y);
       var image = scene.add.image(0, 0, "card");
 
@@ -94,8 +101,8 @@ class Diligence extends Phaser.Scene {
       descriptionContainer.add([descriptionBg, heroName, heroImage]);
 
       for (var i = 0; i < 4; i++) {
-        var skillCard = scene.add.image(0, -50 + i * 80, "skill1");
-        skillCard.setScale(0.15);
+        var skillCard = scene.add.image(0, -50 + i * 80, key + "Skill" + (i + 1) + "Icon");
+        skillCard.setScale(0.6);
         var skillName = scene.add.text(30, -72 + i * 80, "Coup d'épée", setFontStyles("18px"));
         descriptionContainer.add([skillCard, skillName]);
 
@@ -118,6 +125,7 @@ class Diligence extends Phaser.Scene {
       });
 
       if (onSale) {
+        // acheter hero
         image.on('pointerdown', function () {
           if (user.coins - prix >= 0) {
             //exemple
@@ -132,10 +140,17 @@ class Diligence extends Phaser.Scene {
               defense: 4
             }
 
+            // Retirer le héros de la boutique
+            image.destroy();
+            card.destroy();
+
             user.addHero(key, eqpWeapon, eqpArmour)
             user.updateCoins(-prix)
-            
+
             scene.scene.restart();
+          }
+          else{
+            barreInfo.message("Pas assez de pièces")
           }
 
         });

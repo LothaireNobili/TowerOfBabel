@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tower of Babel</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="styles.css" />
 
     <script type="text/javascript" src="phaser.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./src/util/util.js"></script>
+    <script type="text/javascript" src="./src/util/userInfo.js"></script>
+
+    <script type="text/javascript" src="./src/pages/hameau/hameau.js"></script>
+    <script type="text/javascript" src="./src/pages/hameau/forge.js"></script>
+    <script
+      type="text/javascript"
+      src="./src/pages/hameau/laboratoire.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./src/pages/hameau/diligence.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./src/pages/hameau/composerEquipe.js"
+    ></script>
+    <script type="text/javascript" src="./src/util/classBarreInfo.js"></script>
+
+    <script type="text/javascript" src="./controleur/utils.js"></script>
+    <script type="text/javascript" src="./controleur/getters.js"></script>
+    <script
+      type="text/javascript"
+      src="./controleur/updateSaveFile.js"
+    ></script>
 
     <script src="/src/util/util.js"></script>
     <script type="text/javascript" src="/src/util/userInfo.js"></script>
@@ -23,18 +51,45 @@
 
     <script type="text/javascript" src="./src/pages/hameau/hameau.js"></script>
     <script type="text/javascript" src="./src/pages/hameau/forge.js"></script>
-    <script type="text/javascript" src="./src/pages/hameau/laboratoire.js"></script>
-    <script type="text/javascript" src="./src/pages/hameau/diligence.js"></script>
+    <script
+      type="text/javascript"
+      src="./src/pages/hameau/laboratoire.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./src/pages/hameau/diligence.js"
+    ></script>
     <script type="text/javascript" src="./src/util/classBarreInfo.js"></script>
     <script src="./src/login/login.js"></script>
 
-    <script type="text/javascript" src="./src/fight/class/heroes/Crusader.js"></script>
-    <script type="text/javascript" src="./src/fight/class/heroes/Bandit.js"></script>
-    <script type="text/javascript" src="./src/fight/class/ennemies/Skeleton.js"></script>
+    <script
+      type="text/javascript"
+      src="./src/fight/class/heroes/Crusader.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./src/fight/class/heroes/Bandit.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./src/fight/class/ennemies/Skeleton.js"
+    ></script>
+    <script type="text/javascript" src="./src/util/graphicManager.js"></script>
+    <script type="text/javascript" src="./src/fight/DamageText.js"></script>
+    <script type="text/javascript" src="./src/fight/HealthBar.js"></script>
 
-    <script type="text/javascript" src="./src/pages/navigation/couloir.js"></script>
-    <script type="text/javascript" src="./src/pages/navigation/salle.js"></script>
-    <script type="text/javascript" src="./src/pages/navigation/etage.js"></script>
+    <script
+      type="text/javascript"
+      src="./src/pages/navigation/couloir.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./src/pages/navigation/salle.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./src/pages/navigation/etage.js"
+    ></script>
 
     <script type="text/javascript" src="./src/fight/arbiter.js"></script>
     <script type="text/javascript" src="./src/fight/LoadingFight.js"></script>
@@ -44,93 +99,120 @@
     <script type="text/javascript" src="./src/fight/HealthBar.js"></script>
 
     <script type="text/javascript" src="game.js"></script>
-</head>
+  </head>
 
-<body>
-    <nav class="navbar bg-dark border-bottom border-body z-index-top" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand">Tower of Babel</a>
-            <div class="d-flex">
-                <div id="loginBtn">
-                    <a class="btn btn-outline-warning btn-login" href="./src/login/login.html">
-                        Connexion
-                    </a>
-                </div>
-                <div id="userId" style="display: none" >
-                    <button onclick="logout()" style="background-color: transparent; border: 0;" >
-                        <svg id="logoutBtn" t="1703076407845" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" p-id="4585" width="35" height="35"
-                            style="margin-right: 20px">
-                            <path
-                                d="M480.631 534.862H72.307c-12.76 0-21.267-8.507-21.267-21.267s8.507-21.267 21.267-21.267h408.324c12.76 0 21.267 8.507 21.267 21.267s-8.507 21.267-21.267 21.267z"
-                                p-id="4586" fill="#ffffff"></path>
-                            <path
-                                d="M284.976 726.264c-4.253 0-12.76 0-17.013-8.507-8.507-8.507-8.507-21.267 0-29.774l182.895-178.641-182.895-174.389c-8.507-8.506-8.507-21.267 0-29.773 8.506-8.507 21.266-8.507 29.773 0l195.655 195.655c4.254 4.253 8.507 8.507 8.507 17.013 0 4.254-4.253 12.76-8.507 17.014L297.736 722.01c-4.253 4.254-8.507 4.254-12.76 4.254z"
-                                p-id="4587" fill="#ffffff"></path>
-                            <path
-                                d="M999.543 1024H361.537c-12.76 0-21.267-8.507-21.267-21.267V794.318c0-12.76 8.507-21.267 21.267-21.267s21.267 8.507 21.267 21.267v187.148h595.472V45.724H382.804v191.402c0 8.506-8.507 21.267-21.267 21.267s-21.267-12.76-21.267-21.267V24.456c0-12.76 8.507-21.266 21.267-21.266h638.006c12.76 0 21.267 8.507 21.267 21.267v978.276c0 12.76-8.507 21.267-21.267 21.267z"
-                                p-id="4588" fill="#ffffff"></path>
-                            <path
-                                d="M999.543 1024h-8.507l-340.27-153.121c-8.506-8.507-12.76-17.014-12.76-25.52v-667.78c0-8.507 4.254-17.014 12.76-21.267L991.036 3.19c8.507-4.253 12.76-4.253 21.267 0 4.254 8.507 8.507 12.76 8.507 21.267v978.276c0 8.507-4.253 12.76-8.507 17.014-4.253 0-8.507 4.253-12.76 4.253zM680.54 832.598l297.736 136.108V58.484L680.54 194.592v638.006z"
-                                p-id="4589" fill="#ffffff"></path>
-                            <path
-                                d="M829.408 513.595h-85.067c-12.76 0-21.267-8.507-21.267-21.267s8.506-21.267 21.267-21.267h85.067c12.76 0 21.267 8.507 21.267 21.267s-8.507 21.267-21.267 21.267z"
-                                p-id="4590" fill="#ffffff"></path>
-                        </svg>
-                    </button>
-                </div>
-                <p id="context"></p>
-            </div>
+  <body>
+    <nav
+      class="navbar bg-dark border-bottom border-body z-index-top"
+      data-bs-theme="dark"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand">Tower of Babel</a>
+        <div class="d-flex">
+          <div id="loginBtn">
+            <a
+              class="btn btn-outline-warning btn-login"
+              href="./src/login/login.html"
+            >
+              Connexion
+            </a>
+          </div>
+          <div id="userId" style="display: none">
+            <button
+              onclick="logout()"
+              style="background-color: transparent; border: 0"
+            >
+              <svg
+                id="logoutBtn"
+                t="1703076407845"
+                class="icon"
+                viewBox="0 0 1024 1024"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                p-id="4585"
+                width="35"
+                height="35"
+                style="margin-right: 20px"
+              >
+                <path
+                  d="M480.631 534.862H72.307c-12.76 0-21.267-8.507-21.267-21.267s8.507-21.267 21.267-21.267h408.324c12.76 0 21.267 8.507 21.267 21.267s-8.507 21.267-21.267 21.267z"
+                  p-id="4586"
+                  fill="#ffffff"
+                ></path>
+                <path
+                  d="M284.976 726.264c-4.253 0-12.76 0-17.013-8.507-8.507-8.507-8.507-21.267 0-29.774l182.895-178.641-182.895-174.389c-8.507-8.506-8.507-21.267 0-29.773 8.506-8.507 21.266-8.507 29.773 0l195.655 195.655c4.254 4.253 8.507 8.507 8.507 17.013 0 4.254-4.253 12.76-8.507 17.014L297.736 722.01c-4.253 4.254-8.507 4.254-12.76 4.254z"
+                  p-id="4587"
+                  fill="#ffffff"
+                ></path>
+                <path
+                  d="M999.543 1024H361.537c-12.76 0-21.267-8.507-21.267-21.267V794.318c0-12.76 8.507-21.267 21.267-21.267s21.267 8.507 21.267 21.267v187.148h595.472V45.724H382.804v191.402c0 8.506-8.507 21.267-21.267 21.267s-21.267-12.76-21.267-21.267V24.456c0-12.76 8.507-21.266 21.267-21.266h638.006c12.76 0 21.267 8.507 21.267 21.267v978.276c0 12.76-8.507 21.267-21.267 21.267z"
+                  p-id="4588"
+                  fill="#ffffff"
+                ></path>
+                <path
+                  d="M999.543 1024h-8.507l-340.27-153.121c-8.506-8.507-12.76-17.014-12.76-25.52v-667.78c0-8.507 4.254-17.014 12.76-21.267L991.036 3.19c8.507-4.253 12.76-4.253 21.267 0 4.254 8.507 8.507 12.76 8.507 21.267v978.276c0 8.507-4.253 12.76-8.507 17.014-4.253 0-8.507 4.253-12.76 4.253zM680.54 832.598l297.736 136.108V58.484L680.54 194.592v638.006z"
+                  p-id="4589"
+                  fill="#ffffff"
+                ></path>
+                <path
+                  d="M829.408 513.595h-85.067c-12.76 0-21.267-8.507-21.267-21.267s8.506-21.267 21.267-21.267h85.067c12.76 0 21.267 8.507 21.267 21.267s-8.507 21.267-21.267 21.267z"
+                  p-id="4590"
+                  fill="#ffffff"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <p id="context"></p>
         </div>
+      </div>
     </nav>
 
     <div id="game-container"></div>
 
     <div class="card text-bg-dark mb-3 border-light card-presentation">
-        <h5 class="card-header">Tower of Babel</h5>
-        <div class="card-body border-light">
-            <p class="card-text">
-                Tower of Babel est un jeu d'exploration et de combat au tour par tour.
-                Le joueur doit explorer une tour, composée d'étages, eux même composés
-                de salles et de couloirs. Le joueur pourra trouver du butin et
-                rencontrer des ennemis dans ces derniers. L'objectif est d'atteindre
-                le niveau le plus haut possible d'une tour infinie. Cette tour
-                mystérieuse semble se reconstruire à chaque exploration, rendant
-                chaque expédition unique, et est parsemée d'embuches de plus en plus
-                dangereuses.
-            </p>
-            <p class="card-text">
-                Ce projet se déroule dans le cadre d'un projet universitaire.
-            </p>
-        </div>
+      <h5 class="card-header">Tower of Babel</h5>
+      <div class="card-body border-light">
+        <p class="card-text">
+          Tower of Babel est un jeu d'exploration et de combat au tour par tour.
+          Le joueur doit explorer une tour, composée d'étages, eux même composés
+          de salles et de couloirs. Le joueur pourra trouver du butin et
+          rencontrer des ennemis dans ces derniers. L'objectif est d'atteindre
+          le niveau le plus haut possible d'une tour infinie. Cette tour
+          mystérieuse semble se reconstruire à chaque exploration, rendant
+          chaque expédition unique, et est parsemée d'embuches de plus en plus
+          dangereuses.
+        </p>
+        <p class="card-text">
+          Ce projet se déroule dans le cadre d'un projet universitaire.
+        </p>
+      </div>
     </div>
 
     <footer class="footer">
-        <img src="assets/images/iut-logo.png" />
-        <p>NOBILI Lothaire | SAHININE Haroun | WANG Nuoxi</p>
+      <img src="assets/images/iut-logo.png" />
+      <p>NOBILI Lothaire | SAHININE Haroun | WANG Nuoxi</p>
     </footer>
 
     <script type="text/javascript">
-        const storedUserData = localStorage.getItem("userData");
-        let logoutBtn = document.getElementById("logoutBtn");
-        let userId = document.getElementById("userId");
-        let loginBtn = document.getElementById("loginBtn");
-        let context = document.getElementById("context");
+      const storedUserData = localStorage.getItem("userData");
+      let logoutBtn = document.getElementById("logoutBtn");
+      let userId = document.getElementById("userId");
+      let loginBtn = document.getElementById("loginBtn");
+      let context = document.getElementById("context");
 
-        if (storedUserData) {
-            var user = new User();
-            user.upDateUserClass();
+      if (storedUserData) {
+        var user = new User();
+        user.upDateUserClass();
 
-            userId.style.display = "block";
-            loginBtn.style.display = "none";
-            context.textContent = "Hello! " + user.username;
-        }
+        userId.style.display = "block";
+        loginBtn.style.display = "none";
+        context.textContent = "Hello! " + user.username;
+      }
 
-        function logout() {
-            localStorage.removeItem("userData");
-            window.location.href = "../../index.html"
-        }
+      function logout() {
+        localStorage.removeItem("userData");
+        window.location.href = "../../index.html";
+      }
     </script>
-</body>
-
+  </body>
 </html>

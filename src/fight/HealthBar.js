@@ -15,7 +15,6 @@ class HealthBar {
         this.bar = this.scene.add.rectangle(this.helper.getVerticalPosition(this.character.position, this.team)-this.size/2, 
                                 this.helper.floor+this.offSet, this.size, 10, 0x992525);
 
-       // console.log(graphicManager.getVerticalPosition(1, "hero"))
 
         // Set the origin of the healthbar to the left
         this.background.setOrigin(0, 1);
