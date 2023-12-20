@@ -1,8 +1,12 @@
-class Bandit extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y) {
-        super(scene, x, y, 'bandit'); 
-
+class Bandit{
+    constructor(startPos, sprite) {
         //base stats
+
+        this.name = "bandit"
+
+        this.position = startPos;
+        this.sprite = sprite;
+
         this.max_hp = 25;   
         this.hp = this.max_hp;
 
@@ -14,8 +18,10 @@ class Bandit extends Phaser.GameObjects.Sprite {
 
         this.crit = 15; //in %
 
+        this.damage_mult = 1
+        /*
         this.damage_low_range = 12;
-        this.damage_high_range = 16;
+        this.damage_high_range = 16;*/
 
         //resistance stats
         this.stun_res = 40;
@@ -24,88 +30,101 @@ class Bandit extends Phaser.GameObjects.Sprite {
         this.poison_res = 40;
         this.debuff_res = 40;
 
+        //prepare status effect variables
+        this.status_effect = {
+            bleed:[]  
+        }
+
+
         
         
-        this.skills = {
-            slice: {
+        this.skills = [
+            {
+                id:"slice",
                 name: 'Slice',
+                animation: "skill1",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
-                damage_mod: 10 //modifier in %
+                damage_low: 9, //minimum damage
+                damage_high: 12 //max damage
             },
-            cut: {
+            {
+                id:"cut",
                 name: 'Cut',
+                animation: "skill2",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
-                damage_mod: -30,
-                bleed: [120, 4, 3]  //120% chance to proc bleed, 4 damage for 3 turns
-            },
-            gunShot: {
+                damage_low: 6, //minimum damage
+                damage_high: 8, //max damage
+                bleed: [5, 120, 3]  //120% chance to proc bleed, 5 damage for 3 turns
+            },{
+                id:"gunshot",
                 name: 'Gun shot',
+                animation: "skill3",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [2, 3, 4], //spot reach
                 requiered_pos : [2, 3, 4], //where the hero must be placed to cast it
-                damage_mod: -10,
+                damage_low: 8, //minimum damage
+                damage_high: 10, //max damage
                 crit_mod: 15 //flat modifier in %
             },
-            grapeShot: {
+            {
+                id:"grapeshot",
                 name: "Grape shot",
+                animation: "skill4",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "continuous",//all reachable target are touched
                 reach: [1, 2, 3], //spot reach
                 requiered_pos: [2, 3], //where the hero must be placed to cast it
-                damage_mod: -50,
+                damage_low: 4, //minimum damage
+                damage_high: 6, //max damage
                 crit_mod: 10
             }
-        };
-/*
-        // Set up animations (replace 'crusader_attack' with your actual animation key)
-        scene.anims.create({
-            key: 'crusader_attack',
-            frames: scene.anims.generateFrameNumbers('crusader_attack', { start: 0, end: 5 }),
-            frameRate: 10,
-            repeat: 0
-        });
+        ];
 
-        // Register the crusader with the scene
-        scene.add.existing(this);*/
     }
-/*
-    // Add any additional methods or behaviors specific to the crusader here
 
-    // Example method to perform an attack using a specific skill
-    performAttack(target, skill) {
-        if (skill && skill.remainingCooldown === 0) {
-            // Play attack animation
-            this.play('crusader_attack');
+    isTargeted(skill, caster){
+        if (skill.target == "hero"){
+                let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
+            
+                if (this.hp <= damage){
+                    this.hp = 0
+                    //self.die
+                }
+                else{
+                    this.hp -= damage
+                }
+            }
+        else if(skill.target == "team" || skill.target == "self"){
+            if (skill.hasOwnProperty("heal")){
 
-            // Apply damage to the target
-            target.receiveDamage(skill.damage);
+                let heal = skill.heal * caster.damage_mult
 
-            // Set cooldown for the used skill
-            skill.remainingCooldown = skill.cooldown;
-
-            // Return true to indicate a successful attack
-            return true;
-        } else {
-            // Skill is on cooldown or not valid, return false
-            return false;
+                if (this.max_hp <= this.hp + heal){
+                    this.hp = this.max_hp
+                }
+                else{
+                    this.hp += heal
+                }
+            }
         }
+
+        this.healthBar.update()
     }
 
-    // Example method to receive damage
-    receiveDamage(amount) {
-        this.hp -= amount;
-        // Add any additional logic for handling damage or death
+    isDead(){
+        return (this.hp == 0)
     }
 
-    // Update method (optional)
-    update() {
-        // Add any additional update logic specific to the crusader
-    }*/
+    destroyGraphics() {
+        this.healthBar.destroy();
+        this.sprite.destroy();
+    }
+
 }

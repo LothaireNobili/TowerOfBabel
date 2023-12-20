@@ -25,12 +25,14 @@ class Skeleton{
         //resistance stats
         this.stun_res = 20;
         this.move_res = 20;
-        this.bleed_res = 200;
+        this.bleed_res = 160;
         this.poison_res = 20;
         this.debuff_res = 20;
 
         //prepare status effect variables
-        this.status_effect = []
+        this.status_effect = {
+            bleed:[]  
+        }
         
         
         this.skills = {
@@ -65,18 +67,49 @@ class Skeleton{
         return [this.skills.strike, playerTeam[0]]//also the playerTeam[0] should be selected randomly
     }
 
-    isTargeted(skill, caster){
-        let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
-        
-        if (this.hp <= damage){
+    getTotalBleedAmount(){
+        let res;
+        for (let drop of this.status_effect.bleed){
+            res =+ drop[0]
+        }
+        return res
+    }
+
+    applyBleedDamage(){
+        console.log("Dégat de saignement subit!")
+        let totalDamage = this.getTotalBleedAmount()
+        if (this.hp <= totalDamage){ //if enemy dies on the spot
             this.hp = 0
-            //self.die
         }
         else{
-            this.hp -= damage
+            this.hp = this.hp - totalDamage
         }
         this.healthBar.update()
         console.log("PV restant de la cible : "+this.hp)
+    }
+
+    isTargeted(skill, caster){
+        let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
+        let that = this
+
+        if (this.hp <= damage){ //if enemy dies on the spot
+            this.hp = 0
+        }
+        else{ 
+
+            if(skill.bleed != undefined){ //si l'attaque inflige du saignement
+                let proba = skill.bleed[0] - that.bleed_res //get the power of the probability of success
+                let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
+                let success = proba >= randomNum //check if bleed is a success
+
+                if(success){
+                    that.status_effect.bleed.push([skill.bleed[1],skill.bleed[2]]) //apply bleed as a list
+                }
+            }
+
+            this.hp -= damage
+        }
+        this.healthBar.update()
     }
 
     isDead(){

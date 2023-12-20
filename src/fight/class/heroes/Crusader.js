@@ -13,10 +13,11 @@ class Crusader{
 
         this.prot = 20; //20% of protection
 
-        this.speed = 15;
+        this.speed = 3;
         //increased speed for debug, actual speed is 3
         this.crit = 5; //in %
 
+        //this.damage_mult = 1
         this.damage_mult = 1
         /*
         this.damage_low_range = 10;
@@ -30,7 +31,9 @@ class Crusader{
         this.debuff_res = 40;
 
         //prepare status effect variables
-        this.status_effect = []
+        this.status_effect = {
+            bleed:[]  
+        }
 
         
         
@@ -44,8 +47,8 @@ class Crusader{
                 reach: [1, 2], //spot reach
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
                 damage_low: 10, //minimum damage
-                //damage_high: 13 //max damage
-                damage_high: 100
+                damage_high: 13 //max damage
+                //damage_high: 100
 
             },
             {
@@ -69,8 +72,8 @@ class Crusader{
                 /*
                 reach: [2, 3, 4], //spot reach
                 requiered_pos : [3, 4], //where the hero must be placed to cast it*/
-                reach: [4], //spot reach
-                requiered_pos : [1], //where the hero must be placed to cast it
+                reach: [2, 3, 4], //spot reach
+                requiered_pos : [3, 4], //where the hero must be placed to cast it
                 damage_low: 13, //minimum damage
                 damage_high: 16, //max damage
                 move: 1, //forward 1
@@ -118,7 +121,6 @@ class Crusader{
                 }
             }
         }
-        console.log("PV restant de la cible : "+this.hp)
         this.healthBar.update()
     }
 

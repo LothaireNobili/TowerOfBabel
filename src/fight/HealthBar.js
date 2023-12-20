@@ -12,10 +12,9 @@ class HealthBar {
                                 this.helper.floor+this.offSet, this.size, 10, 0x151515);
         
         // Create healthbar
-        this.bar = this.scene.add.rectangle(this.helper.getVerticalPosition(character.position, this.team)-this.size/2, 
+        this.bar = this.scene.add.rectangle(this.helper.getVerticalPosition(this.character.position, this.team)-this.size/2, 
                                 this.helper.floor+this.offSet, this.size, 10, 0x992525);
 
-       // console.log(graphicManager.getVerticalPosition(1, "hero"))
 
         // Set the origin of the healthbar to the left
         this.background.setOrigin(0, 1);
@@ -26,7 +25,16 @@ class HealthBar {
     }
 
     update() {
-        // Update the healthbar width based on character health
+        console.log("update of "+this.character.name+"'s healthbar in progress")
+        this.destroy()
+        this.background = this.scene.add.rectangle(this.helper.getVerticalPosition(this.character.position, this.team)-this.size/2, 
+                                this.helper.floor+this.offSet, this.size, 10, 0x151515);
+        this.bar = this.scene.add.rectangle(this.helper.getVerticalPosition(this.character.position, this.team)-this.size/2, 
+                                this.helper.floor+this.offSet, this.size, 10, 0x992525);
+
+        this.background.setOrigin(0, 1);
+        this.bar.setOrigin(0, 1);
+        
         this.bar.displayWidth = this.calculateBarWidth();
     }
 
