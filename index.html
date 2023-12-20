@@ -50,14 +50,40 @@
     <nav class="navbar bg-dark border-bottom border-body z-index-top" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand">Tower of Babel</a>
-            <form class="d-flex" role="search">
-                <a class="btn btn-outline-warning btn-login" href="./src/login/login.html">
-                    Connexion
-                </a>
-            </form>
+            <div class="d-flex">
+                <div id="loginBtn">
+                    <a class="btn btn-outline-warning btn-login" href="./src/login/login.html">
+                        Connexion
+                    </a>
+                </div>
+                <div id="userId" style="display: none" >
+                    <button onclick="logout()" style="background-color: transparent; border: 0;" >
+                        <svg id="logoutBtn" t="1703076407845" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" p-id="4585" width="35" height="35"
+                            style="margin-right: 20px">
+                            <path
+                                d="M480.631 534.862H72.307c-12.76 0-21.267-8.507-21.267-21.267s8.507-21.267 21.267-21.267h408.324c12.76 0 21.267 8.507 21.267 21.267s-8.507 21.267-21.267 21.267z"
+                                p-id="4586" fill="#ffffff"></path>
+                            <path
+                                d="M284.976 726.264c-4.253 0-12.76 0-17.013-8.507-8.507-8.507-8.507-21.267 0-29.774l182.895-178.641-182.895-174.389c-8.507-8.506-8.507-21.267 0-29.773 8.506-8.507 21.266-8.507 29.773 0l195.655 195.655c4.254 4.253 8.507 8.507 8.507 17.013 0 4.254-4.253 12.76-8.507 17.014L297.736 722.01c-4.253 4.254-8.507 4.254-12.76 4.254z"
+                                p-id="4587" fill="#ffffff"></path>
+                            <path
+                                d="M999.543 1024H361.537c-12.76 0-21.267-8.507-21.267-21.267V794.318c0-12.76 8.507-21.267 21.267-21.267s21.267 8.507 21.267 21.267v187.148h595.472V45.724H382.804v191.402c0 8.506-8.507 21.267-21.267 21.267s-21.267-12.76-21.267-21.267V24.456c0-12.76 8.507-21.266 21.267-21.266h638.006c12.76 0 21.267 8.507 21.267 21.267v978.276c0 12.76-8.507 21.267-21.267 21.267z"
+                                p-id="4588" fill="#ffffff"></path>
+                            <path
+                                d="M999.543 1024h-8.507l-340.27-153.121c-8.506-8.507-12.76-17.014-12.76-25.52v-667.78c0-8.507 4.254-17.014 12.76-21.267L991.036 3.19c8.507-4.253 12.76-4.253 21.267 0 4.254 8.507 8.507 12.76 8.507 21.267v978.276c0 8.507-4.253 12.76-8.507 17.014-4.253 0-8.507 4.253-12.76 4.253zM680.54 832.598l297.736 136.108V58.484L680.54 194.592v638.006z"
+                                p-id="4589" fill="#ffffff"></path>
+                            <path
+                                d="M829.408 513.595h-85.067c-12.76 0-21.267-8.507-21.267-21.267s8.506-21.267 21.267-21.267h85.067c12.76 0 21.267 8.507 21.267 21.267s-8.507 21.267-21.267 21.267z"
+                                p-id="4590" fill="#ffffff"></path>
+                        </svg>
+                    </button>
+                </div>
+                <p id="context"></p>
+            </div>
         </div>
     </nav>
-    
+
     <div id="game-container"></div>
 
     <div class="card text-bg-dark mb-3 border-light card-presentation">
@@ -83,6 +109,28 @@
         <img src="assets/images/iut-logo.png" />
         <p>NOBILI Lothaire | SAHININE Haroun | WANG Nuoxi</p>
     </footer>
+
+    <script type="text/javascript">
+        const storedUserData = localStorage.getItem("userData");
+        let logoutBtn = document.getElementById("logoutBtn");
+        let userId = document.getElementById("userId");
+        let loginBtn = document.getElementById("loginBtn");
+        let context = document.getElementById("context");
+
+        if (storedUserData) {
+            var user = new User();
+            user.upDateUserClass();
+
+            userId.style.display = "block";
+            loginBtn.style.display = "none";
+            context.textContent = "Hello! " + user.username;
+        }
+
+        function logout() {
+            localStorage.removeItem("userData");
+            window.location.href = "../../index.html"
+        }
+    </script>
 </body>
 
 </html>

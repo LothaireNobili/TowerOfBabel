@@ -1,9 +1,9 @@
-document.addEventListener("DOMContentLoaded", function () {
+// document.addEventListener("DOMContentLoaded", function () {
   // Obtenir les boutons
-  // const registerButton = document.querySelector("#valider");
+  const registerButton = document.querySelector("#valider");
   const connecterButton = document.querySelector("#connecter");
 
-  function registerButtonCilck () {
+  function register() {
     // Récupérer la valeur d'un champ de formulaire
     const nom = document.querySelector('[aria-label="nom"]').value;
     const prenom = document.querySelector('[aria-label="prenom"]').value;
@@ -20,11 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
     formData.append("login", login);
     formData.append("password", password);
 
-    // console.log(formData)
+    console.log(formData)
 
     // Utilisez fetch pour envoyer une requête POST
-
-    // fetch('../../API/NewUser.php', {
+    // fetch('https://devweb.iutmetz.univ-lorraine.fr/~sahinine1u/TowerOfBabel/API/NewUser.php', {
     //     method: 'POST',
     //     body: formData,
     // })
@@ -35,12 +34,9 @@ document.addEventListener("DOMContentLoaded", function () {
     //         return response.json();
     //     })
     //     .then(data => {
-    //         // 在这里处理从后端接收到的数据
     //         console.log(data);
     //         if (data.status === 'success') {
-    //             // 注册成功，可以执行相应的操作，例如跳转到登录页面
     //         } else {
-    //             // 注册失败，处理错误情况
     //             alert('Inscription échouée: ' + data.message);
     //         }
     //     })
@@ -49,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //     });
   }
 
-  connecterButton.addEventListener("click", function () {
+  function connecter() {
     // Récupérer la valeur d'un champ de formulaire
     const login = document.getElementById("login").value;
     const password = document.getElementById("mdp").value;
@@ -58,22 +54,20 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("https://devweb.iutmetz.univ-lorraine.fr/~sahinine1u/TowerOfBabel/API/SelectAllUser.php")
     .then(response => response.json())
     .then(data => {
-
-      // 在这里处理从PHP返回的JSON数据, 遍历数据，处理用户信息
+      // Traiter les données JSON renvoyées par PHP, parcourir les données et traiter les informations utilisateur
+      let loginCorrrect = true;
       for (let userInfo of data) {
         if(userInfo.login == login && userInfo.password == password){
-            error.style.display = "none";
             let user = new User(userInfo.login,10000) // ....
             user.saveToLocalStorage();
             console.log("login success");
             window.location.href = "../../index.html"
         }
       }
-      error.style.display = "block";
+      error.style.display = loginTrue ? "none" : "block";
     })
     .catch(error => console.error('Error:', error));
-  });
-});
+  }
 
 function goToInscription() {
   let inscription = document.getElementById("inscrption-card");

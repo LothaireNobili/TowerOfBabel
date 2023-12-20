@@ -1,4 +1,4 @@
-var user = new User();
+
 
 class Accueil extends Phaser.Scene {
     constructor() {
@@ -45,9 +45,8 @@ class Accueil extends Phaser.Scene {
 
         function isLogged(message) {
             
-            const storedUserData = localStorage.getItem("userData");
             if (storedUserData) {
-                user.upDateUserClass();
+                // user.upDateUserClass();
                 game.scene.start('Hameau');
                 game.scene.stop('Accueil');
                 document.body.style.cursor = "default";
