@@ -149,7 +149,7 @@ class Diligence extends Phaser.Scene {
             scene.scene.restart();
           }
           else{
-            barreInfo.coinSignaler()
+            barreInfo.message("Pas assez de pièces")
           }
 
         });
