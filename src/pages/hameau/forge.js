@@ -44,7 +44,7 @@ class Forge extends Phaser.Scene {
     for (let i = 0; i < user.heroes.length; i++) {
       var eqpCard = this.add.container(0, 0)
       eqpCard.add(createEquipmentCard(this, 0, "weapon_" + user.heroes[i].heroName, user.heroes[i].equipment[0].attack, user.heroes[i].equipment[0].level,barreInfo))
-      eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName, user.heroes[i].equipment[1].defense, user.heroes[i].equipment[1].level))
+      eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName, user.heroes[i].equipment[1].defense, user.heroes[i].equipment[1].level,barreInfo))
       eqpCard.visible = false
       boutiqueCard.add(eqpCard)
     }
