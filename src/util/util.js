@@ -27,6 +27,7 @@ function createEnseigneReturnBtn(scene,enseigne) {
     enseigne.on("pointerout", function () {
         enseigne.setTexture("enseigne");
         retourText.setTint("0xffffff")
+        document.body.style.cursor = "default";
     });
 
     enseigne.on('pointerdown', function () {

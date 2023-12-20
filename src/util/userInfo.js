@@ -133,6 +133,21 @@ const user = new User("User1", 10000, [
                 defense: 8
             },
         ]
+    },
+    {
+        heroName: "bandit",
+        equipment: [
+            {
+                equipmentName: "eqpWeapon",
+                level: 1,
+                attack: 5
+            },
+            {
+                equipmentName: "eqpArmour",
+                level: 1,
+                defense: 8
+            },
+        ]
     }
 ], [
     {
