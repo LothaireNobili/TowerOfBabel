@@ -10,7 +10,7 @@ class ComposerEquipe extends Phaser.Scene {
     super({ key: 'ComposerEquipe' });
   }
   preload() {
-    this.load.setBaseURL('../../../assets/')
+    this.load.setBaseURL('./assets/')
     this.load.image("frame", "icons/frame.png")
     this.load.image("king", "icons/king.png")
     this.load.image("cercleYellow", "icons/cercle_yellow.png")
