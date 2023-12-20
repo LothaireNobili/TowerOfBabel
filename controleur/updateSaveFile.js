@@ -10,7 +10,7 @@ function updateUserSaveFile(id, saveFile) {
       if (response == "OK") {
         console.log("Everything's fine");
       } else {
-        alert("It's not working");
+        console.log("It's not working");
       }
     }
   );
