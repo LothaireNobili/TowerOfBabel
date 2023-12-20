@@ -26,6 +26,8 @@ class Diligence extends Phaser.Scene {
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();  // Crée la barre d'information
 
+
+
     // La boutique
     var boutiqueBackground = this.add.image(430, 440, "boutiqueBg")
     boutiqueBackground.displayWidth = 830;
@@ -34,12 +36,12 @@ class Diligence extends Phaser.Scene {
     diligence.setScale(0.6)
     // Ajouter des heros
     var intervalleY = 72
+    let count = 0;
     for (var i = 0; i < allHeroList.length; i++) {
-      const heroIndex = userHeroList.findIndex(hero => hero.heroName === allHeroList[i]);
-      let nb = 0
+      const heroIndex = user.heroes.findIndex(hero => hero.heroName === allHeroList[i]);
       if (heroIndex == -1) {
-        createInteractiveImage(this, 670, 230 + nb * intervalleY, allHeroList[i], 1000, true)
-        nb++;
+        createInteractiveImage(this, 670, 230 + count * intervalleY, allHeroList[i], 1000, true)
+        count++;
       }
     }
 
@@ -59,8 +61,8 @@ class Diligence extends Phaser.Scene {
     text.setFixedSize(200, 50);
 
     var intervalleY = 72
-    for (let i = 0; i < userHeroList.length; i++) {
-      createInteractiveImage(this, 1025, 230 + i * intervalleY, userHeroList[i].heroName)
+    for (let i = 0; i < user.heroes.length; i++) {
+      createInteractiveImage(this, 1025, 230 + i * intervalleY, user.heroes[i].heroName)
     }
 
 
@@ -142,12 +144,12 @@ class Diligence extends Phaser.Scene {
             card.destroy();
 
             user.addHero(key, eqpWeapon, eqpArmour)
-            userHeroList = user.heroes // update
-            console.log(userHeroList)
-
             user.updateCoins(-prix)
 
             scene.scene.restart();
+          }
+          else{
+            barreInfo.coinSignaler()
           }
 
         });

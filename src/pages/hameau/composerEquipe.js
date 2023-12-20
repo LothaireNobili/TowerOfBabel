@@ -59,7 +59,7 @@ class ComposerEquipe extends Phaser.Scene {
       }
       if(go){
         message.setVisible(false);
-        this.scene.start('equipHeros');
+        game.scene.start('bootFight');
         document.body.style.cursor = "default";
       }
     });
@@ -81,8 +81,8 @@ class ComposerEquipe extends Phaser.Scene {
     text.setFixedSize(200, 50);
 
     var intervalleY = 70
-    for (let i = 0; i < userHeroList.length; i++) {
-      createEquipeCard(this, 1012, 185 + i * intervalleY, userHeroList[i].heroName, cadreSelected)
+    for (let i = 0; i < user.heroes.length; i++) {
+      createEquipeCard(this, 1012, 185 + i * intervalleY, user.heroes[i].heroName, cadreSelected)
     }
 
     //
@@ -204,8 +204,8 @@ class ComposerEquipe extends Phaser.Scene {
       if (storedListData === null) {
         // Sélectionnez d’abord les quatre premiers héros dans l’ordre de l’équipe
         for (let i = 0; i < 4; i++) {
-          if (i < userHeroList.length) {
-            listSelectedHeroes[i] = userHeroList[i].heroName;
+          if (i < user.heroes.length) {
+            listSelectedHeroes[i] = user.heroes[i].heroName;
           } else {
             break;
           }

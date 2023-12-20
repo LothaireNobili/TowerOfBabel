@@ -1,11 +1,8 @@
 // supprimer /--
-var allHeroList = ["crusader", "bandit"];
+var allHeroList = ["crusader", "bandit","plaguedoctor","vestal"];
 var allPotionsList = [{ name: "exemple1", description: "description", prix: 550, sellQuantity: 1 }, { name: "exemple2", description: "description", prix: 300, sellQuantity: 1 }]; 
 addSellQuantityToPotions(allPotionsList)
 // --/
-
-var userHeroList = user.heroes
-var userPotionList = user.potions
 
 class Hameau extends Phaser.Scene {
     constructor() {
