@@ -114,8 +114,7 @@ class Laboratoire extends Phaser.Scene {
             }
           }
         }
-
-
+        barreInfo.message("Pas assez de pièces")
       });
 
 
