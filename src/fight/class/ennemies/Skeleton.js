@@ -25,8 +25,7 @@ class Skeleton{
         //resistance stats
         this.stun_res = 20;
         this.move_res = 20;
-        //this.bleed_res = 200;
-        this.bleed_res = 20;
+        this.bleed_res = 160;
         this.poison_res = 20;
         this.debuff_res = 20;
 

@@ -60,7 +60,7 @@ class Bandit{
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
                 damage_low: 6, //minimum damage
                 damage_high: 8, //max damage
-                bleed: [180, 120, 3]  //120% chance to proc bleed, 4 damage for 3 turns
+                bleed: [5, 120, 3]  //120% chance to proc bleed, 5 damage for 3 turns
             },{
                 id:"gunshot",
                 name: 'Gun shot',

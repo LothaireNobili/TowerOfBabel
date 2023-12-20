@@ -536,13 +536,27 @@ class Arbiter {
     ontoTheNext(){
         this.currentTarget = []
         this.currentFighterTrackNumber += 1;
-        
-        if (this.fighterOrder[this.currentFighterTrackNumber] != undefined){
-            this.startTurn()
+
+
+        if (enemyTeam.length==0 || playerTeam.length==0){
+            console.warn("Le combat est fini")
+            if(playerTeam.length==0){  //on vérifie d'abord l'équipe du joueur, en cas d'égalité (impossible pour l'instant), il a perdu
+                console.log("Vous avez perdu")
+            }
+            else{
+                console.log("Victoire!")
+            }
         }
+
         else{
-            this.startRound()
+            if (this.fighterOrder[this.currentFighterTrackNumber] != undefined){
+                this.startTurn()
+            }
+            else{
+                this.startRound()
+            }
         }
+        
         
     }
 
