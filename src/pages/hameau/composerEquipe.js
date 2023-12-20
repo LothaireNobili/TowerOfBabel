@@ -16,6 +16,8 @@ class ComposerEquipe extends Phaser.Scene {
     this.load.image("cercleYellow", "icons/cercle_yellow.png")
     this.load.image("startBtn", "icons/go.png")
     this.load.image("startBtnFocus", "icons/go_focus.png")
+
+    localStorage.setItem("listSelectedHeroes", ["null","null","null","null"]); //initalize the list of selected heroes
   }
   create() {
     document.body.style.cursor = "default";
