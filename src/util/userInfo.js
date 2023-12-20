@@ -114,7 +114,6 @@ class User {
 }
 
 // Exemples de données
-<<<<<<< HEAD
 // const user = new User("User1", 10000, [
 //     {
 //         heroName: "crusader",
@@ -137,44 +136,5 @@ class User {
 //         qte: 2
 //     }
 // ]);
-=======
-const user = new User("User1", 10000, [
-    {
-        heroName: "crusader",
-        equipment: [
-            {
-                equipmentName: "eqpWeapon",
-                level: 1,
-                attack: 5
-            },
-            {
-                equipmentName: "eqpArmour",
-                level: 1,
-                defense: 8
-            },
-        ]
-    },
-    {
-        heroName: "bandit",
-        equipment: [
-            {
-                equipmentName: "eqpWeapon",
-                level: 1,
-                attack: 5
-            },
-            {
-                equipmentName: "eqpArmour",
-                level: 1,
-                defense: 8
-            },
-        ]
-    }
-], [
-    {
-        potionName: "exemple1",
-        qte: 2
-    }
-]);
->>>>>>> main
 
 // 
