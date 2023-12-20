@@ -39,4 +39,23 @@ class Escalier extends Phaser.Scene
       }
 
       update(){}
+
+      determinerMaxSalle() {
+        var max_salle = [
+          [0, 1, 3],
+          [2, 2, 4],
+          [5, 4, 8],
+          [8, 6, 12],
+        ];
+        var max = max_salle.length-1;
+        for (var i = 0; i < max_salle.length-1; i++) 
+        {     
+          if ( max_salle[i][0]<= window.etage &&  window.etage < max_salle[i+1][0]) 
+          {
+            return Math.floor(Math.random()*(max_salle[i][2]-max_salle[i][1])+max_salle[i][1]);
+          }
+      
+        }
+        return Math.floor(Math.random()*(max_salle[max][2]-max_salle[max][1])+max_salle[max][1]);
+      } //TBD
 }
