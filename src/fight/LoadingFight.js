@@ -10,6 +10,8 @@ class LoadingFight extends Phaser.Scene {
 
     preload(){
 
+        document.body.style.cursor = "default";
+
         this.load.image("background", "assets/images/ruin_background1.png")
         this.load.image('fight_announcement', 'assets/images/fight_misc/announcement_combat.png');
 
