@@ -3,6 +3,7 @@ function getAllUser() {
   $.getJSON(PATH+"SelectAllUser.php", function (data) {
    
   if (typeof data === "object") {
+      return data;
       console.log(data); // Affiche les données JSON dans la console
     } else {
       // Si le contenu n'est pas JSON, vous pouvez afficher un message d'erreur par exemple
@@ -15,4 +16,4 @@ function getAllUser() {
   });
 }
 
-getAllUser();
+// getAllUser();
