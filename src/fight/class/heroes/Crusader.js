@@ -18,7 +18,7 @@ class Crusader{
         this.crit = 5; //in %
 
         //this.damage_mult = 1
-        this.damage_mult = 1000
+        this.damage_mult = 1
         /*
         this.damage_low_range = 10;
         this.damage_high_range = 15;*/
