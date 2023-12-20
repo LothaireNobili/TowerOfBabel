@@ -46,7 +46,6 @@ class Couloir extends Phaser.Scene {
       var curio = this.add.image(540, 450, "chest");
       curio.setInteractive();
       curio.on("pointerdown", () => {
-        console.log("MAIS MDR");
       });
       curio.setScale(0.15);
     }

@@ -1,3 +1,4 @@
+const TYPE_SALLE=[["Vide",2],["Combat",3],["Combat&Curio",4],["Curio",1]];
 class Salle extends Phaser.Scene {
   etage = 0; //etage actuelle
   clear; //si on peut passer a la salle suivant
@@ -12,7 +13,7 @@ class Salle extends Phaser.Scene {
   coffre;
   nouvelEtage=false;
   maxSalle=3;
-  typeSalle=[["Vide",0.1],["Curio",0.3],["Combat",0.7],["Combat&Curio",1]];
+  
   salleVisitee=0
   constructor() {
     super({ key: "Salle" });    
@@ -29,14 +30,14 @@ class Salle extends Phaser.Scene {
   }
 
   preload() {
-    this.load.setBaseURL("../../../assets/");
-    this.load.image("background", "images/exploration/ruin_background1.png");
-    this.load.image("chest", "images/exploration/chest.jpg");
-    this.load.image("crusader", "images/heroes/crusader/idle.png");
-    this.load.image("bandit", "images/heroes/bandit/skill1.png");
-    this.load.image("boutiqueBg", "images/hameau/boutique_bg.png");
-    this.load.image("close", "images/exploration/close.jpg");
-    this.load.image("couloir", "icons/cercle_red.png");
+    //this.load.setBaseURL("../../../assets/");
+    this.load.image("background", "./assets/images/exploration/ruin_background1.png");
+    this.load.image("chest", "./assets/images/exploration/chest.jpg");
+    this.load.image("crusader", "./assets/images/heroes/crusader/idle.png");
+    this.load.image("bandit", "./assets/images/heroes/bandit/skill1.png");
+    this.load.image("boutiqueBg", "./assets/images/hameau/boutique_bg.png");
+    this.load.image("close", "./assets/images/exploration/close.jpg");
+    this.load.image("couloir", "./assets/icons/cercle_red.png");
   }
 
   create() {
@@ -192,29 +193,34 @@ class Salle extends Phaser.Scene {
     }
     else
     {
-      var salle;
-      var random  =Math.random();
-      for (var i =0 ; i < this.prochaineSalle.length ; i++)
+
+      var totalPoidsSalle=this.getTotalPoidsSalle();
+      var random  =Math.floor(Math.random()*totalPoidsSalle);
+
+      for (var i =0 ; i < TYPE_SALLE.length-1 ; i++)
       {
-        if(random>this.ProchaineSalle[i][2])this.prochaineSalle=this.ProchaineSalle[i][1];
+        random-=TYPE_SALLE[i][1];
+        if(random<=0)
+        {this.prochaineSalle=TYPE_SALLE[i][0];
+          i=TYPE_SALLE.length+1;
+          console.log(this.prochaineSalle)
+        }
+      
+
       }
 
-
-      console.log(Math.floor(Math.random() * this.typeSalle.length))
-      console.log(this.prochaineSalle)
       this.salleVisitee+=1
     }
     if(this.maxSalle<=this.salleVisitee)
     {
-      console.log(this.prochaineSalle)
       this.prochaineSalle="Fin"
     }
   }
 
-  determinerMaxSalle()
+  determinerMaxSalle()//TBD
   {
-    console.log("nombre de salles")
-    console.log(Math.floor(Math.log2(this.etage+1))-1)
+
+
   }
 
   goToprochaineSalle() {
@@ -224,13 +230,23 @@ class Salle extends Phaser.Scene {
       this.scene.start("Couloir");
     }
   }
+
+  getTotalPoidsSalle()
+  {
+    var total=0;
+    for (var i=0; i<TYPE_SALLE.length;i++)
+    {
+     total+=TYPE_SALLE[i][1]
+    }
+    return total
+  }
+
   reset()
   {
     try
     {
       this.determinerMaxSalle()
-      console.log("nouvel etage ?")
-      console.log(window.myScene.nouvelEtage)
+
       if(window.myScene.nouvelEtage)
       {
         this.prochaineSalle="Debut";
@@ -240,7 +256,7 @@ class Salle extends Phaser.Scene {
         this.nouvelEtage=false;
         window.myScene=this;
         this.salleVisitee=0
-        console.log(this)
+
       }
    
      
@@ -248,6 +264,6 @@ class Salle extends Phaser.Scene {
     catch(e){
       console.error("window not set")
     }
-    console.log("reset", this.type)
+  
   }
 }

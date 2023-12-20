@@ -13,7 +13,10 @@ var config = {
         Forge, 
         Diligence,
         LoadingFight,
-        Fight
+        Fight,
+        Salle,
+        Couloir,
+        Escalier,
     ]
 }
 
