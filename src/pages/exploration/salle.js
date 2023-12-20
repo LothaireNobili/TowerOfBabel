@@ -29,7 +29,7 @@ class Salle extends Phaser.Scene {
   }
 
   preload() {
-    this.load.setBaseURL("../../../assets/");
+    this.load.setBaseURL("./assets/");
     this.load.image("background", "images/exploration/ruin_background1.png");
     this.load.image("chest", "images/exploration/chest.jpg");
     this.load.image("crusader", "images/heroes/crusader/idle.png");

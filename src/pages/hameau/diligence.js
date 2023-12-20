@@ -3,7 +3,7 @@ class Diligence extends Phaser.Scene {
     super({ key: 'Diligence' });
   }
   preload() {
-    this.load.setBaseURL('../../../assets/')
+    this.load.setBaseURL('./assets/')
     this.load.image("cercleRed", "icons/cercle_red.png")
     this.load.image("cercleWhite", "icons/cercle_white.png")
     this.load.image("cercleYellow", "icons/cercle_yellow.png")

@@ -3,7 +3,7 @@ class Laboratoire extends Phaser.Scene {
     super({ key: 'Laboratoire' });
   }
   preload() {
-    this.load.setBaseURL('../../../assets/')
+    this.load.setBaseURL('./assets/')
     this.load.image("gandoulf", "images/hameau/Gandoulf_ancien.png")
     this.load.image("inventaire", "icons/inventaire.png")
   }

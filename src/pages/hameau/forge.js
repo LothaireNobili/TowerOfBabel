@@ -7,7 +7,7 @@ class Forge extends Phaser.Scene {
     super({ key: 'Forge' });
   }
   preload() {
-    this.load.setBaseURL('../../../assets/')
+    this.load.setBaseURL('./assets/')
     this.load.image("tony", "images/hameau/tony.png")
     this.load.image("check", "icons/check_mark.png")
     this.load.image("padlock", "icons/padlock.png")

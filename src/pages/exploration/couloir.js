@@ -8,7 +8,7 @@ class Couloir extends Phaser.Scene {
   }
 
   preload() {
-    this.load.setBaseURL("../../../assets/");
+    this.load.setBaseURL("./assets/");
     this.load.image("background", "images/exploration/Corridor1.jpg");
     this.load.image("chest", "images/exploration/chest.jpg");
     this.load.image("crusader", "images/heroes/crusader/idle.png");

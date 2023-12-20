@@ -6,7 +6,7 @@ class Escalier extends Phaser.Scene
 
       preload()
       {
-        this.load.setBaseURL("../../../assets/");
+        this.load.setBaseURL("./assets/");
       //  this.load.image("feu", "images/exploration/escalier.jpg");
         this.load.image("feu", "images/exploration/ruin_background1.png");
         
