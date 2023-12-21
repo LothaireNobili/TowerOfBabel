@@ -70,8 +70,8 @@ class Salle extends Phaser.Scene {
     this.fighting.setInteractive();
 
     this.fighting.on("pointerdown", () => {
-      /*
-      game.scene.start("LoadingFight");*/
+      
+      this.scene.start("bootFight");  
       this.clear = true;
     }); //DEBUG ONLY
 
