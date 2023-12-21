@@ -14,7 +14,10 @@ var config = {
         Diligence,
         ComposerEquipe,
         LoadingFight,
-        Fight
+        Fight,
+        Salle,
+        Couloir,
+        Escalier,
     ]
 }
 

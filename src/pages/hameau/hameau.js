@@ -94,7 +94,9 @@ class Hameau extends Phaser.Scene {
 
                 game.scene.stop('Hameau')
                 if(key == "Depart"){
+
                     game.scene.start("ComposerEquipe");
+
                 }
                 else{
 
