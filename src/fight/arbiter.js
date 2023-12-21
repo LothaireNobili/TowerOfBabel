@@ -403,7 +403,7 @@ class Arbiter {
     getEnemyInput(){
         var that = this; //to save the context
 
-        let attack = this.currentFighter.getInput(playerTeam) //!THIS PROBABLY DOESN'T WORK AS INTENDED FOR MULTI TARGET ATTACK
+        let attack = this.currentFighter.getInput(playerTeam) 
         this.currentAttack=attack[0]
         this.currentTarget.push(attack[1])
 

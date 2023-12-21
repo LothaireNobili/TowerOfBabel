@@ -4,7 +4,7 @@ class Map extends Phaser.Scene {
     }
 
     preload() {
-        this.load.setBaseURL('../../../assets/')
+        this.load.setBaseURL('./assets/')
         this.load.image("background", "images/mapBackground.jpg");
         this.load.image("chest", "images/exploration/chest.jpg");
         this.load.image("crusader","images/heroes/crusader/idle.png")

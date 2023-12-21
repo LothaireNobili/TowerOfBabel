@@ -35,17 +35,15 @@ class Salle extends Phaser.Scene {
   }
 
   preload() {
-    //this.load.setBaseURL("../../../assets/");
-    this.load.image(
-      "background",
-      "./assets/images/exploration/ruin_background1.png"
-    );
-    this.load.image("chest", "./assets/images/exploration/chest.jpg");
-    this.load.image("crusader", "./assets/images/heroes/crusader/idle.png");
-    this.load.image("bandit", "./assets/images/heroes/bandit/skill1.png");
-    this.load.image("boutiqueBg", "./assets/images/hameau/boutique_bg.png");
-    this.load.image("close", "./assets/images/exploration/close.jpg");
-    this.load.image("couloir", "./assets/icons/cercle_red.png");
+
+    this.load.setBaseURL("./assets/");
+    this.load.image("background", "images/exploration/ruin_background1.png");
+    this.load.image("chest", "images/exploration/chest.jpg");
+    this.load.image("crusader", "images/heroes/crusader/idle.png");
+    this.load.image("bandit", "images/heroes/bandit/skill1.png");
+    this.load.image("boutiqueBg", "images/hameau/boutique_bg.png");
+    this.load.image("close", "images/exploration/close.jpg");
+    this.load.image("couloir", "icons/cercle_red.png");
   }
 
   create() {

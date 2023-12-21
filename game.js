@@ -12,6 +12,7 @@ var config = {
         Laboratoire, 
         Forge, 
         Diligence,
+        ComposerEquipe,
         LoadingFight,
         Fight,
         Salle,
