@@ -61,7 +61,8 @@ class ComposerEquipe extends Phaser.Scene {
       }
       if(go){
         message.setVisible(false);
-        game.scene.start('bootFight');
+        game.scene.stop("ComposerEquipe")
+        game.scene.start('Salle');
         document.body.style.cursor = "default";
       }
     });
