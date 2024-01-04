@@ -385,16 +385,20 @@ class Arbiter {
         let applyEffectWithDelay = (effectFunction, delay) => {//apply an effect while managing the delay
             if (effectFunction) {
                 effectFunction();
-                this.checkDeath([this.currentFighter]);
-                setTimeout(() => {
-                    this.applyNextEffect(delay);
-                }, delay);
+                if (this.currentFighter.hp <= 0){//check if an effect killed the target
+                    this.checkForDeathAndNext();//stop checking, validate death and go ontothenext
+                }
+                else{
+                    setTimeout(() => {
+                        this.applyNextEffect(delay);
+                    }, delay);
+                }   
             }
         };
     
         let effects = [
-            { condition: this.currentFighter.status_effect.bleed.length != 0, effectFunction: () => {
-                this.currentFighter.applyBleedDamage() 
+            { condition: this.currentFighter.status_effect.bleed.length != 0, effectFunction: () => {//condition
+                this.currentFighter.applyBleedDamage() //logic to apply
             }},
             { condition: this.currentFighter.status_effect.poison != 0, effectFunction: () => {
                 this.currentFighter.applyPoisonDamage() 
@@ -407,12 +411,12 @@ class Arbiter {
     
         this.applyNextEffect = (delay) => {
             let nextEffect = effects.shift();
-            if (nextEffect) {
-                if (nextEffect.condition){
-                    applyEffectWithDelay(nextEffect.effectFunction, delay);
+            if (nextEffect) {//check if there is a next effect
+                if (nextEffect.condition){//check if the target has the effect
+                    applyEffectWithDelay(nextEffect.effectFunction, delay);//apply the logic
                 }
                 else{
-                    this.applyNextEffect(0)
+                    this.applyNextEffect(0)//skip to the next effect if the target doesn't have it
                 }
                 
             } else {
@@ -421,6 +425,7 @@ class Arbiter {
         };
     
         this.checkForDeathAndNext = () => {
+            this.checkDeath([this.currentFighter]);
             if (this.currentFighter.hp <= 0 || stunned) {
                 setTimeout(() => {
                     this.ontoTheNext();
