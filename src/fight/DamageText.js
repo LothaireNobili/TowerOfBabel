@@ -1,7 +1,6 @@
 class DamageText extends Phaser.GameObjects.Text {
     constructor(scene, x, y, text, style) {
         super(scene, x, y, text, style);
-        console.log("Pwets")
         scene.add.existing(this);
 
         this.setOrigin(0.5, 0.5);

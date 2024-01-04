@@ -92,38 +92,6 @@ class Arbiter {
         
     }
 
-
-    //remove that function from arbiter
-    /*
-    displayDamage(amount, target, type){
-        /*
-        //! change it make it so the loop is somewhere else in the code
-        console.log("targets : " + this.currentTarget.length)
-        for (let i=0; i++; i>this.currentTarget.length){
-            console.log("oi")
-            let targetX = this.getVerticalPosition(this.currentTarget[i].position, this.getFighterTeam(this.currentTarget[i])) //!temporary fix for debug, don't leave the [0] forever
-            let targetY = 250
-            let amount = this.currentTargetDamage[i]
-    
-            let damageText = new DamageText(this.fight_scene, 
-                targetX, 
-                targetY, 
-                amount, 
-                { fontFamily: 'pixel', fontSize: '45px', color: '#ff0000' });
-        }
-
-        let targetX = this.getVerticalPosition(target.position, this.getFighterTeam(target))
-        let targetY = 250
-        let amount = amount
-    
-        let damageText = new DamageText(this.fight_scene, 
-            targetX, 
-            targetY, 
-            amount, 
-            { fontFamily: 'pixel', fontSize: '45px', color: '#ff0000' });
-        
-    }*/
-
     updatePosition(character){
         let sprite = character.sprite
         character.healthBar.update()
@@ -378,27 +346,94 @@ class Arbiter {
         var that = this
         this.currentFighter = this.fighterOrder[this.currentFighterTrackNumber]
         this.checkForStatusEffect()
+        
+    }
+/*//!BACKUP
+    checkForStatusEffect(){
 
-        if (this.currentFighter.hp <= 0) {
+        let stunned = 0
+        
+        if (this.currentFighter.status_effect.bleed.length != 0){
+            this.currentFighter.applyBleedDamage()
+            this.checkDeath([this.currentFighter])
+        }
+        if (this.currentFighter.status_effect.poison != 0){
+            this.currentFighter.applyPoisonDamage()
+            this.checkDeath([this.currentFighter])
+        }
+        
+       
+        if (this.currentFighter.status_effect.stun != 0){
+            this.currentFighter.applyStun()
+            stunned = 1
+        }
+
+        if (this.currentFighter.hp <= 0 || stunned) {
             setTimeout(() => {  //a brief break after an attack to make the game more understandable
-                that.ontoTheNext();
+                this.ontoTheNext();
             }, 1500);
         }
         else{
             this.placeTurnCursor()
             this.getInput()
         }
-        
-    }
+    }*/
 
-    checkForStatusEffect(){
-        //console.log(this.currentFighter.status_effect.bleed.length)
-        if (this.currentFighter.status_effect.bleed.length != 0){
-            console.warn("that guy is bleeding!")
-            this.currentFighter.applyBleedDamage()
-            this.checkDeath([this.currentFighter])
-        }
+    checkForStatusEffect() {
+        let stunned = 0;//to save if the fighter is stunned and need to skip their turn
+    
+        let applyEffectWithDelay = (effectFunction, delay) => {//apply an effect while managing the delay
+            if (effectFunction) {
+                effectFunction();
+                this.checkDeath([this.currentFighter]);
+                setTimeout(() => {
+                    this.applyNextEffect(delay);
+                }, delay);
+            }
+        };
+    
+        let effects = [
+            { condition: this.currentFighter.status_effect.bleed.length != 0, effectFunction: () => {
+                this.currentFighter.applyBleedDamage() 
+            }},
+            { condition: this.currentFighter.status_effect.poison != 0, effectFunction: () => {
+                this.currentFighter.applyPoisonDamage() 
+            }},
+            { condition: this.currentFighter.status_effect.stun != 0, effectFunction: () => {
+                this.currentFighter.applyStun();
+                stunned = 1;
+            }},
+        ];
+    
+        this.applyNextEffect = (delay) => {
+            let nextEffect = effects.shift();
+            if (nextEffect) {
+                if (nextEffect.condition){
+                    applyEffectWithDelay(nextEffect.effectFunction, delay);
+                }
+                else{
+                    this.applyNextEffect(0)
+                }
+                
+            } else {
+                this.checkForDeathAndNext();
+            }
+        };
+    
+        this.checkForDeathAndNext = () => {
+            if (this.currentFighter.hp <= 0 || stunned) {
+                setTimeout(() => {
+                    this.ontoTheNext();
+                }, 1500);
+            } else {
+                this.placeTurnCursor();
+                this.getInput();
+            }
+        };
+    
+        this.applyNextEffect(1000); // Adjust the delay time as needed
     }
+    
 
     placeTurnCursor(){
         let team = this.getFighterTeam(this.currentFighter)

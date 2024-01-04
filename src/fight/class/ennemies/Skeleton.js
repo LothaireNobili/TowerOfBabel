@@ -23,7 +23,7 @@ class Skeleton{
         this.damage_high_range = 10;*/
 
         //resistance stats
-        this.stun_res = 20;
+        this.stun_res = 0;
         this.move_res = 20;
         this.bleed_res = 0;
         this.poison_res = 20;
@@ -31,8 +31,9 @@ class Skeleton{
 
         //prepare status effect variables
         this.status_effect = {
-            bleed:[] 
-             
+            bleed:[],
+            poison: 0,
+            stun:0 
         }
         
         
@@ -79,19 +80,23 @@ class Skeleton{
         let color
         switch (type) {
             case 'normal':
-              color = '#ff2929';
-              text = amount;
-              break;
+                color = '#ff2929';
+                text = amount;
+                break;
             case 'bleed':
                 color = '#cc0000';
                 text = "Bleed! " + amount
-              break;
+                break;
             case 'poison':
                 color = '#1cc202';
                 text = "Poison! " + amount
-              break;
+                break;
+            case 'stun':
+                color = "#e3c23d"
+                text = "Stun!"
+                break;
             default:
-                color = '#000000';
+                color = '#ffffff';
           }
     
         let damageText = new DamageText(this.arbiter.fight_scene, 
@@ -113,6 +118,10 @@ class Skeleton{
         this.healthBar.update()
     }
 
+    applyPoisonDamage(){
+        //TODO
+    }
+
     getTotalBleedAmount(){
         let res;
         for (let drop of this.status_effect.bleed){
@@ -122,9 +131,15 @@ class Skeleton{
     }
 
     applyBleedDamage(){
-        console.log("Dégat de saignement subit!")
+        console.log("Dégat de saignement subit : " + this.status_effect.bleed)
         let totalDamage = this.getTotalBleedAmount()
         this.applyRawDamages(totalDamage, "bleed")
+    }
+
+    applyStun(){
+        console.log("Assommé!")
+        this.status_effect.stun = 0
+        this.displayDamage(0,'stun')
     }
 
     applyNormalDamage(damage){
@@ -145,11 +160,23 @@ class Skeleton{
             if(skill.bleed != undefined){ //si l'attaque inflige du saignement
                 let proba = skill.bleed[0] - that.bleed_res //get the power of the probability of success
                 let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
-                console.log("bleed is success")
+                
                 let success = proba >= randomNum //check if bleed is a success
 
                 if(success){
+                    console.log("bleed is success")
                     that.status_effect.bleed.push([skill.bleed[1],skill.bleed[2]]) //apply bleed as a list
+                }
+            }
+            if(skill.stun != undefined){
+                let proba = skill.stun - that.stun_res //get the power of the probability of success
+                let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
+                
+                let success = proba >= randomNum //check if bleed is a success
+
+                if(success){
+                    console.log("stun is success")
+                    that.status_effect.stun+=1 //apply bleed as a list
                 }
             }
         }

@@ -13,7 +13,7 @@ class Crusader{
 
         this.prot = 20; //20% of protection
 
-        this.speed = 3;
+        this.speed = 13;
         //increased speed for debug, actual speed is 3
         this.crit = 5; //in %
 
@@ -32,7 +32,9 @@ class Crusader{
 
         //prepare status effect variables
         this.status_effect = {
-            bleed:[]  
+            bleed:[],
+            poison: 0,
+            stun:0 
         }
 
         
@@ -96,6 +98,57 @@ class Crusader{
         ];
     }
 
+    displayDamage(damageAmount, type){
+        let targetX = this.arbiter.getVerticalPosition(this.position, this.arbiter.getFighterTeam(this))
+        let targetY = 250
+        let amount = damageAmount
+
+        let text
+        let color
+        switch (type) {
+            case 'normal':
+                color = '#ff2929';
+                text = amount;
+                break;
+            case 'bleed':
+                color = '#cc0000';
+                text = "Bleed! " + amount
+                break;
+            case 'poison':
+                color = '#1cc202';
+                text = "Poison! " + amount
+                break;
+            case 'stun':
+                color = "#e3c23d"
+                text = "Stun!"
+                break;
+            default:
+                color = '#ffffff';
+          }
+    
+        let damageText = new DamageText(this.arbiter.fight_scene, 
+            targetX, 
+            targetY, 
+            text, 
+            { fontFamily: 'pixel', fontSize: '45px', color: color });
+        
+    }
+
+    applyRawDamages(amount, type){//apply damages straight up
+        this.displayDamage(amount, type)
+        if (this.hp <= amount){ //if enemy dies on the spot
+            this.hp = 0
+        }
+        else{
+            this.hp -= amount
+        }
+        this.healthBar.update()
+    }
+
+    applyPoisonDamage(){
+        //TODO
+    }
+
     getTotalBleedAmount(){
         let res;
         for (let drop of this.status_effect.bleed){
@@ -115,6 +168,12 @@ class Crusader{
         }
         this.healthBar.update()
         console.log("PV restant de la cible : "+this.hp)
+    }
+
+    applyStun(){
+        console.log("Assommé!")
+        this.status_effect.stun = 0
+        this.displayDamage(0,'stun')
     }
 
     isTargeted(skill, caster){
