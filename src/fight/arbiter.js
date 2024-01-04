@@ -1,5 +1,4 @@
 class Arbiter {
-    
     constructor(fight){
 
         //get some context + better readability
@@ -38,9 +37,9 @@ class Arbiter {
         this.currentFighter;
         this.currentAttack;
         this.currentTarget = [];
+        this.currentTargetDamage = [];
 
     }
-
 
 
 
@@ -93,17 +92,37 @@ class Arbiter {
         
     }
 
+
+    //remove that function from arbiter
+    /*
     displayDamage(amount, target, type){
+        /*
+        //! change it make it so the loop is somewhere else in the code
+        console.log("targets : " + this.currentTarget.length)
+        for (let i=0; i++; i>this.currentTarget.length){
+            console.log("oi")
+            let targetX = this.getVerticalPosition(this.currentTarget[i].position, this.getFighterTeam(this.currentTarget[i])) //!temporary fix for debug, don't leave the [0] forever
+            let targetY = 250
+            let amount = this.currentTargetDamage[i]
+    
+            let damageText = new DamageText(this.fight_scene, 
+                targetX, 
+                targetY, 
+                amount, 
+                { fontFamily: 'pixel', fontSize: '45px', color: '#ff0000' });
+        }
 
-        targetX = this.getVerticalPosition(/*index of enemy in the list*/)
-        targetY = 150
-
-        let damageText = new FloatingText(this.fight_scene, 
+        let targetX = this.getVerticalPosition(target.position, this.getFighterTeam(target))
+        let targetY = 250
+        let amount = amount
+    
+        let damageText = new DamageText(this.fight_scene, 
             targetX, 
             targetY, 
             amount, 
-            { fontFamily: 'Arial', fontSize: '24px', color: '#ff0000' });
-    }
+            { fontFamily: 'pixel', fontSize: '45px', color: '#ff0000' });
+        
+    }*/
 
     updatePosition(character){
         let sprite = character.sprite
@@ -436,6 +455,7 @@ class Arbiter {
     engageAttackAnimation(){
         //oskur
 
+        //this.displayDamage(10, "jaj", "bleed")
         var that = this
         this.currentFighterCursor.destroy()
         this.currentFighterCursor = null
@@ -535,6 +555,7 @@ class Arbiter {
 
     ontoTheNext(){
         this.currentTarget = []
+        this.currentTargetDamage = []
         this.currentFighterTrackNumber += 1;
 
 

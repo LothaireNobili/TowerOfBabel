@@ -96,6 +96,27 @@ class Crusader{
         ];
     }
 
+    getTotalBleedAmount(){
+        let res;
+        for (let drop of this.status_effect.bleed){
+            res =+ drop[0]
+        }
+        return res
+    }
+
+    applyBleedDamage(){
+        console.log("Dégat de saignement subit!")
+        let totalDamage = this.getTotalBleedAmount()
+        if (this.hp <= totalDamage){ //if enemy dies on the spot
+            this.hp = 0
+        }
+        else{
+            this.hp = this.hp - totalDamage
+        }
+        this.healthBar.update()
+        console.log("PV restant de la cible : "+this.hp)
+    }
+
     isTargeted(skill, caster){
         if (skill.target == "hero"){
                 let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)

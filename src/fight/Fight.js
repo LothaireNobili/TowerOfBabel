@@ -17,13 +17,11 @@ class Fight extends Phaser.Scene {
         //const crusader = new Crusader(this, 100, 200, "crusader_wait");
         //this.playerTeam.push(crusader);
 
-        this.pwet = "pwet"
         var arbiter = new Arbiter(this)
-
 
         this.heroSprites = [];
         this.enemySprites = [];
-        this.indicatorSprites = [];
+        this.indicatorSprites = []; 
 
 
         for (let i = 0; i < heroList.length; i++){
@@ -48,11 +46,13 @@ class Fight extends Phaser.Scene {
             if(h==="crusader"){
                 let newHero = new Crusader(i, this.heroSprites[i-1])
                 newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
+                newHero.arbiter = arbiter
                 playerTeam.push(newHero);
             }
             else if(h==="bandit"){
                 let newHero = new Bandit(i, this.heroSprites[i-1])
                 newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
+                newHero.arbiter = arbiter
                 playerTeam.push(newHero);
             }
             i++;/*
@@ -66,6 +66,7 @@ class Fight extends Phaser.Scene {
             if(e==="skeleton"){
                 let newEnemy = new Skeleton(i, this.enemySprites[i-1])
                 newEnemy.healthBar = new HealthBar(this, newEnemy, "enemy", arbiter);
+                newEnemy.arbiter = arbiter
                 enemyTeam.push(newEnemy);
             }i++;/*
             if(h==="spider"){

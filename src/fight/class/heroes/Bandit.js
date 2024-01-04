@@ -60,7 +60,7 @@ class Bandit{
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
                 damage_low: 6, //minimum damage
                 damage_high: 8, //max damage
-                bleed: [5, 120, 3]  //120% chance to proc bleed, 5 damage for 3 turns
+                bleed: [120, 5, 3]  //120% chance to proc bleed, 5 damage for 3 turns
             },{
                 id:"gunshot",
                 name: 'Gun shot',
@@ -87,6 +87,27 @@ class Bandit{
             }
         ];
 
+    }
+
+    getTotalBleedAmount(){
+        let res;
+        for (let drop of this.status_effect.bleed){
+            res =+ drop[0]
+        }
+        return res
+    }
+
+    applyBleedDamage(){
+        console.log("Dégat de saignement subit!")
+        let totalDamage = this.getTotalBleedAmount()
+        if (this.hp <= totalDamage){ //if enemy dies on the spot
+            this.hp = 0
+        }
+        else{
+            this.hp = this.hp - totalDamage
+        }
+        this.healthBar.update()
+        console.log("PV restant de la cible : "+this.hp)
     }
 
     isTargeted(skill, caster){
