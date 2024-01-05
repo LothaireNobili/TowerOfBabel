@@ -69,7 +69,7 @@ class PlagueDoctor{
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2, 3], //spot reach
-                requiered_pos : [2, 3], //where the hero must be placed to cast it
+                requiered_pos : [1, 2, 3], //where the hero must be placed to cast it
                 damage_low: 5, //minimum damage
                 damage_high: 7, //max damage
                 crit_mod: 20, //flat modifier in %
