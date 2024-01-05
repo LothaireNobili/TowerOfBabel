@@ -119,13 +119,15 @@ class Skeleton{
     }
 
     applyPoisonDamage(){
-        //TODO
+        console.log("Dégat de poison subit : " + this.status_effect.poison)
+        this.applyRawDamages(this.status_effect.poison, "poison")
+        this.status_effect.poison -= 1
     }
 
     getTotalBleedAmount(){
-        let res;
+        let res = 0;
         for (let drop of this.status_effect.bleed){
-            res =+ drop[0]
+            res += drop[0]
         }
         return res
     }
@@ -133,6 +135,11 @@ class Skeleton{
     applyBleedDamage(){
         console.log("Dégat de saignement subit : " + this.status_effect.bleed)
         let totalDamage = this.getTotalBleedAmount()
+        for (let drop of this.status_effect.bleed){
+            console.log("saignement avant : "+this.status_effect.bleed)
+            drop[1] -= 1
+            console.log("saignement après : "+this.status_effect.bleed)
+        }
         this.applyRawDamages(totalDamage, "bleed")
     }
 
@@ -168,15 +175,26 @@ class Skeleton{
                     that.status_effect.bleed.push([skill.bleed[1],skill.bleed[2]]) //apply bleed as a list
                 }
             }
+            if(skill.poison != undefined){ //si l'attaque inflige du poison
+                let proba = skill.poison[0] - that.poison_res //get the power of the probability of success
+                let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
+                
+                let success = proba >= randomNum //check if poison is a success
+
+                if(success){
+                    console.log("poison is success")
+                    that.status_effect.poison += skill.poison[1] //add the poison
+                }
+            }
             if(skill.stun != undefined){
                 let proba = skill.stun - that.stun_res //get the power of the probability of success
                 let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
                 
-                let success = proba >= randomNum //check if bleed is a success
+                let success = proba >= randomNum //check if stun is a success
 
                 if(success){
                     console.log("stun is success")
-                    that.status_effect.stun+=1 //apply bleed as a list
+                    that.status_effect.stun+=1 //apply stun
                 }
             }
         }

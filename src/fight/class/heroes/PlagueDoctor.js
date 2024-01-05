@@ -1,8 +1,13 @@
-class PlagueDoctor extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y) {
-        super(scene, x, y, 'plagueDoctor'); 
+class PlagueDoctor{
+    constructor(startPos, sprite) {
 
         //base stats
+
+        this.name = "plaguedoctor"
+
+        this.position = startPos;
+        this.sprite = sprite;
+
         this.max_hp = 30;   
         this.hp = this.max_hp;
 
@@ -14,8 +19,7 @@ class PlagueDoctor extends Phaser.GameObjects.Sprite {
 
         this.crit = 5; //in %
 
-        this.damage_low_range = 5;
-        this.damage_high_range = 8;
+        this.damage_mult = 1
 
         //resistance stats
         this.stun_res = 50;
@@ -24,38 +28,57 @@ class PlagueDoctor extends Phaser.GameObjects.Sprite {
         this.poison_res = 65;
         this.debuff_res = 60;
 
+        //prepare status effect variables
+        this.status_effect = {
+            bleed:[],
+            poison: 0,
+            stun:0 
+        }
+
         
         
-        this.skills = {
-            poisonBomb: {
+        this.skills = [
+            {
+                id:"poisonBomb",
                 name: 'Poison Bomb',
+                animation: "skill1",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2], //spot reach
                 requiered_pos : [2, 3, 4], //where the hero must be placed to cast it
-                poison: [140, 6, 3]  //120% chance to proc bleed, 4 damage for 3 turns
+                damage_low: 2, //minimum damage
+                damage_high: 4, //max damage
+                poison: [140, 6]  //140% chance to proc poison, power 6
             },
-            acidRain: {
+            {
+                id:"acidRain",
                 name: 'Acid Rain',
+                animation: "skill2",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "continuous",//one target only
                 reach: [3, 4], //spot reach
                 requiered_pos : [2, 3, 4], //where the hero must be placed to cast it
-                damage_mod: -20,
-                poison: [140, 4, 3]  //120% chance to proc bleed, 4 damage for 3 turns
+                damage_low: 1, //minimum damage
+                damage_high: 3, //max damage
+                poison: [140, 4]  //140% chance to proc poison, power 4
             },
-            incision: {
+            {
+                id:'incision',
                 name: 'Incision',
+                animation: "skill3",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
                 reach: [1, 2, 3], //spot reach
                 requiered_pos : [2, 3], //where the hero must be placed to cast it
-                damage_mod: 10,
+                damage_low: 5, //minimum damage
+                damage_high: 7, //max damage
                 crit_mod: 20, //flat modifier in %
-                bleed: [140, 4, 3]  //120% chance to proc bleed, 4 damage for 3 turns
+                bleed: [140, 6, 3]  //120% chance to proc bleed, 4 damage for 3 turns
             },
-            battleMedicine: {
+            {
+                id:'battleMedicine',
                 name: "Battle Medicine",
+                animation: "skill4",
                 target: "team", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//all reachable target are touched
                 reach: [1, 2, 3, 4], //spot reach
@@ -63,50 +86,124 @@ class PlagueDoctor extends Phaser.GameObjects.Sprite {
                 heal: 10, //how much it heals
                 cure: ["bleed", "poison"] //gets rid of bleed and poison
             }
-        };
-/*
-        // Set up animations (replace 'crusader_attack' with your actual animation key)
-        scene.anims.create({
-            key: 'crusader_attack',
-            frames: scene.anims.generateFrameNumbers('crusader_attack', { start: 0, end: 5 }),
-            frameRate: 10,
-            repeat: 0
-        });
-
-        // Register the crusader with the scene
-        scene.add.existing(this);*/
+        ];
     }
-/*
-    // Add any additional methods or behaviors specific to the crusader here
 
-    // Example method to perform an attack using a specific skill
-    performAttack(target, skill) {
-        if (skill && skill.remainingCooldown === 0) {
-            // Play attack animation
-            this.play('crusader_attack');
+    displayDamage(damageAmount, type){
+        let targetX = this.arbiter.getVerticalPosition(this.position, this.arbiter.getFighterTeam(this))
+        let targetY = 250
+        let amount = damageAmount
 
-            // Apply damage to the target
-            target.receiveDamage(skill.damage);
+        let text
+        let color
+        switch (type) {
+            case 'normal':
+                color = '#ff2929';
+                text = amount;
+                break;
+            case 'bleed':
+                color = '#cc0000';
+                text = "Bleed! " + amount
+                break;
+            case 'poison':
+                color = '#1cc202';
+                text = "Poison! " + amount
+                break;
+            case 'stun':
+                color = "#e3c23d"
+                text = "Stun!"
+                break;
+            default:
+                color = '#ffffff';
+          }
+    
+        let damageText = new DamageText(this.arbiter.fight_scene, 
+            targetX, 
+            targetY, 
+            text, 
+            { fontFamily: 'pixel', fontSize: '45px', color: color });
+        
+    }
 
-            // Set cooldown for the used skill
-            skill.remainingCooldown = skill.cooldown;
-
-            // Return true to indicate a successful attack
-            return true;
-        } else {
-            // Skill is on cooldown or not valid, return false
-            return false;
+    applyRawDamages(amount, type){//apply damages straight up
+        this.displayDamage(amount, type)
+        if (this.hp <= amount){ //if enemy dies on the spot
+            this.hp = 0
         }
+        else{
+            this.hp -= amount
+        }
+        this.healthBar.update()
     }
 
-    // Example method to receive damage
-    receiveDamage(amount) {
-        this.hp -= amount;
-        // Add any additional logic for handling damage or death
+    applyPoisonDamage(){
+        //TODO
     }
 
-    // Update method (optional)
-    update() {
-        // Add any additional update logic specific to the crusader
-    }*/
+    getTotalBleedAmount(){
+        let res;
+        for (let drop of this.status_effect.bleed){
+            res =+ drop[0]
+        }
+        return res
+    }
+
+    applyBleedDamage(){
+        console.log("Dégat de saignement subit!")
+        let totalDamage = this.getTotalBleedAmount()
+        if (this.hp <= totalDamage){ //if enemy dies on the spot
+            this.hp = 0
+        }
+        else{
+            this.hp = this.hp - totalDamage
+        }
+        this.healthBar.update()
+        console.log("PV restant de la cible : "+this.hp)
+    }
+
+    applyStun(){
+        console.log("Assommé!")
+        this.status_effect.stun = 0
+        this.displayDamage(0,'stun')
+    }
+
+    isTargeted(skill, caster){
+        if (skill.target == "hero"){
+                let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
+            
+                if (this.hp <= damage){
+                    this.hp = 0
+                    //self.die
+                }
+                else{
+                    this.hp -= damage
+                }
+            }
+        else if(skill.target == "team" || skill.target == "self"){
+            if (skill.hasOwnProperty("heal")){
+
+                let heal = skill.heal * caster.damage_mult
+
+                if (this.max_hp <= this.hp + heal){
+                    this.hp = this.max_hp
+                }
+                else{
+                    this.hp += heal
+                }
+            }
+        }
+        this.healthBar.update()
+    }
+
+    isDead(){
+        return (this.hp == 0)
+    }
+
+    destroyGraphics() {
+        this.healthBar.destroy();
+        this.sprite.destroy();
+    }
+
+
+
 }
