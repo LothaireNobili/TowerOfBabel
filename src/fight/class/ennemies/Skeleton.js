@@ -7,7 +7,7 @@ class Skeleton{
         this.position = startPos;
         this.sprite = sprite;
         
-        this.max_hp = 2500;   
+        this.max_hp = 25;   
         this.hp = this.max_hp;
 
         this.dodge = 10;
