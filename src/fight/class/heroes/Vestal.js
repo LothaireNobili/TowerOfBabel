@@ -66,6 +66,8 @@ class Vestal {
                 type: "single",//one target only
                 reach: [1, 2, 3], //spot reach
                 requiered_pos : [3, 4], //where the hero must be placed to cast it
+                damage_low: 2, //minimum damage
+                damage_high: 5, //max damage
                 stun: 140  //chance of the stun to proc, ennemies have some resistance so <100 doesn't guarantee the stun
             },
             {
@@ -76,6 +78,8 @@ class Vestal {
                 type: "single",//all reachable target are touched
                 reach: [1, 2], //spot reach
                 requiered_pos: [1, 2], //where the hero must be placed to cast it
+                damage_low: 6, //minimum damage
+                damage_high: 8, //max damage
                 move: -1, //backward of 1
             }
         ];
@@ -130,7 +134,6 @@ class Vestal {
     }
 
     applyPoisonDamage(){
-        console.log("Dégat de poison subit : " + this.status_effect.poison)
         this.applyRawDamages(this.status_effect.poison, "poison")
         this.status_effect.poison -= 1
     }
@@ -144,7 +147,6 @@ class Vestal {
     }
 
     applyBleedDamage(){
-        console.log("Dégat de saignement subit!")
         let totalDamage = this.getTotalBleedAmount()
         if (this.hp <= totalDamage){ //if enemy dies on the spot
             this.hp = 0
@@ -153,11 +155,9 @@ class Vestal {
             this.hp = this.hp - totalDamage
         }
         this.healthBar.update()
-        console.log("PV restant de la cible : "+this.hp)
     }
 
     applyStun(){
-        console.log("Assommé!")
         this.status_effect.stun = 0
         this.displayDamage(0,'stun')
     }

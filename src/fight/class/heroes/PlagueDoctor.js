@@ -137,7 +137,6 @@ class PlagueDoctor{
     }
 
     applyPoisonDamage(){
-        console.log("Dégat de poison subit : " + this.status_effect.poison)
         this.applyRawDamages(this.status_effect.poison, "poison")
         this.status_effect.poison -= 1
     }
@@ -151,7 +150,6 @@ class PlagueDoctor{
     }
 
     applyBleedDamage(){
-        console.log("Dégat de saignement subit!")
         let totalDamage = this.getTotalBleedAmount()
         if (this.hp <= totalDamage){ //if enemy dies on the spot
             this.hp = 0
@@ -160,11 +158,9 @@ class PlagueDoctor{
             this.hp = this.hp - totalDamage
         }
         this.healthBar.update()
-        console.log("PV restant de la cible : "+this.hp)
     }
 
     applyStun(){
-        console.log("Assommé!")
         this.status_effect.stun = 0
         this.displayDamage(0,'stun')
     }
@@ -185,16 +181,12 @@ class PlagueDoctor{
             if (skill.hasOwnProperty("heal")){
 
                 let heal = skill.heal * caster.damage_mult
-
-                console.warn("heal : "+heal)
-                console.warn("PV avant : "+this.hp)
                 if (this.max_hp <= this.hp + heal){
                     this.hp = this.max_hp
                 }
                 else{
                     this.hp += heal
                 }
-                console.warn("PV après : "+this.hp)
             }
         }
         this.healthBar.update()

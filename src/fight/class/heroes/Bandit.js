@@ -139,7 +139,6 @@ class Bandit{
     }
 
     applyPoisonDamage(){
-        //console.log("Dégat de poison subit : " + this.status_effect.poison)
         this.applyRawDamages(this.status_effect.poison, "poison")
         this.status_effect.poison -= 1
     }
@@ -153,7 +152,6 @@ class Bandit{
     }
 
     applyBleedDamage(){
-        console.log("Dégat de saignement subit!")
         let totalDamage = this.getTotalBleedAmount()
         if (this.hp <= totalDamage){ //if enemy dies on the spot
             this.hp = 0
@@ -162,11 +160,9 @@ class Bandit{
             this.hp = this.hp - totalDamage
         }
         this.healthBar.update()
-        console.log("PV restant de la cible : "+this.hp)
     }
 
     applyStun(){
-        console.log("Assommé!")
         this.status_effect.stun = 0
         this.displayDamage(0,'stun')
     }

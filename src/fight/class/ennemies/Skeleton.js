@@ -7,7 +7,7 @@ class Skeleton{
         this.position = startPos;
         this.sprite = sprite;
         
-        this.max_hp = 25;   
+        this.max_hp = 2500;   
         this.hp = this.max_hp;
 
         this.dodge = 10;
@@ -119,7 +119,6 @@ class Skeleton{
     }
 
     applyPoisonDamage(){
-        console.log("Dégat de poison subit : " + this.status_effect.poison)
         this.applyRawDamages(this.status_effect.poison, "poison")
         this.status_effect.poison -= 1
     }
@@ -133,18 +132,14 @@ class Skeleton{
     }
 
     applyBleedDamage(){
-        console.log("Dégat de saignement subit : " + this.status_effect.bleed)
         let totalDamage = this.getTotalBleedAmount()
         for (let drop of this.status_effect.bleed){
-            console.log("saignement avant : "+this.status_effect.bleed)
             drop[1] -= 1
-            console.log("saignement après : "+this.status_effect.bleed)
         }
         this.applyRawDamages(totalDamage, "bleed")
     }
 
     applyStun(){
-        console.log("Assommé!")
         this.status_effect.stun = 0
         this.displayDamage(0,'stun')
     }
@@ -171,7 +166,6 @@ class Skeleton{
                 let success = proba >= randomNum //check if bleed is a success
 
                 if(success){
-                    console.log("bleed is success")
                     that.status_effect.bleed.push([skill.bleed[1],skill.bleed[2]]) //apply bleed as a list
                 }
             }
@@ -182,7 +176,6 @@ class Skeleton{
                 let success = proba >= randomNum //check if poison is a success
 
                 if(success){
-                    console.log("poison is success")
                     that.status_effect.poison += skill.poison[1] //add the poison
                 }
             }
@@ -193,7 +186,6 @@ class Skeleton{
                 let success = proba >= randomNum //check if stun is a success
 
                 if(success){
-                    console.log("stun is success")
                     that.status_effect.stun+=1 //apply stun
                 }
             }

@@ -67,10 +67,8 @@ class Fight extends Phaser.Scene {
                 newHero.arbiter = arbiter
                 playerTeam.push(newHero);
             }
-            i++;/*
-            if(h==="bandit"){
-                playerTeam.push(new Bandit());
-            }*/
+            i++;
+
         }
 
         i=1//reset the position for the ennemy
@@ -86,23 +84,7 @@ class Fight extends Phaser.Scene {
             }*/
         }
 
-        arbiter.startFight()/*
-        while(arbiter.fightState != "FightOver"){
-
-        }*/
+        arbiter.startFight()
     }
 }
 
- /*debug lines to correctly size a new character*/
-        //var surface = this.add.image(arbiter.getVerticalPosition(2, "enemy"), arbiter.floor, "surface")
-        //surface.setOrigin(0.5, 1)
-        //surface.flipX = true
-        /*end of debug lines*/
-
-        /*save that code for when playing attack
-        console.log("starting to place enemies")
-        for (let i = 0; i < enemyList.length; i++){
-            enemySprites[i] = this.add.image(arbiter.getVerticalPosition(i+1, "enemy"), arbiter.floor, enemyList[i]); //place each ennemy
-            enemySprites[i].flipX = true;  //flip them because they're on the opposite side
-            enemySprites[i].setOrigin(0.5, 1); //
-        }*/
