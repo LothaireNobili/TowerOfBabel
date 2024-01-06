@@ -139,7 +139,9 @@ class Bandit{
     }
 
     applyPoisonDamage(){
-        //TODO
+        //console.log("Dégat de poison subit : " + this.status_effect.poison)
+        this.applyRawDamages(this.status_effect.poison, "poison")
+        this.status_effect.poison -= 1
     }
 
     getTotalBleedAmount(){

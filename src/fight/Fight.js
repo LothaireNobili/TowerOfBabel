@@ -61,6 +61,12 @@ class Fight extends Phaser.Scene {
                 newHero.arbiter = arbiter
                 playerTeam.push(newHero);
             }
+            else if(h==="vestal"){
+                let newHero = new Vestal(i, this.heroSprites[i-1])
+                newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
+                newHero.arbiter = arbiter
+                playerTeam.push(newHero);
+            }
             i++;/*
             if(h==="bandit"){
                 playerTeam.push(new Bandit());

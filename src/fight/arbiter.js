@@ -348,36 +348,6 @@ class Arbiter {
         this.checkForStatusEffect()
         
     }
-/*//!BACKUP
-    checkForStatusEffect(){
-
-        let stunned = 0
-        
-        if (this.currentFighter.status_effect.bleed.length != 0){
-            this.currentFighter.applyBleedDamage()
-            this.checkDeath([this.currentFighter])
-        }
-        if (this.currentFighter.status_effect.poison != 0){
-            this.currentFighter.applyPoisonDamage()
-            this.checkDeath([this.currentFighter])
-        }
-        
-       
-        if (this.currentFighter.status_effect.stun != 0){
-            this.currentFighter.applyStun()
-            stunned = 1
-        }
-
-        if (this.currentFighter.hp <= 0 || stunned) {
-            setTimeout(() => {  //a brief break after an attack to make the game more understandable
-                this.ontoTheNext();
-            }, 1500);
-        }
-        else{
-            this.placeTurnCursor()
-            this.getInput()
-        }
-    }*/
 
     checkForStatusEffect() {
         let stunned = 0;//to save if the fighter is stunned and need to skip their turn

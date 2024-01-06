@@ -137,7 +137,9 @@ class PlagueDoctor{
     }
 
     applyPoisonDamage(){
-        //TODO
+        console.log("Dégat de poison subit : " + this.status_effect.poison)
+        this.applyRawDamages(this.status_effect.poison, "poison")
+        this.status_effect.poison -= 1
     }
 
     getTotalBleedAmount(){
@@ -184,12 +186,15 @@ class PlagueDoctor{
 
                 let heal = skill.heal * caster.damage_mult
 
+                console.warn("heal : "+heal)
+                console.warn("PV avant : "+this.hp)
                 if (this.max_hp <= this.hp + heal){
                     this.hp = this.max_hp
                 }
                 else{
                     this.hp += heal
                 }
+                console.warn("PV après : "+this.hp)
             }
         }
         this.healthBar.update()
