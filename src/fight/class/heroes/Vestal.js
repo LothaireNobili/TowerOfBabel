@@ -14,7 +14,7 @@ class Vestal {
 
         this.prot = 15; 
 
-        this.speed = 4;
+        this.speed = 14;
 
         this.crit = 5; //in %
 

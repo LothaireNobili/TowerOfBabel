@@ -14,7 +14,7 @@ class Skeleton{
 
         this.prot = 0; 
 
-        this.speed = 5;
+        this.speed = 15;
 
         this.crit = 5; //in %
 
@@ -66,7 +66,19 @@ class Skeleton{
         let randomSkillName = skillNames[Math.floor(Math.random() * skillNames.length)]
         let randomSkill = this.skills[randomSkillName]
         return randomSkill*///->that's for actual random, for debug we'll just return strike
-        return [this.skills.strike, playerTeam[0]]//also the playerTeam[0] should be selected randomly
+        /*
+        if (playerTeam.length>1){
+            let randomNum = Math.random() * 2;
+            return [this.skills.strike, playerTeam[randomNum-1]]//also the playerTeam[0] should be selected randomly
+        }
+        else{
+            return [this.skills.strike, playerTeam[0]]
+        }*/
+
+        let randomNum = Math.random() * 2;
+        randomNum = Math.ceil(randomNum)
+        return [this.skills.strike, playerTeam[randomNum-1]];
+        
     }
     
 

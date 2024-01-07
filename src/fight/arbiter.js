@@ -237,7 +237,16 @@ class Arbiter {
                     tempoTargetCursor.setInteractive({ cursor: 'pointer' })
                         .on('pointerdown', function () {
 
-                            that.currentTarget.push(playerTeam[targetPos - 1])
+                            if (foundSkill.type == "single"){
+                                that.currentTarget.push(playerTeam[targetPos - 1])
+                            }  
+                            else if (foundSkill.type == "continuous"){
+                                for(let thisTarget of foundSkill.reach){
+                                    if (thisTarget <= playerTeam.length){
+                                        that.currentTarget.push(playerTeam[thisTarget - 1])
+                                    }
+                                }
+                            }
                             for (let icon of that.currentFighterSkillIcons){
                                 icon.destroy()
                             }
@@ -248,7 +257,18 @@ class Arbiter {
                     that.currentTargetCursor.push(tempoTargetCursor)
                 }
 
-                //TODO : add + cursors for passive abilities
+                //to check if the skill type is on several targets or not
+                if (foundSkill.type == "continuous" && targetPos>1){  //we don't add the + cursor for target in pos1 
+
+                    tempoTargetCursor = this.fight_scene.add.image(
+                        ((this.getVerticalPosition(targetPos, "hero") + this.getVerticalPosition(targetPos-1, "hero")) / 2)
+                        ,this.floor+this.plusCursorVerticalOffSet,"passive_plus");
+                    
+                    tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
+                    tempoTargetCursor.setScale(this.plusCursorScale)
+                    that.currentTargetCursor.push(tempoTargetCursor)
+                }
+
             }
         }
         
