@@ -74,10 +74,14 @@ class Skeleton{
         else{
             return [this.skills.strike, playerTeam[0]]
         }*/
-
-        let randomNum = Math.random() * 2;
-        randomNum = Math.ceil(randomNum)
-        return [this.skills.strike, playerTeam[randomNum-1]];
+        if (playerTeam.length>1){
+            let randomNum = Math.random() * 2;
+            randomNum = Math.ceil(randomNum)
+            return [this.skills.strike, playerTeam[randomNum-1]];
+        }
+        else{
+            return [this.skills.strike, playerTeam[0]]
+        }
         
     }
     
