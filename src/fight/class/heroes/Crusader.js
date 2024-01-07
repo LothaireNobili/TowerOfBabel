@@ -179,7 +179,6 @@ class Crusader{
             
                 if (this.hp <= damage){
                     this.hp = 0
-                    //self.die
                 }
                 else{
                     this.hp -= damage

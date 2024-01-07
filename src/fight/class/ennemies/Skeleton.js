@@ -43,16 +43,17 @@ class Skeleton{
                 animation: "attack",
                 target: "hero", //ennemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
-                reach: [1, 2, 3, 4], //spot reach
+                reach: [1, 2], //spot reach
                 requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
                 damage_low: 7, //minimum damage
                 damage_high: 10, //max damage
             },
             cut: {
                 name: 'Cut',
+                animation: "attack",
                 target: "hero", //ennemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
-                reach: [1, 2, 3, 4], //spot reach
+                reach: [1, 2], //spot reach
                 requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
                 damage_low: 5, //minimum damage
                 damage_high: 7, //max damage
@@ -77,10 +78,10 @@ class Skeleton{
         if (playerTeam.length>1){
             let randomNum = Math.random() * 2;
             randomNum = Math.ceil(randomNum)
-            return [this.skills.strike, playerTeam[randomNum-1]];
+            return [this.skills.cut, playerTeam[randomNum-1]];
         }
         else{
-            return [this.skills.strike, playerTeam[0]]
+            return [this.skills.cut, playerTeam[0]]
         }
         
     }
