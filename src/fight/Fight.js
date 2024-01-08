@@ -18,6 +18,7 @@ class Fight extends Phaser.Scene {
         //this.playerTeam.push(crusader);
 
         var arbiter = new Arbiter(this)
+        var heroFactory = new HeroFactory(arbiter)
 
         this.heroSprites = [];
         this.enemySprites = [];
@@ -39,9 +40,19 @@ class Fight extends Phaser.Scene {
             this.enemySprites.push(enemy);
         }
 
+
+        
         var i = 1//to send the proper position
         //!we start indexing at 1 (ranks 1 to 4 are indexed 1 to 4, 0 is for special stuff), do not try to change that, you'll mess up absolutely everything
         for (var h of heroList){
+            let newHero = heroFactory.createHero("crusader", i, this.heroSprites[i-1])
+            newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
+            newHero.arbiter = arbiter;
+            playerTeam.push(newHero);
+        }
+        
+        
+        /*for (var h of heroList){
             
             if(h==="crusader"){
                 let newHero = new Crusader(i, this.heroSprites[i-1])
@@ -69,7 +80,7 @@ class Fight extends Phaser.Scene {
             }
             i++;
 
-        }
+        }*/
 
         i=1//reset the position for the ennemy
         for (var e of enemyList){
