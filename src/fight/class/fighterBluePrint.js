@@ -3,7 +3,7 @@ class FighterBluePrint{
         this.classBlueprints = {
             crusader: {
                 max_hp: 45,  
-                hp: 45,
+                hp: this.max_hp,
         
                 dodge: 10,
         
@@ -88,7 +88,7 @@ class FighterBluePrint{
         
             bandit: {
                 max_hp : 25,   
-                hp : 25,
+                hp : this.max_hp,
         
                 dodge : 25,
         
