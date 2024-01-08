@@ -23,10 +23,10 @@ class Crusader{
         this.damage_high_range = 15;*/
 
         //resistance stats
-        this.stun_res = 60;
+        this.stun_res = 50;
         this.move_res = 60;
-        this.bleed_res = 0;
-        this.poison_res = 40;
+        this.bleed_res = 60;
+        this.poison_res = 60;
         this.debuff_res = 40;
 
         //prepare status effect variables

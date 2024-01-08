@@ -23,9 +23,9 @@ class Skeleton{
         this.damage_high_range = 10;*/
 
         //resistance stats
-        this.stun_res = 0;
+        this.stun_res = 20;
         this.move_res = 20;
-        this.bleed_res = 0;
+        this.bleed_res = 20;
         this.poison_res = 20;
         this.debuff_res = 20;
 
@@ -61,7 +61,7 @@ class Skeleton{
                 damage_high: 7, //max damage
                 bleed: [120, 2, 3],  //120% chance to proc bleed, 2 damage for 3 turns
                 /*poison: [140, 2],  //140% chance to proc poison, power 6
-                stun: 120*///<- those are useful to debug
+                stun: 120//<- those are useful to debug*/
             }
         ]; 
     }

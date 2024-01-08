@@ -400,7 +400,7 @@ class Arbiter {
             let nextEffect = effects.shift();
             if (nextEffect) {//check if there is a next effect
                 if (nextEffect.condition){//check if the target has the effect
-                    applyEffectWithDelay(nextEffect.effectFunction, delay);//apply the logic
+                    applyEffectWithDelay(nextEffect.effectFunction, 1000);//apply the logic
                 }
                 else{
                     this.applyNextEffect(0)//skip to the next effect if the target doesn't have it
@@ -423,7 +423,7 @@ class Arbiter {
             }
         };
     
-        this.applyNextEffect(1000); // Adjust the delay time as needed
+        this.applyNextEffect(500); // Adjust the delay time as needed
     }
     
 
