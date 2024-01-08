@@ -49,8 +49,6 @@ class Crusader{
                 requiered_pos : [1, 2], //where the hero must be placed to cast it
                 damage_low: 10, //minimum damage
                 damage_high: 13 //max damage
-                //damage_high: 100
-
             },
             {
                 id: "stunningBlow",
@@ -70,9 +68,6 @@ class Crusader{
                 animation: "skill3",
                 target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                 type: "single",//one target only
-                /*
-                reach: [2, 3, 4], //spot reach
-                requiered_pos : [3, 4], //where the hero must be placed to cast it*/
                 reach: [2, 3, 4], //spot reach
                 requiered_pos : [3, 4], //where the hero must be placed to cast it
                 damage_low: 13, //minimum damage
@@ -185,7 +180,7 @@ class Crusader{
                 }
             }
         else if(skill.target == "team" || skill.target == "self"){
-            if (skill.hasOwnProperty("heal")){
+            if (skill.heal != undefined){
 
                 let heal = skill.heal * caster.damage_mult
 

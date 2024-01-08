@@ -37,8 +37,9 @@ class Skeleton{
         }
         
         
-        this.skills = {
-            strike: {
+        this.skills = [
+            {
+                id: "strike",
                 name: 'Strike',
                 animation: "attack",
                 target: "hero", //ennemy is offensive, team is passive for the team, self is only for the caster
@@ -48,7 +49,8 @@ class Skeleton{
                 damage_low: 7, //minimum damage
                 damage_high: 10, //max damage
             },
-            cut: {
+            {
+                id: "cut",
                 name: 'Cut',
                 animation: "attack",
                 target: "hero", //ennemy is offensive, team is passive for the team, self is only for the caster
@@ -59,29 +61,21 @@ class Skeleton{
                 damage_high: 7, //max damage
                 bleed: [100, 2, 3]  //120% chance to proc bleed, 4 damage for 3 turns
             }
-        }; 
+        ]; 
     }
 
-    getInput(playerTeam ){/*
-        let skillNames = Object.keys(this.skills)
-        let randomSkillName = skillNames[Math.floor(Math.random() * skillNames.length)]
-        let randomSkill = this.skills[randomSkillName]
-        return randomSkill*///->that's for actual random, for debug we'll just return strike
-        /*
+    getInput(playerTeam ){
+
+        let randomNumSkill = (Math.random() * 2) -1;
+        randomNumSkill = Math.ceil(randomNumSkill)
+
         if (playerTeam.length>1){
-            let randomNum = Math.random() * 2;
-            return [this.skills.strike, playerTeam[randomNum-1]]//also the playerTeam[0] should be selected randomly
+            let randomNumTarget = (Math.random() * 2) -1;
+            randomNumTarget = Math.ceil(randomNumTarget)
+            return [this.skills[randomNumSkill], playerTeam[randomNumTarget]];
         }
         else{
-            return [this.skills.strike, playerTeam[0]]
-        }*/
-        if (playerTeam.length>1){
-            let randomNum = Math.random() * 2;
-            randomNum = Math.ceil(randomNum)
-            return [this.skills.cut, playerTeam[randomNum-1]];
-        }
-        else{
-            return [this.skills.cut, playerTeam[0]]
+            return [this.skills[randomNumSkill], playerTeam[0]]
         }
         
     }
