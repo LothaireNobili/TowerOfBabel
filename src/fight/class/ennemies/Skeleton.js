@@ -59,7 +59,9 @@ class Skeleton{
                 requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
                 damage_low: 5, //minimum damage
                 damage_high: 7, //max damage
-                bleed: [100, 2, 3]  //120% chance to proc bleed, 4 damage for 3 turns
+                bleed: [120, 2, 3],  //120% chance to proc bleed, 2 damage for 3 turns
+                /*poison: [140, 2],  //140% chance to proc poison, power 6
+                stun: 120*///<- those are useful to debug
             }
         ]; 
     }
@@ -81,6 +83,42 @@ class Skeleton{
     }
     
 
+
+    displayDamage(damageAmount, type){
+        let targetX = this.arbiter.getVerticalPosition(this.position, this.arbiter.getFighterTeam(this))
+        let targetY = 250
+        let amount = damageAmount
+
+        let text
+        let color
+        switch (type) {
+            case 'normal':
+                color = '#ff2929';
+                text = amount;
+                break;
+            case 'bleed':
+                color = '#cc0000';
+                text = "Bleed! " + amount
+                break;
+            case 'poison':
+                color = '#1cc202';
+                text = "Poison! " + amount
+                break;
+            case 'stun':
+                color = "#e3c23d"
+                text = "Stun!"
+                break;
+            default:
+                color = '#ffffff';
+          }
+    
+        let damageText = new DamageText(this.arbiter.fight_scene, 
+            targetX, 
+            targetY, 
+            text, 
+            { fontFamily: 'pixel', fontSize: '45px', color: color });
+        
+    }
 
     displayDamage(damageAmount, type){
         let targetX = this.arbiter.getVerticalPosition(this.position, this.arbiter.getFighterTeam(this))
@@ -159,48 +197,58 @@ class Skeleton{
         this.applyRawDamages(damage, "normal")
     }
 
+
     isTargeted(skill, caster){
-        let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
-        let that = this
+        if (skill.damage_low =! undefined && skill.damage_high!= undefined){
+            let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
+            
+            this.applyNormalDamage(damage)
+        }
+        if (skill.heal != undefined){
 
-        this.arbiter.currentTargetDamage.push(damage)
+            let heal = skill.heal * caster.damage_mult
 
-        this.displayDamage(damage, "normal")
-        
-        this.applyNormalDamage(damage)
+            if (this.max_hp <= this.hp + heal){
+                this.hp = this.max_hp
+            }
+            else{
+                this.hp += heal
+            }
+        }
 
         if(!this.isDead()){
             if(skill.bleed != undefined){ //si l'attaque inflige du saignement
-                let proba = skill.bleed[0] - that.bleed_res //get the power of the probability of success
+                let proba = skill.bleed[0] - this.bleed_res //get the power of the probability of success
                 let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
                 
                 let success = proba >= randomNum //check if bleed is a success
 
                 if(success){
-                    that.status_effect.bleed.push([skill.bleed[1],skill.bleed[2]]) //apply bleed as a list
+                    this.status_effect.bleed.push([skill.bleed[1],skill.bleed[2]]) //apply bleed as a list
                 }
             }
             if(skill.poison != undefined){ //si l'attaque inflige du poison
-                let proba = skill.poison[0] - that.poison_res //get the power of the probability of success
+                let proba = skill.poison[0] - this.poison_res //get the power of the probability of success
                 let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
                 
                 let success = proba >= randomNum //check if poison is a success
 
                 if(success){
-                    that.status_effect.poison += skill.poison[1] //add the poison
+                    this.status_effect.poison += skill.poison[1] //add the poison
                 }
             }
             if(skill.stun != undefined){
-                let proba = skill.stun - that.stun_res //get the power of the probability of success
+                let proba = skill.stun - this.stun_res //get the power of the probability of success
                 let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
                 
                 let success = proba >= randomNum //check if stun is a success
 
                 if(success){
-                    that.status_effect.stun+=1 //apply stun
+                    this.status_effect.stun+=1 //apply stun
                 }
             }
         }
+
         this.healthBar.update()
     }
 

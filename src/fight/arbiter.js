@@ -37,7 +37,6 @@ class Arbiter {
         this.currentFighter;
         this.currentAttack;
         this.currentTarget = [];
-        this.currentTargetDamage = [];
 
     }
 
@@ -211,7 +210,7 @@ class Arbiter {
                     that.currentTargetCursor.push(tempoTargetCursor)
 
                     //to check if the skill type is on several targets or not
-                    if (foundSkill.type == "continuous" && targetPos>1){  //we don't add the + cursor for target in pos1 
+                    if (foundSkill.type == "continuous" && targetPos>foundSkill.reach[0]){  //we don't add the + cursor for first target 
 
                         tempoTargetCursor = this.fight_scene.add.image(
                             ((this.getVerticalPosition(targetPos, "enemy") + this.getVerticalPosition(targetPos-1, "enemy")) / 2)
@@ -578,7 +577,6 @@ class Arbiter {
 
     ontoTheNext(){
         this.currentTarget = []
-        this.currentTargetDamage = []
         this.currentFighterTrackNumber += 1;
 
 
