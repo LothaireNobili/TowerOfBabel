@@ -6,15 +6,10 @@ class Escalier extends Phaser.Scene
 
       preload()
       {
-
-        this.load.setBaseURL("./assets/");
-
-      //  this.load.image("feu", "images/exploration/escalier.jpg");
-        this.load.image("feu", "./assets/images/exploration/ruin_background1.png");
-        
-        this.load.image("crusader", "/assets/images/heroes/crusader/idle.png");
+        this.load.image("feu", "./assets//images/exploration/escalier.jpg");
+        this.load.image("crusader", "./assets/images/heroes/crusader/idle.png");
         this.load.image("bandit", "./assets/images/heroes/bandit/skill1.png");
-        this.load.image("prochainEtage","./assets/icons/cercle_red.png")
+        this.load.image("prochainEtage","./icons/cercle_red.png")
       }
 
       create()
