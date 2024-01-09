@@ -29,7 +29,7 @@
         
         $tpm = Mycrypt($_POST['password']);
         if($tpm["status"] == "success") {
-            $query = $db->prepare("INSERT INTO `USER`(`id`,`login`, `save_file`, `password`, `salt`) VALUES (NULL, :nom, :prenom, :mel, :date_naiss, :login, :mdp, :salt, 0)");
+            $query = $db->prepare("INSERT INTO `USER`(`id`,`login`,`nom`,`prenom`,`mel`,`date_naiss`, `password`, `salt`, `save_file`) VALUES (NULL,:login, :nom, :prenom, :mel, :date_naiss, :mdp, :salt, 0)");
             $query->bindParam(':nom', $_POST['nom']);
             $query->bindParam(':prenom', $_POST['prenom']);
             $query->bindParam(':mel', $_POST['mel']);
