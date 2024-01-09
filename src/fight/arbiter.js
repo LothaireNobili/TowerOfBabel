@@ -156,7 +156,7 @@ class Arbiter {
         });
     }
 
-    //this functuion is called only for heroes. Placement of cursor for enemies happen in the getInput function
+    //this function is called only for heroes. Placement of cursor for enemies happen in the getInput function
     placeTargetCursors(skillToCheck){
         var that = this// save the context
 
@@ -384,6 +384,9 @@ class Arbiter {
         };
     
         let effects = [
+            { condition: this.currentFighter.status_effect.regen.length != 0, effectFunction: () => {//condition
+                this.currentFighter.applyRegenHeal() //logic to apply
+            }},
             { condition: this.currentFighter.status_effect.bleed.length != 0, effectFunction: () => {//condition
                 this.currentFighter.applyBleedDamage() //logic to apply
             }},
@@ -475,14 +478,11 @@ class Arbiter {
     }
 
     getHeroInput(){
-        //TODO : display attack icons, select target
         this.placeSkillIcon(this.currentFighter)
     }
 
     engageAttackAnimation(){
-        //oskur
 
-        //this.displayDamage(10, "jaj", "bleed")
         var that = this
         this.currentFighterCursor.destroy()
         this.currentFighterCursor = null

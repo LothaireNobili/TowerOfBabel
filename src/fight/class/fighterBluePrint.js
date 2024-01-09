@@ -73,7 +73,8 @@ class FighterBluePrint{
                         type: "single",//one target only
                         reach: [1, 2, 3, 4], //spot reach
                         requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
-                        heal: 10
+                        heal: 10,
+                        regen: [7, 3]
                     }
                 ]
             },
@@ -163,7 +164,7 @@ class FighterBluePrint{
 
                 prot : 0, 
 
-                speed : 5,
+                speed : 15,
 
                 crit : 5, //in %
 
@@ -312,7 +313,7 @@ class FighterBluePrint{
 
                 prot : 0, 
 
-                speed : 5,
+                speed : 115,
 
                 crit : 5, //in %
 
@@ -348,8 +349,8 @@ class FighterBluePrint{
                         requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
                         damage_low: 5, //minimum damage
                         damage_high: 7, //max damage
-                        /*bleed: [1120, 2, 3],  //120% chance to proc bleed, 2 damage for 3 turns
-                        poison: [1140, 2],  //140% chance to proc poison, power 6
+                        bleed: [1000, 2, 3],  //120% chance to proc bleed, 2 damage for 3 turns
+                        /*poison: [1140, 2],  //140% chance to proc poison, power 6
                         stun: 1120//<- those are useful to debug*/
                     }
                 ],
@@ -363,10 +364,10 @@ class FighterBluePrint{
                     if (playerTeam.length>1){
                         let randomNumTarget = (Math.random() * 2) -1;
                         randomNumTarget = Math.ceil(randomNumTarget)
-                        return [this.skills[randomNumSkill], playerTeam[randomNumTarget]];
+                        return [this.skills[randomNumSkill], playerTeam[0]];
                     }
                     else{
-                        return [this.skills[randomNumSkill], playerTeam[0]]
+                        return [this.skills[randomNumSkill], playerTeam[randomNumTarget]]
                     }
                     
                 }
@@ -404,6 +405,14 @@ class FighterBluePrint{
                         color = "#05f238"
                         text = amount
                         break;
+                    case 'regen':
+                        color = "#00ff94"
+                        text = "Regen! "+amount
+                        break;
+                    case 'cure':
+                        color = "#ffd299"
+                        text = "Cured!"
+                        break;
                     default:
                         color = '#ffffff';
                   }
@@ -427,9 +436,8 @@ class FighterBluePrint{
                 this.healthBar.update()
             },
 
-            applyHeal(amount){
-                this.displayDamage(amount, "heal")
-                console.log("poke")
+            applyHeal(amount, type){
+                this.displayDamage(amount, type)
                 if (this.max_hp <= this.hp + amount){
                     this.hp = this.max_hp
                 }
@@ -437,6 +445,59 @@ class FighterBluePrint{
                     this.hp += amount
                 }
                 this.healthBar.update()
+            },
+
+
+            getTotalRegenAmount(){
+                let res = 0;
+                for (let heal of this.status_effect.regen){
+                    res += heal[0]
+                }
+                return res
+            },
+
+            applyRegenHeal(){
+
+                let totalHeal = this.getTotalRegenAmount()
+                for (let heal of this.status_effect.regen){
+                    heal[1] -= 1
+                    if (heal[1]==0){
+                        this.status_effect.regen.splice(this.status_effect.regen.indexOf(heal), 1);
+                    }
+                }
+                this.applyHeal(totalHeal, "regen")
+
+            },
+
+            applyCure(effects){
+                console.log("poke")
+                let cured = 0
+
+                for (let effect of effects){
+                    console.log("pwik "+effect)
+                    console.log(this.status_effect)
+                    console.log(this.status_effect[effect])
+
+                    if (effect=="bleed" && this.status_effect.bleed.length){
+                        this.status_effect.bleed = []
+                        cured = 1
+                    }
+                    else if(effect=="poison" && this.status_effect.poison){
+                        this.status_effect.poison = 0
+                        cured = 1
+                    }
+                    else if(effect=="stun" && this.status_effect.stun){
+                        this.status_effect.stun = 0
+                        cured = 1
+                    }
+
+                }
+
+                if (cured){
+                    setTimeout(() => {
+                        this.displayDamage(0,'cure');
+                    }, "500"); 
+                }
             },
 
         
@@ -475,15 +536,22 @@ class FighterBluePrint{
         
         
             isTargeted(skill, caster){
+
                 if (skill.damage_low != undefined && skill.damage_high!= undefined){
                     let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
                     this.applyNormalDamage(damage)
                 }
                 if (skill.heal != undefined){
-        
                     let heal = skill.heal * caster.damage_mult
-                    this.applyHeal(heal)
-                    
+                    this.applyHeal(heal, "heal")
+                }
+
+                if (skill.cure != undefined){
+                    this.applyCure(skill.cure)
+                }
+
+                if (skill.regen != undefined){
+                    this.status_effect.regen.push([skill.regen[0],skill.regen[1]]) //apply regen as a list
                 }
         
                 if(!this.isDead()){
@@ -533,6 +601,7 @@ class FighterBluePrint{
             },
         
             status_effect : {
+                regen:[],
                 bleed:[],
                 poison: 0,
                 stun:0 
