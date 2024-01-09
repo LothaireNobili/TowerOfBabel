@@ -206,11 +206,12 @@ class HeroFactory{
         }
       
         // Create the initial hero object by merging stats with common functions
-        const hero = { ...this.bluePrint.classBlueprints[className], ...this.commonFighterFunctions };
+        //const hero = { ...this.bluePrint.classBlueprints[className], ...this.commonFighterFunctions };
+        const hero = Object.assign({},
+            this.bluePrint.classBlueprints[className],
+            this.commonFighterFunctions);
         hero.position = startPos;
         hero.sprite = sprite;
-      
-        console.log(hero)
         
         return hero;
     }

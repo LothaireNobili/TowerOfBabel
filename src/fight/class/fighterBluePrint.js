@@ -2,6 +2,9 @@ class FighterBluePrint{
     constructor(){
         this.classBlueprints = {
             crusader: {
+
+                name : "crusader",
+
                 max_hp: 45,  
                 hp: this.max_hp,
         
@@ -87,6 +90,8 @@ class FighterBluePrint{
         
         
             bandit: {
+                name : "bandit",
+
                 max_hp : 25,   
                 hp : this.max_hp,
         

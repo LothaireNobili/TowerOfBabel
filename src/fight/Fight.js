@@ -45,10 +45,12 @@ class Fight extends Phaser.Scene {
         var i = 1//to send the proper position
         //!we start indexing at 1 (ranks 1 to 4 are indexed 1 to 4, 0 is for special stuff), do not try to change that, you'll mess up absolutely everything
         for (var h of heroList){
-            let newHero = heroFactory.createHero("crusader", i, this.heroSprites[i-1])
+            let newHero = heroFactory.createHero(h, i, this.heroSprites[i-1])
+            newHero.hp = newHero.max_hp
             newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
             newHero.arbiter = arbiter;
             playerTeam.push(newHero);
+            i++;
         }
         
         

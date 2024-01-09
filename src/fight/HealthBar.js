@@ -22,6 +22,8 @@ class HealthBar {
 
         // Set the initial width of the healthbar
         this.bar.displayWidth = this.calculateBarWidth();
+
+        console.log(this.character)
     }
 
     update() {
