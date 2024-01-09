@@ -36,8 +36,8 @@ class FighterBluePrint{
                         type: "single",//one target only
                         reach: [1, 2], //spot reach
                         requiered_pos : [1, 2], //where the hero must be placed to cast it
-                        damage_low: 10, //minimum damage
-                        damage_high: 13 //max damage
+                        damage_low: 12, //minimum damage
+                        damage_high: 17 //max damage
                     },
                     {
                         id: "stunningBlow",
@@ -111,8 +111,8 @@ class FighterBluePrint{
                         type: "single",//one target only
                         reach: [1, 2], //spot reach
                         requiered_pos : [1, 2], //where the hero must be placed to cast it
-                        damage_low: 9, //minimum damage
-                        damage_high: 12 //max damage
+                        damage_low: 10, //minimum damage
+                        damage_high: 13 //max damage
                     },
                     {
                         id:"cut",
@@ -161,7 +161,7 @@ class FighterBluePrint{
 
                 prot : 0, 
 
-                speed : 15,
+                speed : 5,
 
                 crit : 5, //in %
 
@@ -303,13 +303,13 @@ class FighterBluePrint{
             skeleton: {
 
                 name: "skeleton",
-                max_hp : 2500,  
+                max_hp : 25,  
 
                 dodge : 10,
 
                 prot : 0, 
 
-                speed : 115,
+                speed : 5,
 
                 crit : 5, //in %
 
