@@ -70,6 +70,23 @@ class GraphicManager{
                     end: 32
                 }
             },
+            hellion : {
+                wait:{
+                    frameWidth: 209,
+                    frameHeight: 389,
+                    end: 28
+                },
+                idle:{
+                    frameWidth: 177,
+                    frameHeight: 372,
+                    end: 32
+                },
+                walk:{
+                    frameWidth: 200,
+                    frameHeight: 377,
+                    end: 33
+                }
+            },
             skeleton : {
                 wait:{
                     frameWidth: 144,

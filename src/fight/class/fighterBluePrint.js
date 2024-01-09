@@ -296,7 +296,80 @@ class FighterBluePrint{
                         move: -1, //backward of 1
                     }
                 ],
+            },
 
+            hellion: {
+
+                name: "hellion",
+                max_hp : 30,  
+    
+                dodge : 20,
+    
+                prot : 0, 
+    
+                speed : 7,
+    
+                crit : 20, //in %
+    
+                damage_mult : 1,
+    
+                //resistance stats
+                stun_res : 40,
+                move_res : 40,
+                bleed_res : 40,
+                poison_res : 40,
+                debuff_res : 40,
+    
+                    
+                skills : [
+                    {
+                        id:"slash",
+                        name: 'Slash',
+                        animation: "skill1",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [1, 2], //spot reach
+                        requiered_pos : [1, 2], //where the hero must be placed to cast it
+                        damage_low: 9, //minimum damage
+                        damage_high: 15, //max damage
+                    },
+                    {
+                        id:"ironSwan",
+                        name: 'Iron Swan',
+                        animation: "skill2",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                            reach: [4], //spot reach
+                        requiered_pos : [1], //where the hero must be placed to cast it
+                        damage_low: 11, //minimum damage
+                        damage_high: 17, //max damage
+                        crit_mod: 15 //flat modifier in %
+                    },
+                    {
+                        id:"barbaricYap",
+                        name: 'Barbaric Yap',
+                        animation: "skill3",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                         type: "continuous",//one target only
+                        reach: [1, 2], //spot reach
+                        requiered_pos : [1, 2], //where the hero must be placed to cast it
+                        damage_low: 1, //minimum damage
+                        damage_high: 3, //max damage
+                        stun: 110  //chance of the stun to proc, ennemies have some resistance so <100 doesn't guarantee the stun
+                    },
+                    {
+                         id:"razorEdge",
+                         name: "Razor Edge",
+                         animation: "skill4",
+                         target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                         type: "single",//all reachable target are touched
+                        reach: [2, 3], //spot reach
+                        requiered_pos: [1, 2], //where the hero must be placed to cast it
+                         damage_low: 4, //minimum damage
+                         damage_high: 8, //max damage
+                        bleed: [130, 6, 3]  //120% chance to proc bleed, 5 damage for 3 turns
+                    }
+                ],
             },
 
             //!Ennemies//
@@ -369,7 +442,7 @@ class FighterBluePrint{
                 }
 
             },
-        };
+        },
 
         this.commonFunctions = {
             
