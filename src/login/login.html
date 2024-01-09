@@ -9,9 +9,16 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="../../styles.css" />
     <link rel="stylesheet" href="./login.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+
     <script src="./login.js"></script>
     <script src="../util/userInfo.js"></script>
-
+    
 </head>
 
 <body>
@@ -38,7 +45,7 @@
                     fill="#ffffff" p-id="4241"></path>
             </svg>
         </a>
-        <div id="connexion-card">
+        <div id="connexion-card" class="hide">
             <div style="margin: 100px 150px;">
                 <h1 class="mb-80" style="text-align: center;">Se connecter</h1>
 
@@ -51,21 +58,25 @@
                 <div class="row" style="margin-bottom: 80px;">
                     <label for="password" class="col-sm-3 col-form-label ">Mot de passe :</label>
                     <div class="col-sm-9">
-                        <input type="password" class="form-control border-3 bg-transparent custom-input" id="mdp">
+                        <input type="password" tabindex="0" class="form-control border-3 bg-transparent custom-input" id="mdp">
                     </div>
                 </div>
-                <nav style="color: red; display: none; text-align: center;" id = "error">Identifiant ou mot de passe incorrect </nav>
+                <div class="alert alert-danger hide" id="message_login" role="alert">
+                    Identifiant ou mot de passe incorrect
+                </div>
                 <nav style="padding: 0 100px; margin-top: 80px;">
-                    <button type="submit" class="btn btn-style btn-outline-success" style="float: left;" id="connecter" onclick="connecter()">Se
+                    <button type="submit" class="btn btn-style btn-outline-success" style="float: left;" id="connecter"
+                        onclick="connecter()">Se
                         connecter</button>
-                    <button type="button" class="btn btn-style btn-outline-secondary" style="float: right;" onclick="goToInscription()">Je
+                    <button type="button" class="btn btn-style btn-outline-secondary" style="float: right;"
+                        onclick="goToInscription()">Je
                         m'inscris</button>
                 </nav>
             </div>
 
         </div>
 
-        <div id="inscrption-card" class="hide">
+        <div id="inscrption-card">
             <div style="margin: 100px 150px;">
                 <h1 class="mb-80" style="text-align: center;">Inscrivez-vous</h1>
                 <div class="input-group">
@@ -82,10 +93,9 @@
                 </div>
 
                 <div class="input-group mb-3">
-                    <label for="mel" class="col-sm-6 col-form-label">Date de naissance (dd/mm) :</label>
+                    <label for="date_naiss" class="col-sm-6 col-form-label">Date de naissance :</label>
                     <div class="col-sm-6">
-                        <input type="text" placeholder="dd/mm" class="form-control border-3 bg-transparent custom-input"
-                            maxlength="5" id="birthday">
+                        <input type="text" class="form-control border-3 bg-transparent custom-input" aria-label="Sélectionnez une date" id="datetimepicker">
                     </div>
                 </div>
 
@@ -105,9 +115,13 @@
                     </div>
                 </div>
 
+                <div class="alert alert-danger hide" id="message_register" role="alert">
+                    A simple danger alert—check it out!
+                </div>
+
                 <nav style="padding: 0 100px; margin-top: 80px;">
-                    <button type="submit" class="btn btn-style btn-outline-success"
-                        style="float: left;" onclick="register()">Enregistrer</button>
+                    <button type="submit" class="btn btn-style btn-outline-success" style="float: left;"
+                        onclick="register()">Enregistrer</button>
                     <button type="button" class="btn btn-style btn-outline-secondary" style="float: right;"
                         onclick="goToConnexion()">Déjà un compte ?</button>
                 </nav>

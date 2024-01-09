@@ -112,7 +112,7 @@
         input.setAttribute('readonly', true);
     });
 
-    // 获取链接中的 ID
+    // Obtenir l’ID dans le lien
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
     let logoutBtn = document.getElementById("logoutBtn");
@@ -132,7 +132,7 @@
 
     context.textContent = "Bonjour, " + user.username;
 
-    // 初始化页面时显示用户信息
+    // Les informations de l’utilisateur s’affichent lors de l’initialisation de la page
     displayUserInfo(user);
 
     function logout() {

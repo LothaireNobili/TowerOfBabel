@@ -46,7 +46,6 @@ class Accueil extends Phaser.Scene {
         function isLogged(message) {
             
             if (storedUserData) {
-                // user.upDateUserClass();
                 game.scene.start('Hameau');
                 game.scene.stop('Accueil');
                 document.body.style.cursor = "default";
