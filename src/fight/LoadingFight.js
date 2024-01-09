@@ -61,14 +61,6 @@ class LoadingFight extends Phaser.Scene {
                 this.load.image(enemyList[i]+"_"+enemySpriteList[j], "./assets/images/enemies/"+enemyList[i]+"/"+enemySpriteList[j]+".png")
             }
         } 
-
-
-        /*
-        for (let i = 0; i < enemyList.length; i++){
-            this.load.image(enemyList[i], "assets/images/enemies/"+enemyList[i]+"/wait.png")
-        }  
-        /*this.load.image("crusader", "assets/images/crusader_wait.png")
-        this.load.image("skeleton", "assets/images/skeleton_wait.png")*/
     }
 
     create(){

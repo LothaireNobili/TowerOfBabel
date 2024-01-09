@@ -162,7 +162,6 @@ class ComposerEquipe extends Phaser.Scene {
 
       image.on("pointerdown", function () {
         for (let i = 0; i < 4; i++) {
-          console.log(listSelectedHeroes.indexOf(key))
           if (listSelectedHeroes[i] === 'null' && !listSelectedHeroes.includes(key)) {
             listSelectedHeroes[i] = key;
             createSelectedPortrait(scene, 145 - i * 95, 0, key, selectedContainer, i)
