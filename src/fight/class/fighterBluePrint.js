@@ -10,7 +10,6 @@ class FighterBluePrint{
                 name : "crusader",
 
                 max_hp: 45,  
-                hp: this.max_hp,
         
                 dodge: 10,
         
@@ -84,7 +83,6 @@ class FighterBluePrint{
                 name : "bandit",
 
                 max_hp : 25,   
-                hp : this.max_hp,
         
                 dodge : 25,
         
@@ -158,7 +156,6 @@ class FighterBluePrint{
                 name : "plaguedoctor",
 
                 max_hp : 30,
-                hp: this.max_hp,   
 
                 dodge : 25,
 
@@ -234,7 +231,6 @@ class FighterBluePrint{
 
                 name: "vestal",
                 max_hp : 40,  
-                hp: this.max_hp, 
 
                 dodge : 15,
 

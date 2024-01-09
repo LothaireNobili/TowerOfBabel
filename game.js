@@ -17,9 +17,7 @@ var config = {
         Fight,
         Salle,
         Couloir,
-        Escalier,
-        LoadingFight,
-        Fight
+        Escalier
     ]
 }
 
