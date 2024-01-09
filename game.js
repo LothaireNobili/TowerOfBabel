@@ -13,12 +13,13 @@ var config = {
         Forge, 
         Diligence,
         ComposerEquipe,
+        LoadingFight,        
+        Fight,
         Salle,
         Couloir,
         Escalier,
         LoadingFight,
-        Fight,
-        Temporis
+        Fight
     ]
 }
 

@@ -25,7 +25,6 @@ class HealthBar {
     }
 
     update() {
-        console.log("update of "+this.character.name+"'s healthbar in progress")
         this.destroy()
         this.background = this.scene.add.rectangle(this.helper.getVerticalPosition(this.character.position, this.team)-this.size/2, 
                                 this.helper.floor+this.offSet, this.size, 10, 0x151515);
