@@ -94,8 +94,8 @@ class Diligence extends Phaser.Scene {
       descriptionBg.displayWidth = 460;
       descriptionBg.displayHeight = 500;
       var heroName = scene.add.text(-200, -200, key.toUpperCase(), setFontStyles());
-      var heroImage = scene.add.image(-130, 65, "idle_" + key);
-      heroImage.setScale(0.5);
+      var heroImage = scene.add.sprite(-130, 155, "idle_" + key).play(key+"_idle").setOrigin(0.5, 1).setScale(0.95);
+
 
       descriptionContainer.add([descriptionBg, heroName, heroImage]);
 

@@ -23,4 +23,5 @@ var config = {
 
 window.onload = function() {
     game = new Phaser.Game(config);
+    game.config.allHeroList = ["crusader", "bandit","plaguedoctor","vestal"] //it can't be put in the first var config otherwise it would be cleansed
 }
