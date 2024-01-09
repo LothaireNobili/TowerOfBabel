@@ -4,8 +4,7 @@ class HeroFactory{
 
     constructor(){
 
-        //this.arbiter = arbiter
-
+/*
         this.commonFighterFunctions = {
             displayDamage(damageAmount, type){
                 let targetX = this.arbiter.getVerticalPosition(this.position, this.arbiter.getFighterTeam(this))
@@ -191,7 +190,7 @@ class HeroFactory{
                 stun:0 
             }
         
-          };
+          };*/
     }
 
     
@@ -207,9 +206,10 @@ class HeroFactory{
       
         // Create the initial hero object by merging stats with common functions
         //const hero = { ...this.bluePrint.classBlueprints[className], ...this.commonFighterFunctions };
-        const hero = Object.assign({},
+        const hero = Object.assign(
+            {},
             this.bluePrint.classBlueprints[className],
-            this.commonFighterFunctions);
+            this.bluePrint.commonFunctions);
         hero.position = startPos;
         hero.sprite = sprite;
         

@@ -14,7 +14,7 @@ class Skeleton{
 
         this.prot = 0; 
 
-        this.speed = 15;
+        this.speed = 5;
 
         this.crit = 5; //in %
 
@@ -59,9 +59,9 @@ class Skeleton{
                 requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
                 damage_low: 5, //minimum damage
                 damage_high: 7, //max damage
-                bleed: [120, 2, 3],  //120% chance to proc bleed, 2 damage for 3 turns
-                /*poison: [140, 2],  //140% chance to proc poison, power 6
-                stun: 120//<- those are useful to debug*/
+                bleed: [1120, 2, 3],  //120% chance to proc bleed, 2 damage for 3 turns
+                poison: [1140, 2],  //140% chance to proc poison, power 6
+                stun: 1120//<- those are useful to debug*/
             }
         ]; 
     }
@@ -74,7 +74,7 @@ class Skeleton{
         if (playerTeam.length>1){
             let randomNumTarget = (Math.random() * 2) -1;
             randomNumTarget = Math.ceil(randomNumTarget)
-            return [this.skills[randomNumSkill], playerTeam[randomNumTarget]];
+            return [this.skills[1], playerTeam[randomNumTarget]];
         }
         else{
             return [this.skills[randomNumSkill], playerTeam[0]]
