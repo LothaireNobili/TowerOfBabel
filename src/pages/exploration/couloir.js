@@ -8,12 +8,12 @@ class Couloir extends Phaser.Scene {
   }
 
   preload() {
-    this.load.setBaseURL("./assets/");
-    this.load.image("background", "images/exploration/Corridor1.jpg");
-    this.load.image("chest", "images/exploration/chest.jpg");
-    this.load.image("crusader", "images/heroes/crusader/idle.png");
-    this.load.image("bandit", "images/heroes/bandit/skill1.png");
-    this.load.image("prochaineSalle", "images/exploration/mapBackground.jpg");
+
+    this.load.image("background", "./assets/images/exploration/Corridor1.jpg");
+    this.load.image("chest", "./assets/images/exploration/chest.jpg");
+    this.load.image("crusader_couloir", "./assets/images/heroes/crusader/idle.png");
+    this.load.image("bandit_couloir", "./assets/images/heroes/bandit/skill1.png");
+    this.load.image("prochaineSalle", "./assets/images/exploration/mapBackground.jpg");
   }
 
   create() {
@@ -29,8 +29,8 @@ class Couloir extends Phaser.Scene {
     this.equipe.y = 450;
 
     //on ajoute les heros manuellement pour l'instnat , les positions sont relatives au centre de l'equipe
-    var crusader = this.add.image(50, 0, "crusader");
-    var bandit = this.add.image(-50, 0, "bandit");
+    var crusader = this.add.image(50, 0, "crusader_couloir");
+    var bandit = this.add.image(-50, 0, "bandit_couloir");
 
     // on ajoute les heros sur l'ecran
     this.equipe.add(crusader);
