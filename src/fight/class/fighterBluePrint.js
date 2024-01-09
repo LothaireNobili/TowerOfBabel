@@ -400,6 +400,10 @@ class FighterBluePrint{
                         color = "#e3c23d"
                         text = "Stun!"
                         break;
+                    case 'heal':
+                        color = "#05f238"
+                        text = amount
+                        break;
                     default:
                         color = '#ffffff';
                   }
@@ -422,6 +426,19 @@ class FighterBluePrint{
                 }
                 this.healthBar.update()
             },
+
+            applyHeal(amount){
+                this.displayDamage(amount, "heal")
+                console.log("poke")
+                if (this.max_hp <= this.hp + amount){
+                    this.hp = this.max_hp
+                }
+                else{
+                    this.hp += amount
+                }
+                this.healthBar.update()
+            },
+
         
             applyPoisonDamage(){
                 this.applyRawDamages(this.status_effect.poison, "poison")
@@ -465,13 +482,8 @@ class FighterBluePrint{
                 if (skill.heal != undefined){
         
                     let heal = skill.heal * caster.damage_mult
-        
-                    if (this.max_hp <= this.hp + heal){
-                        this.hp = this.max_hp
-                    }
-                    else{
-                        this.hp += heal
-                    }
+                    this.applyHeal(heal)
+                    
                 }
         
                 if(!this.isDead()){
