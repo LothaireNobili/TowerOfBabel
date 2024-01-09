@@ -2,6 +2,9 @@ class FighterBluePrint{
     constructor(){
         this.classBlueprints = {
 
+
+
+            //!Heroes//
             crusader: {
 
                 name : "crusader",
@@ -236,7 +239,7 @@ class FighterBluePrint{
 
                 prot : 15, 
 
-                speed : 14,
+                speed : 4,
 
                 crit : 5, //in %
 
@@ -298,45 +301,81 @@ class FighterBluePrint{
                 ],
 
             },
+
+            //!Ennemies//
+            skeleton: {
+
+                name: "skeleton",
+                max_hp : 25,  
+
+                dodge : 10,
+
+                prot : 0, 
+
+                speed : 5,
+
+                crit : 5, //in %
+
+                damage_mult : 1,
+
+                //resistance stats
+                stun_res : 20,
+                move_res : 20,
+                bleed_res : 20,
+                poison_res : 20,
+                debuff_res : 20,
+
+                
+                skills : [
+                    {
+                        id: "strike",
+                        name: 'Strike',
+                        animation: "attack",
+                        target: "hero", //ennemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [1, 2], //spot reach
+                        requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
+                        damage_low: 7, //minimum damage
+                        damage_high: 10, //max damage
+                    },
+                    {
+                        id: "cut",
+                        name: 'Cut',
+                        animation: "attack",
+                        target: "hero", //ennemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [1, 2], //spot reach
+                        requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
+                        damage_low: 5, //minimum damage
+                        damage_high: 7, //max damage
+                        /*bleed: [1120, 2, 3],  //120% chance to proc bleed, 2 damage for 3 turns
+                        poison: [1140, 2],  //140% chance to proc poison, power 6
+                        stun: 1120//<- those are useful to debug*/
+                    }
+                ],
+
+
+                getInput(playerTeam ){
+
+                    let randomNumSkill = (Math.random() * 2) -1;
+                    randomNumSkill = Math.ceil(randomNumSkill)
+            
+                    if (playerTeam.length>1){
+                        let randomNumTarget = (Math.random() * 2) -1;
+                        randomNumTarget = Math.ceil(randomNumTarget)
+                        return [this.skills[randomNumSkill], playerTeam[randomNumTarget]];
+                    }
+                    else{
+                        return [this.skills[randomNumSkill], playerTeam[0]]
+                    }
+                    
+                }
+
+            },
         };
 
         this.commonFunctions = {
-            displayDamage(damageAmount, type){
-                let targetX = this.arbiter.getVerticalPosition(this.position, this.arbiter.getFighterTeam(this))
-                let targetY = 250
-                let amount = damageAmount
-        
-                let text
-                let color
-                switch (type) {
-                    case 'normal':
-                        color = '#ff2929';
-                        text = amount;
-                        break;
-                    case 'bleed':
-                        color = '#cc0000';
-                        text = "Bleed! " + amount
-                        break;
-                    case 'poison':
-                        color = '#1cc202';
-                        text = "Poison! " + amount
-                        break;
-                    case 'stun':
-                        color = "#e3c23d"
-                        text = "Stun!"
-                        break;
-                    default:
-                        color = '#ffffff';
-                  }
             
-                let damageText = new DamageText(this.arbiter.fight_scene, 
-                    targetX, 
-                    targetY, 
-                    text, 
-                    { fontFamily: 'pixel', fontSize: '45px', color: color });
-                
-            },
-        
             displayDamage(damageAmount, type){
                 let targetX = this.arbiter.getVerticalPosition(this.position, this.arbiter.getFighterTeam(this))
                 let targetY = 250
@@ -401,6 +440,9 @@ class FighterBluePrint{
                 let totalDamage = this.getTotalBleedAmount()
                 for (let drop of this.status_effect.bleed){
                     drop[1] -= 1
+                    /*if (drop[1]==0){
+                        //remove the element drop from the status_effect.bleed list
+                    }*/
                 }
                 this.applyRawDamages(totalDamage, "bleed")
             },
@@ -416,9 +458,8 @@ class FighterBluePrint{
         
         
             isTargeted(skill, caster){
-                if (skill.damage_low =! undefined && skill.damage_high!= undefined){
+                if (skill.damage_low != undefined && skill.damage_high!= undefined){
                     let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
-                    
                     this.applyNormalDamage(damage)
                 }
                 if (skill.heal != undefined){

@@ -45,11 +45,21 @@ class Fight extends Phaser.Scene {
         var i = 1//to send the proper position
         //!we start indexing at 1 (ranks 1 to 4 are indexed 1 to 4, 0 is for special stuff), do not try to change that, you'll mess up absolutely everything
         for (var h of heroList){
-            let newHero = heroFactory.createHero(h, i, this.heroSprites[i-1])
+            let newHero = heroFactory.createFighter(h, i, this.heroSprites[i-1])
             newHero.hp = newHero.max_hp
             newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
             newHero.arbiter = arbiter;
             playerTeam.push(newHero);
+            i++;
+        }
+
+        i=1//reset the position for the ennemy
+        for (var e of enemyList){
+            let newEnemy = heroFactory.createFighter(e, i, this.enemySprites[i-1])
+            newEnemy.hp = newEnemy.max_hp
+            newEnemy.healthBar = new HealthBar(this, newEnemy, "enemy", arbiter);
+            newEnemy.arbiter = arbiter
+            enemyTeam.push(newEnemy);
             i++;
         }
         
@@ -84,7 +94,7 @@ class Fight extends Phaser.Scene {
 
         }*/
 
-        i=1//reset the position for the ennemy
+        /*i=1//reset the position for the ennemy
         for (var e of enemyList){
             if(e==="skeleton"){
                 let newEnemy = new Skeleton(i, this.enemySprites[i-1])
@@ -94,8 +104,8 @@ class Fight extends Phaser.Scene {
             }i++;/*
             if(h==="spider"){
                 playerTeam.push(new SPider());
-            }*/
-        }
+            }
+        }*/
 
         arbiter.startFight()
     }

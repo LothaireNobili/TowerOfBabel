@@ -196,7 +196,7 @@ class HeroFactory{
     
       
       // Hero factory function
-    createHero(className, startPos, sprite) {
+      createFighter(className, startPos, sprite) {
 
         this.bluePrint = new FighterBluePrint();
         // Check if the specified class exists in the blueprints
