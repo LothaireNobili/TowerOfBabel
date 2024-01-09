@@ -11,7 +11,7 @@
 
     <script type="text/javascript" src="phaser.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 
+
     <script type="text/javascript" src="./src/util/util.js"></script>
     <script type="text/javascript" src="./src/util/userInfo.js"></script>
 
@@ -54,30 +54,27 @@
                         Connexion
                     </a>
                 </div>
+                <div class="px-3" style="font-size: 20px;">
+                    <p id="context"></p>
+                </div>
                 <div id="userId" style="display: none">
+                    <button onclick="viewUserInfo(user.userId)" style="background-color: transparent; border: 0">
+                        <svg t="1704704973689" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" p-id="9536" width="35" height="35">
+                            <path
+                                d="M512 545.152c229.76 0 416 126.848 416 270.848 0 130.304-152.448 142.72-351.68 143.872h-128.64C248.448 958.72 96 946.304 96 816c0-144 186.24-270.848 416-270.848z m0 96c-180.16 0-320 92.352-320 174.848 0 30.688 56.192 46.304 272.32 47.872L512 864l49.6-0.192c215.552-1.92 270.4-17.12 270.4-47.808 0-82.496-139.84-174.848-320-174.848zM512 64a224 224 0 1 1 0 448 224 224 0 0 1 0-448z m0 96a128 128 0 1 0 0 256 128 128 0 0 0 0-256z"
+                                fill="#ffffff" p-id="9537"></path>
+                        </svg>
+                    </button>
                     <button onclick="logout()" style="background-color: transparent; border: 0">
-                        <svg id="logoutBtn" t="1703076407845" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" p-id="4585" width="35" height="35"
-                            style="margin-right: 20px">
+                        <svg t="1704705059347" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" p-id="10811" width="35" height="35">
                             <path
-                                d="M480.631 534.862H72.307c-12.76 0-21.267-8.507-21.267-21.267s8.507-21.267 21.267-21.267h408.324c12.76 0 21.267 8.507 21.267 21.267s-8.507 21.267-21.267 21.267z"
-                                p-id="4586" fill="#ffffff"></path>
-                            <path
-                                d="M284.976 726.264c-4.253 0-12.76 0-17.013-8.507-8.507-8.507-8.507-21.267 0-29.774l182.895-178.641-182.895-174.389c-8.507-8.506-8.507-21.267 0-29.773 8.506-8.507 21.266-8.507 29.773 0l195.655 195.655c4.254 4.253 8.507 8.507 8.507 17.013 0 4.254-4.253 12.76-8.507 17.014L297.736 722.01c-4.253 4.254-8.507 4.254-12.76 4.254z"
-                                p-id="4587" fill="#ffffff"></path>
-                            <path
-                                d="M999.543 1024H361.537c-12.76 0-21.267-8.507-21.267-21.267V794.318c0-12.76 8.507-21.267 21.267-21.267s21.267 8.507 21.267 21.267v187.148h595.472V45.724H382.804v191.402c0 8.506-8.507 21.267-21.267 21.267s-21.267-12.76-21.267-21.267V24.456c0-12.76 8.507-21.266 21.267-21.266h638.006c12.76 0 21.267 8.507 21.267 21.267v978.276c0 12.76-8.507 21.267-21.267 21.267z"
-                                p-id="4588" fill="#ffffff"></path>
-                            <path
-                                d="M999.543 1024h-8.507l-340.27-153.121c-8.506-8.507-12.76-17.014-12.76-25.52v-667.78c0-8.507 4.254-17.014 12.76-21.267L991.036 3.19c8.507-4.253 12.76-4.253 21.267 0 4.254 8.507 8.507 12.76 8.507 21.267v978.276c0 8.507-4.253 12.76-8.507 17.014-4.253 0-8.507 4.253-12.76 4.253zM680.54 832.598l297.736 136.108V58.484L680.54 194.592v638.006z"
-                                p-id="4589" fill="#ffffff"></path>
-                            <path
-                                d="M829.408 513.595h-85.067c-12.76 0-21.267-8.507-21.267-21.267s8.506-21.267 21.267-21.267h85.067c12.76 0 21.267 8.507 21.267 21.267s-8.507 21.267-21.267 21.267z"
-                                p-id="4590" fill="#ffffff"></path>
+                                d="M136.2 513.8v366.7c0 26.4 23.4 47.8 52.4 47.8h261.8c28.9 0 52.4-21.4 52.4-47.8s-23.4-47.8-52.4-47.8H241V194.8h209.5c28.9 0 52.4-21.4 52.4-47.8s-23.4-47.8-52.4-47.8H188.6c-28.9 0-52.4 21.4-52.4 47.8v366.8z m757.5-34.6c10.1 8.8 16.4 21.5 16.4 35.6 0 14.2-6.3 26.8-16.4 35.6L728.3 693.8c-8.8 7.6-20.5 12.3-33.2 12.3-27.4 0-49.6-21.5-49.6-47.9 0-14.1 6.4-26.8 16.5-35.5l69.3-60.1h-301c-27.4 0-49.6-21.4-49.6-47.8s22.2-47.8 49.6-47.8h300.8l-69.3-60.1c-10.1-8.7-16.5-21.5-16.5-35.6 0-26.4 22.3-47.8 49.6-47.8 12.8 0 24.4 4.6 33.2 12.3l165.6 143.4z"
+                                fill="#ffffff" p-id="10812"></path>
                         </svg>
                     </button>
                 </div>
-                <p id="context"></p>
             </div>
         </div>
     </nav>
@@ -121,12 +118,17 @@
 
             userId.style.display = "block";
             loginBtn.style.display = "none";
-            context.textContent = "Hello! " + user.username;
+            context.textContent = "Bonjour, " + user.username;
         }
 
         function logout() {
             localStorage.removeItem("userData");
             window.location.href = "../../index.html";
+        }
+
+        function viewUserInfo(id) {
+            // Accédez à la page où les informations de l’utilisateur sont affichées
+            window.location.href = '../../src/login/account.html?id=' + id;
         }
     </script>
 </body>

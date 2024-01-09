@@ -1,5 +1,6 @@
 class User {
-    constructor(username, coins, heroes, potions) {
+    constructor(id, username, coins, heroes, potions) {
+        this.userId = id || null;
         this.username = username || null;
         this.coins = coins || null;
         this.heroes = heroes || []; // heroes:[{heroName, equipment:[{equipmentName, level, attack},{equipmentName, level, defense}]}]
@@ -24,6 +25,7 @@ class User {
     upDateUserClass() {
         const reloadedUser = this.loadUserFromLocalStorage();
         if (reloadedUser) {
+            this.userId = reloadedUser.userId
             this.username = reloadedUser.username
             this.coins = reloadedUser.coins;
             this.heroes = reloadedUser.heroes;
@@ -112,29 +114,3 @@ class User {
     }
 
 }
-
-// Exemples de données
-// const user = new User("User1", 10000, [
-//     {
-//         heroName: "crusader",
-//         equipment: [
-//             {
-//                 equipmentName: "eqpWeapon",
-//                 level: 1,
-//                 attack: 5
-//             },
-//             {
-//                 equipmentName: "eqpArmour",
-//                 level: 1,
-//                 defense: 8
-//             },
-//         ]
-//     }
-// ], [
-//     {
-//         potionName: "exemple1",
-//         qte: 2
-//     }
-// ]);
-
-// 
