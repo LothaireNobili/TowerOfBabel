@@ -466,13 +466,10 @@ class FighterBluePrint{
             },
 
             applyCure(effects){
-                console.log("poke")
                 let cured = 0
 
                 for (let effect of effects){
-                    console.log("pwik "+effect)
-                    console.log(this.status_effect)
-                    console.log(this.status_effect[effect])
+
 
                     if (effect=="bleed" && this.status_effect.bleed.length){
                         this.status_effect.bleed = []

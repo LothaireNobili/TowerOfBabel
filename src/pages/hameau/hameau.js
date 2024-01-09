@@ -39,15 +39,8 @@ class Hameau extends Phaser.Scene {
 
             
             this.load.image("portrait_" + hero, "images/heroes/" + hero + "/portrait.png")
-            //this.load.image("idle_" + hero, "images/heroes/" + hero + "/idle.png")
         }
 
-        /*
-        console.log(game.config.allHeroList)
-        for (let i = 0; i < allHeroList.length; i++) {
-            this.load.image("portrait_" + allHeroList[i], "images/heroes/" + allHeroList[i] + "/portrait.png")
-            this.load.image("idle_" + allHeroList[i], "images/heroes/" + allHeroList[i] + "/idle.png")
-        }*/
     }
 
     create() {

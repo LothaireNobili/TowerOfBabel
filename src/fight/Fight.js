@@ -26,7 +26,6 @@ class Fight extends Phaser.Scene {
 
 
         for (let i = 0; i < heroList.length; i++){
-            console.log(heroList[i])
             var hero = this.add.sprite(arbiter.getVerticalPosition(i+1, "hero"),arbiter.floor,heroList[i]).play(heroList[i]+"_wait"); //place each hero
             hero.setOrigin(0.5, 1);  //center them properly
             hero.setScale(arbiter.defaultScale)
