@@ -101,7 +101,7 @@ class ComposerEquipe extends Phaser.Scene {
       cadreSelected.add(frame)
     }
 
-    loadListSelectedHeroes()
+    //loadListSelectedHeroes()
 
     for (let i = 0; i < listSelectedHeroes.length; i++) {
       if (listSelectedHeroes[i] !== 'null') {
@@ -162,7 +162,8 @@ class ComposerEquipe extends Phaser.Scene {
 
       image.on("pointerdown", function () {
         for (let i = 0; i < 4; i++) {
-          if (listSelectedHeroes[i] === 'null' && -listSelectedHeroes.indexOf(key)) {
+          console.log(listSelectedHeroes.indexOf(key))
+          if (listSelectedHeroes[i] === 'null' && !listSelectedHeroes.includes(key)) {
             listSelectedHeroes[i] = key;
             createSelectedPortrait(scene, 145 - i * 95, 0, key, selectedContainer, i)
             saveListSelectedHeroes()
