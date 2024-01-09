@@ -306,7 +306,7 @@ class FighterBluePrint{
             skeleton: {
 
                 name: "skeleton",
-                max_hp : 25,  
+                max_hp : 2500,  
 
                 dodge : 10,
 
@@ -440,9 +440,9 @@ class FighterBluePrint{
                 let totalDamage = this.getTotalBleedAmount()
                 for (let drop of this.status_effect.bleed){
                     drop[1] -= 1
-                    /*if (drop[1]==0){
-                        //remove the element drop from the status_effect.bleed list
-                    }*/
+                    if (drop[1]==0){
+                        this.status_effect.bleed.splice(this.status_effect.bleed.indexOf(drop), 1);
+                    }
                 }
                 this.applyRawDamages(totalDamage, "bleed")
             },
