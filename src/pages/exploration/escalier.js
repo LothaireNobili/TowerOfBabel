@@ -6,13 +6,15 @@ class Escalier extends Phaser.Scene
 
       preload()
       {
+
         this.load.setBaseURL("./assets/");
+
       //  this.load.image("feu", "images/exploration/escalier.jpg");
-        this.load.image("feu", "images/exploration/ruin_background1.png");
+        this.load.image("feu", "./assets/images/exploration/ruin_background1.png");
         
-        this.load.image("crusader", "images/heroes/crusader/idle.png");
-        this.load.image("bandit", "images/heroes/bandit/skill1.png");
-        this.load.image("prochainEtage","icons/cercle_red.png")
+        this.load.image("crusader", "/assets/images/heroes/crusader/idle.png");
+        this.load.image("bandit", "./assets/images/heroes/bandit/skill1.png");
+        this.load.image("prochainEtage","./assets/icons/cercle_red.png")
       }
 
       create()
@@ -29,6 +31,7 @@ class Escalier extends Phaser.Scene
         prochainEtage.setInteractive();
         prochainEtage.on("pointerdown", () => {        
            window.myScene.nouvelEtage=true;
+           window.myScene.nbSalle=this.determinerMaxSalle()
            this.scene.start("Salle");
           });
 
@@ -39,4 +42,23 @@ class Escalier extends Phaser.Scene
       }
 
       update(){}
+
+      determinerMaxSalle() {
+        var max_salle = [
+          [0, 1, 3],
+          [2, 2, 4],
+          [5, 4, 8],
+          [8, 6, 12],
+        ];
+        var max = max_salle.length-1;
+        for (var i = 0; i < max_salle.length-1; i++) 
+        {     
+          if ( max_salle[i][0]<= window.myScene.etage &&  window.myScene.etage < max_salle[i+1][0]) 
+          {
+            return Math.floor(Math.random()*(max_salle[i][2]-max_salle[i][1])+max_salle[i][1]);
+          }
+      
+        }
+        return Math.floor(Math.random()*(max_salle[max][2]-max_salle[max][1])+max_salle[max][1]);
+      } //TBD
 }

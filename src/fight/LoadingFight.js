@@ -10,15 +10,17 @@ class LoadingFight extends Phaser.Scene {
 
     preload(){
 
-        this.load.image("background", "assets/images/ruin_background1.png")
-        this.load.image('fight_announcement', 'assets/images/fight_misc/announcement_combat.png');
+        document.body.style.cursor = "default";
 
-        this.load.image("current_fighter_select", "assets/images/fight_misc/current_fighter_select.png")
-        this.load.image("move", "assets/images/fight_misc/move.png")
-        this.load.image("passive_select", "assets/images/fight_misc/passive_select.png")
-        this.load.image("passive_plus", "assets/images/fight_misc/passive_plus.png")
-        this.load.image("target_select", "assets/images/fight_misc/target_select.png")
-        this.load.image("target_plus", "assets/images/fight_misc/target_plus.png")
+        this.load.image("background", "./assets/images/ruin_background1.png")
+        this.load.image('fight_announcement', './assets/images/fight_misc/announcement_combat.png');
+
+        this.load.image("current_fighter_select", "./assets/images/fight_misc/current_fighter_select.png")
+        this.load.image("move", "./assets/images/fight_misc/move.png")
+        this.load.image("passive_select", "./assets/images/fight_misc/passive_select.png")
+        this.load.image("passive_plus", "./assets/images/fight_misc/passive_plus.png")
+        this.load.image("target_select", "./assets/images/fight_misc/target_select.png")
+        this.load.image("target_plus", "./assets/images/fight_misc/target_plus.png")
 
         let heroSpriteList = [
             "defend",
@@ -38,24 +40,24 @@ class LoadingFight extends Phaser.Scene {
         ]
 
         for (let i = 0; i < heroList.length; i++){
-            this.load.spritesheet(heroList[i], "assets/images/heroes/"+heroList[i]+"/animations/wait.png", {
+            this.load.spritesheet(heroList[i], "./assets/images/heroes/"+heroList[i]+"/animations/wait.png", {
                 frameWidth: this.graphicManager.spriteSheetDatas[heroList[i]].waitFrameWidth,
                 frameHeight: this.graphicManager.spriteSheetDatas[heroList[i]].waitFrameHeight
             })
 
             for (let j = 0; j < heroSpriteList.length; j++){
-                this.load.image(heroList[i]+"_"+heroSpriteList[j], "assets/images/heroes/"+heroList[i]+"/"+heroSpriteList[j]+".png")
+                this.load.image(heroList[i]+"_"+heroSpriteList[j], "./assets/images/heroes/"+heroList[i]+"/"+heroSpriteList[j]+".png")
             }
         }  
 
         for (let i = 0; i < enemyList.length; i++){
-            this.load.spritesheet(enemyList[i], "assets/images/enemies/"+enemyList[i]+"/animations/wait.png",{
+            this.load.spritesheet(enemyList[i], "./assets/images/enemies/"+enemyList[i]+"/animations/wait.png",{
                 frameWidth: this.graphicManager.spriteSheetDatas[enemyList[i]].waitFrameWidth,
                 frameHeight: this.graphicManager.spriteSheetDatas[enemyList[i]].waitFrameHeight
             })
 
             for (let j = 0; j < enemySpriteList.length; j++){
-                this.load.image(enemyList[i]+"_"+enemySpriteList[j], "assets/images/enemies/"+enemyList[i]+"/"+enemySpriteList[j]+".png")
+                this.load.image(enemyList[i]+"_"+enemySpriteList[j], "./assets/images/enemies/"+enemyList[i]+"/"+enemySpriteList[j]+".png")
             }
         } 
 
