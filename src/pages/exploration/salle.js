@@ -4,7 +4,7 @@ const TYPE_SALLE = [
   ["Combat&Curio", 4],
   ["Curio", 1],
 ];
-const EQUIPE = ["crusader", "bandit"];
+const EQUIPE = ["crusader_exploration", "bandit_exploration"];
 class Salle extends Phaser.Scene {
   etage = 0; //etage actuelle
   clear; //si on peut passer a la salle suivant
@@ -35,18 +35,17 @@ class Salle extends Phaser.Scene {
   }
 
   preload() {
-
-    this.load.setBaseURL("./assets/");
-    this.load.image("background", "images/exploration/ruin_background1.png");
-    this.load.image("chest", "images/exploration/chest.jpg");
-    this.load.image("crusader", "images/heroes/crusader/idle.png");
-    this.load.image("bandit", "images/heroes/bandit/skill1.png");
-    this.load.image("boutiqueBg", "images/hameau/boutique_bg.png");
-    this.load.image("close", "images/exploration/close.jpg");
-    this.load.image("couloir", "icons/cercle_red.png");
+    this.load.image("background", "./assets/images/exploration/ruin_background1.png");
+    this.load.image("chest", "./assets/images/exploration/chest.jpg");
+    this.load.image("crusader_exploration", "./assets/images/heroes/crusader/idle.png");
+    this.load.image("bandit_exploration", "./assets/images/heroes/bandit/skill1.png");
+    this.load.image("boutiqueBg", "./assets/images/hameau/boutique_bg.png");
+    this.load.image("close", "./assets/images/exploration/close.jpg");
+    this.load.image("couloir", "./assets/icons/cercle_red.png")
   }
 
   create() {
+
     for(var i = 0; i <10;i++)
     this.reset();
     window.myScene = this;
@@ -68,8 +67,9 @@ class Salle extends Phaser.Scene {
     this.fighting.setInteractive();
 
     this.fighting.on("pointerdown", () => {
-      
-      this.scene.start("bootFight");  
+      window.myScene=this;
+    game.scene.stop('Salle');
+    game.scene.start("bootFight");  
       this.clear = true;
     }); //DEBUG ONLY
 
@@ -93,6 +93,11 @@ class Salle extends Phaser.Scene {
     this.couloir.setVisible(this.clear);
     this.fighting.setVisible(!this.clear);
     if (this.curio && this.clear) this.coffre.setVisible(true);
+    if(window.myScene.returnFromFight)
+    {
+      window.myScene.returnFromFight=false
+      this.clear=true
+    }
   }
   placerEquipe() {
     var positions = [
@@ -223,9 +228,9 @@ class Salle extends Phaser.Scene {
 
   goToprochaineSalle() {
     if (this.type == "Fin") {
-      this.scene.start("Escalier");
+      game.scene.start("Escalier");
     } else {
-      this.scene.start("Couloir");
+      game.scene.start("Couloir");
     }
   }
 
@@ -252,5 +257,15 @@ class Salle extends Phaser.Scene {
     } catch (e) {
       console.error("window not set");
     }
+  }
+
+  static returnToRoom()
+  {
+    console.log("back to room")
+    window.myScene.returnFromFight=true
+    game.scene.stop("playFight")
+    game.scene.start(window.myScene)
+    console.log(window.myScene.returnFromFight)
+    
   }
 }
