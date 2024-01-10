@@ -98,7 +98,7 @@ function connecter() {
   const password = document.getElementById("mdp").value;
   const message = document.getElementById("message_login");
 
-  fetch("https://devweb.iutmetz.univ-lorraine.fr/~wang318u/TowerOfBabel/API/SelectAllUser.php")
+  fetch("../../API/SelectAllUser.php")
     .then((response) => response.json())
     .then((data) => {
       // Traiter les données JSON renvoyées par PHP, parcourir les données et traiter les informations utilisateur
