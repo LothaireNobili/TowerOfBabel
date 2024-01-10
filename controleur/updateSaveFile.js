@@ -1,21 +1,21 @@
-function updateUserSaveFile(id, saveFile) {
+function updateUserSaveFile(id, saveFile, nom, prenom, mel) {
  
   $.post(
     PATH + "UpdateSaveFile.php",
     {
       id_user: id,
       save_file: saveFile,
+      nom: nom,
+      prenom: prenom,
+      mel:mel
     },
-    function (response) {
-      if (response == "OK") {
-        console.log("Everything's fine");
-      } else {
-        console.log("It's not working");
-      }
-    }
   );
 }
 
 var id = 1;
-var saveFile = "save File to be determined"
-updateUserSaveFile(id, saveFile);
+var saveFile = "it doesnt just works"
+var nom = "Yoshikage";
+var prenom = "Kira"
+var mel = "HandlessKila@Morio.com"
+updateUserSaveFile(id, saveFile,nom, prenom,mel);
+

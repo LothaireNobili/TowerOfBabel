@@ -1,4 +1,4 @@
-var heroList = ["crusader", "bandit", "plaguedoctor", "vestal"];
+var heroList = ["hellion", "bandit", "plaguedoctor", "vestal"];
 //var heroList = ["bandit", "plaguedoctor",];
 var enemyList = ["skeleton","skeleton","skeleton"];
 var initialFighterList = [...heroList, ...enemyList]; //->contrary to previous indication, it doesn't merge the lists by reference, it just merges them
@@ -42,8 +42,8 @@ class LoadingFight extends Phaser.Scene {
 
         for (let i = 0; i < heroList.length; i++){
             this.load.spritesheet(heroList[i], "./assets/images/heroes/"+heroList[i]+"/animations/wait.png", {
-                frameWidth: this.graphicManager.spriteSheetDatas[heroList[i]].waitFrameWidth,
-                frameHeight: this.graphicManager.spriteSheetDatas[heroList[i]].waitFrameHeight
+                frameWidth: this.graphicManager.spriteSheetDatas[heroList[i]].wait.frameWidth,
+                frameHeight: this.graphicManager.spriteSheetDatas[heroList[i]].wait.frameHeight
             })
 
             for (let j = 0; j < heroSpriteList.length; j++){
@@ -53,35 +53,25 @@ class LoadingFight extends Phaser.Scene {
 
         for (let i = 0; i < enemyList.length; i++){
             this.load.spritesheet(enemyList[i], "./assets/images/enemies/"+enemyList[i]+"/animations/wait.png",{
-                frameWidth: this.graphicManager.spriteSheetDatas[enemyList[i]].waitFrameWidth,
-                frameHeight: this.graphicManager.spriteSheetDatas[enemyList[i]].waitFrameHeight
+                frameWidth: this.graphicManager.spriteSheetDatas[enemyList[i]].wait.frameWidth,
+                frameHeight: this.graphicManager.spriteSheetDatas[enemyList[i]].wait.frameHeight
             })
 
             for (let j = 0; j < enemySpriteList.length; j++){
                 this.load.image(enemyList[i]+"_"+enemySpriteList[j], "./assets/images/enemies/"+enemyList[i]+"/"+enemySpriteList[j]+".png")
             }
         } 
-
-
-        /*
-        for (let i = 0; i < enemyList.length; i++){
-            this.load.image(enemyList[i], "assets/images/enemies/"+enemyList[i]+"/wait.png")
-        }  
-        /*this.load.image("crusader", "assets/images/crusader_wait.png")
-        this.load.image("skeleton", "assets/images/skeleton_wait.png")*/
     }
 
     create(){
 
-
-        //move that code to an animationLoader class
         for (let i = 0; i < heroList.length; i++){
             this.anims.create({
                 key: heroList[i]+'_wait', // Animation key (can be any string)
                 frames: this.anims.generateFrameNumbers(heroList[i], {
                     scale: 2,
                     start: 0,
-                    end: this.graphicManager.spriteSheetDatas[heroList[i]].waitEnd //index of the last frame of the animation
+                    end: this.graphicManager.spriteSheetDatas[heroList[i]].wait.end //index of the last frame of the animation
                 }),
                 frameRate: 20, // Number of frames to display per second
                 repeat: -1, // Set to -1 to loop the animation continuously, or a positive integer to specify the number of times to repeat
@@ -93,7 +83,7 @@ class LoadingFight extends Phaser.Scene {
                 key: enemyList[i]+'_wait', // Animation key (can be any string)
                 frames: this.anims.generateFrameNumbers(enemyList[i], {
                     start: 0,
-                    end: this.graphicManager.spriteSheetDatas[enemyList[i]].waitEnd //index of the last frame of the animation
+                    end: this.graphicManager.spriteSheetDatas[enemyList[i]].wait.end //index of the last frame of the animation
                 }),
                 frameRate: 20, // Number of frames to display per second
                 repeat: -1, // Set to -1 to loop the animation continuously, or a positive integer to specify the number of times to repeat

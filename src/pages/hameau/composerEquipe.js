@@ -101,7 +101,7 @@ class ComposerEquipe extends Phaser.Scene {
       cadreSelected.add(frame)
     }
 
-    loadListSelectedHeroes()
+    //loadListSelectedHeroes()
 
     for (let i = 0; i < listSelectedHeroes.length; i++) {
       if (listSelectedHeroes[i] !== 'null') {
@@ -131,8 +131,8 @@ class ComposerEquipe extends Phaser.Scene {
       descriptionBg.displayWidth = 700;
       descriptionBg.displayHeight = 400;
       var heroName = scene.add.text(-270, -150, key.toUpperCase(), setFontStyles());
-      var heroImage = scene.add.image(-210, 40, "idle_" + key);
-      heroImage.setScale(0.4);
+      var heroImage = scene.add.sprite(-210, 155, "idle_" + key).play(key+"_idle").setOrigin(0.5, 1).setScale(0.80);
+
       var description = scene.add.text(-70, -20, "Description", setFontStyles())
       var qualiteIcon = scene.add.image(-50, -100, "king");
       qualiteIcon.setScale(0.08)
@@ -162,7 +162,7 @@ class ComposerEquipe extends Phaser.Scene {
 
       image.on("pointerdown", function () {
         for (let i = 0; i < 4; i++) {
-          if (listSelectedHeroes[i] === 'null' && -listSelectedHeroes.indexOf(key)) {
+          if (listSelectedHeroes[i] === 'null' && !listSelectedHeroes.includes(key)) {
             listSelectedHeroes[i] = key;
             createSelectedPortrait(scene, 145 - i * 95, 0, key, selectedContainer, i)
             saveListSelectedHeroes()

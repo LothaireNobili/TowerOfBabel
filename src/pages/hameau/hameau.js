@@ -7,6 +7,7 @@ addSellQuantityToPotions(allPotionsList)
 class Hameau extends Phaser.Scene {
     constructor() {
         super({ key: 'Hameau' });
+        this.graphicManager = new GraphicManager();
     }
 
     preload() {
@@ -27,13 +28,35 @@ class Hameau extends Phaser.Scene {
         this.load.image("cardFocus", "images/hameau/card_focus.jpg")
         this.load.image("boutiqueBg", "images/hameau/boutique_bg.png");
 
-        for (let i = 0; i < allHeroList.length; i++) {
-            this.load.image("portrait_" + allHeroList[i], "images/heroes/" + allHeroList[i] + "/portrait.png")
-            this.load.image("idle_" + allHeroList[i], "images/heroes/" + allHeroList[i] + "/idle.png")
+
+        for (let hero of game.config.allHeroList){
+
+            this.load.spritesheet(hero, "images/heroes/"+hero+"/animations/idle.png", {
+                frameWidth: this.graphicManager.spriteSheetDatas[hero].idle.frameWidth,
+                frameHeight: this.graphicManager.spriteSheetDatas[hero].idle.frameHeight
+            })
+    
+
+            
+            this.load.image("portrait_" + hero, "images/heroes/" + hero + "/portrait.png")
         }
+
     }
 
     create() {
+
+        for (let hero of game.config.allHeroList){
+            this.anims.create({
+                key: hero+'_idle', // Animation key (can be any string)
+                frames: this.anims.generateFrameNumbers(hero, {
+                    scale: 2,
+                    start: 0,
+                    end: this.graphicManager.spriteSheetDatas[hero].idle.end //index of the last frame of the animation
+                }),
+                frameRate: 20, // Number of frames to display per second
+                repeat: -1, // Set to -1 to loop the animation continuously, or a positive integer to specify the number of times to repeat
+            });
+        }
         
         document.body.style.cursor = "default";
 
