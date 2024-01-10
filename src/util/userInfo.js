@@ -114,3 +114,46 @@ class User {
     }
 
 }
+
+
+// Exemples de données
+const user = new User("User1", 100000, [
+    {
+        heroName: "crusader",
+        equipment: [
+            {
+                equipmentName: "eqpWeapon",
+                level: 0,
+                attack: 5
+            },
+            {
+                equipmentName: "eqpArmour",
+                level: 0,
+                defense: 8
+            },
+        ]
+    },
+    {
+        heroName: "bandit",
+        equipment: [
+            {
+                equipmentName: "eqpWeapon",
+                level: 0,
+                attack: 5
+            },
+            {
+                equipmentName: "eqpArmour",
+                level: 0,
+                defense: 8
+            },
+        ]
+    }
+], [
+    {
+        potionName: "exemple1",
+        qte: 2
+    }
+]);
+
+user.saveToLocalStorage();
+

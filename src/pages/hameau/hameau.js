@@ -1,7 +1,7 @@
 // supprimer /--
-var allHeroList = ["crusader", "bandit","plaguedoctor","vestal"];
+//var allHeroList = ["crusader", "bandit","plaguedoctor","vestal"];
 var allPotionsList = [{ name: "exemple1", description: "description", prix: 550, sellQuantity: 1 }, { name: "exemple2", description: "description", prix: 300, sellQuantity: 1 }]; 
-addSellQuantityToPotions(allPotionsList)
+//addSellQuantityToPotions(allPotionsList)
 // --/
 
 class Hameau extends Phaser.Scene {
@@ -35,9 +35,6 @@ class Hameau extends Phaser.Scene {
                 frameWidth: this.graphicManager.spriteSheetDatas[hero].idle.frameWidth,
                 frameHeight: this.graphicManager.spriteSheetDatas[hero].idle.frameHeight
             })
-    
-
-            
             this.load.image("portrait_" + hero, "images/heroes/" + hero + "/portrait.png")
         }
 
@@ -74,7 +71,7 @@ class Hameau extends Phaser.Scene {
 
         // Créez un objet image et stockez-le dans un tableau
         createInteractiveImage(this, 680, 580, 200, 200, "Diligence", "recruter de nouveaux héros")
-        createInteractiveImage(this, 940, 560, 230, 230, "Laboratoire", "acheter des potion")
+        //createInteractiveImage(this, 940, 560, 230, 230, "Laboratoire", "acheter des potion") on retire pour la 1er version
         createInteractiveImage(this, 150, 590, 230, 230, "Forge", "acheter des armes et armures")
         createInteractiveImage(this, 400, 570, 200, 200, "Depart", "débuter l'aventure")
 

@@ -76,7 +76,7 @@ class ComposerEquipe extends Phaser.Scene {
     var cadreSelected = this.add.container(400, 650);
 
     var text = this.add.text(897, 100, "Votre équipe", {
-      fontFamily: "Comic Sans MS",
+      fontFamily: "Pixel",
       fontSize: "24px",
       backgroundColor: "rgba(0, 0, 0, 0.8)",
       padding: { x: 25, y: 10 },
@@ -84,7 +84,7 @@ class ComposerEquipe extends Phaser.Scene {
     });
     text.setFixedSize(200, 50);
 
-    var intervalleY = 70
+    var intervalleY = 65
     for (let i = 0; i < user.heroes.length; i++) {
       createEquipeCard(this, 1012, 185 + i * intervalleY, user.heroes[i].heroName, cadreSelected)
     }

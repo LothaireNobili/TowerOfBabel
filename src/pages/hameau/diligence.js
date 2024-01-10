@@ -37,7 +37,7 @@ class Diligence extends Phaser.Scene {
     diligence.setScale(0.6)
 
     // Ajouter des heros
-    var intervalleY = 72
+    var intervalleY = 65
     let count = 0;
     for (let heroOfList of game.config.allHeroList) {
       const heroIndex = user.heroes.findIndex(hero => hero.heroName === heroOfList);
@@ -54,7 +54,7 @@ class Diligence extends Phaser.Scene {
     equipeBackground.displayHeight = 580;
 
     var text = this.add.text(897, 135, "Votre équipe", {
-      fontFamily: "Comic Sans MS",
+      fontFamily: "Pixel",
       fontSize: "24px",
       backgroundColor: "rgba(0, 0, 0, 0.6)",
       padding: { x: 25, y: 10 },
@@ -62,7 +62,7 @@ class Diligence extends Phaser.Scene {
     });
     text.setFixedSize(200, 50);
 
-    var intervalleY = 72
+    var intervalleY = 65
     for (let i = 0; i < user.heroes.length; i++) {
       createInteractiveImage(this, 1025, 230 + i * intervalleY, user.heroes[i].heroName)
     }
@@ -132,12 +132,12 @@ class Diligence extends Phaser.Scene {
             //exemple
             let eqpWeapon = {
               equipmentName: "eqpWeapon",
-              level: 1,
+              level: 0,
               attack: 9
             }
             let eqpArmour = {
               equipmentName: "eqpArmour",
-              level: 1,
+              level: 0,
               defense: 4
             }
 

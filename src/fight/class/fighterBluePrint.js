@@ -391,7 +391,7 @@ class FighterBluePrint{
                 //resistance stats
                 stun_res : 20,
                 move_res : 20,
-                bleed_res : 20,
+                bleed_res : 200,
                 poison_res : 20,
                 debuff_res : 20,
 
@@ -418,7 +418,7 @@ class FighterBluePrint{
                         requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
                         damage_low: 5, //minimum damage
                         damage_high: 7, //max damage
-                        bleed: [1000, 2, 3],  //120% chance to proc bleed, 2 damage for 3 turns
+                        bleed: [120, 2, 3],  //120% chance to proc bleed, 2 damage for 3 turns
                         /*poison: [1140, 2],  //140% chance to proc poison, power 6
                         stun: 1120//<- those are useful to debug*/
                     }
@@ -442,6 +442,87 @@ class FighterBluePrint{
                 }
 
             },
+            spider: {
+
+                name: "spider",
+                max_hp : 15,  
+
+                dodge : 20,
+
+                prot : 0, 
+
+                speed : 7,
+
+                crit : 5, //in %
+
+                damage_mult : 1,
+
+                //resistance stats
+                stun_res : 20,
+                move_res : 20,
+                bleed_res : 20,
+                poison_res : 20,
+                debuff_res : 20,
+
+                
+                skills : [
+                    {
+                        id: "venom",
+                        name: 'Venom',
+                        animation: "attack",
+                        target: "hero", //ennemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [1, 2, 3, 4], //spot reach
+                        requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
+                        damage_low: 3, //minimum damage
+                        damage_high: 5, //max damage
+                        poison: [120, 3]
+                    },
+                    {
+                        id: "web",
+                        name: 'Web',
+                        animation: "attack",
+                        target: "hero", //ennemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [1, 2], //spot reach
+                        requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
+                        damage_low: 1, //minimum damage
+                        damage_high: 2, //max damage
+                        stun: 80,  //120% chance to proc bleed, 2 damage for 3 turns
+                    }
+                ],
+
+
+                getInput(playerTeam ){
+
+                    let randomNumSkill = (Math.random() * 2) -1;
+                    randomNumSkill = Math.ceil(randomNumSkill)
+            
+                    if (randomNumSkill==0){
+                        let randomNumTarget = (Math.random() * playerTeam.length) -1;
+                        randomNumTarget = Math.ceil(randomNumTarget)
+                    }
+                    else if (randomNumSkill==1){
+                        let targetCount = Math.min(2, playerTeam.length)
+                        let randomNumTarget = (Math.random() * targetCount) -1;
+                        randomNumTarget = Math.ceil(randomNumTarget)
+                    }
+
+                    return [this.skills[randomNumSkill], playerTeam[randomNumTarget]]
+
+                    /*
+                    if (playerTeam.length>1){
+                        let randomNumTarget = (Math.random() * 2) -1;
+                        randomNumTarget = Math.ceil(randomNumTarget)
+                        return [this.skills[randomNumSkill], playerTeam[0]];
+                    }
+                    else{
+                        return [this.skills[randomNumSkill], playerTeam[randomNumTarget]]
+                    }*/
+                    
+                }
+
+            }
         },
 
         this.commonFunctions = {
