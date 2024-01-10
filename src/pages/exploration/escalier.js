@@ -6,20 +6,24 @@ class Escalier extends Phaser.Scene
 
       preload()
       {
-        this.load.image("feu", "./assets//images/exploration/escalier.jpg");
-        this.load.image("crusader", "./assets/images/heroes/crusader/idle.png");
-        this.load.image("bandit", "./assets/images/heroes/bandit/skill1.png");
+        this.load.image("feu", "./assets/images/exploration/escalier.jpg");
+        for (var i = 0; i < EQUIPE.length; i++) {
+          this.load.image(
+            EQUIPE[i] + "_escalier",
+            "./assets/images/heroes/" + EQUIPE[i] + "/idle.png"
+          );
+        }
         this.load.image("prochainEtage","./icons/cercle_red.png")
       }
 
       create()
       {
-        var positions=[[500,500],[700,500],[800,600],[400,600]]
-        var equipe =["crusader","bandit","crusader","bandit"]
+        var positions=[[500,500],[400,600],[700,500],[800,600]]
         var background = this.add.image(540, 360, "feu");
-        for(var i = 0;i<equipe.length;i++)
+        for(var i = 0;i<EQUIPE.length;i++)
         {
-            this.add.image(positions[i][0],positions[i][1],equipe[i]).setScale(0.3);
+            var equipier = this.add.image(positions[i][0],positions[i][1],EQUIPE[i]).setScale(0.3);
+            if(i>1) equipier.flipX=true
         }
         
         var prochainEtage= this.add.image(570,300,"prochainEtage");
@@ -29,11 +33,9 @@ class Escalier extends Phaser.Scene
            window.myScene.nbSalle=this.determinerMaxSalle()
            this.scene.start("Salle");
           });
-
-        this.fighting = this.add.text(350, 20, "Entre deux Etages", {
-            font: "40px Arial",
-            fill: "white",
-          }); //deletable
+          
+          const barreInfo = new BarreInfo(this);
+        barreInfo.creerBarreInfo();
       }
 
       update(){}
