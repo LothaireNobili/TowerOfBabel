@@ -118,7 +118,7 @@ class User {
 }
 
 // Exemples de données
-const user = new User("User1", 10000, [
+const user = new User("User1", 100000, [
     {
         heroName: "crusader",
         equipment: [
