@@ -199,6 +199,7 @@ class Forge extends Phaser.Scene {
             padlockList.list[i].setTexture("check");
 
             // mise à jour level
+            
             level++;
             user.updateEqpLevel(heroName, eqpType, level)
             // console.log(user)
@@ -206,6 +207,8 @@ class Forge extends Phaser.Scene {
             // mise à jour le value
             valueCard.setText((value + (level - 1) * UPGRADE_VALUE).toString());
             valueCard.setText((value + (level - 1) * UPGRADE_VALUE).toString());
+
+            console.log(heroName)
 
             // Désactive l'interactivité de l'icône actuelle après l'avoir déverrouillée
             padlockList.list[i].disableInteractive();
