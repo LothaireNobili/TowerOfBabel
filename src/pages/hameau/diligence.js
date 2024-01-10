@@ -8,10 +8,11 @@ class Diligence extends Phaser.Scene {
     this.load.image("cercleWhite", "icons/cercle_white.png")
     this.load.image("cercleYellow", "icons/cercle_yellow.png")
 
-    for (let i = 0; i < allHeroList.length; i++) {
+    //for (let i = 0; i < gameallHeroList.length; i++) {
+    for (let hero of game.config.allHeroList) {
       for (let j = 0; j < 4; j++) {
-        this.load.image(allHeroList[i] + "Skill" + (j + 1) + "Icon",
-          "images/heroes/" + allHeroList[i] + "/skill" + (j + 1) + "_icon.png")
+        this.load.image(hero + "Skill" + (j + 1) + "Icon",
+          "images/heroes/" + hero + "/skill" + (j + 1) + "_icon.png")
       }
     }
   }
@@ -38,10 +39,10 @@ class Diligence extends Phaser.Scene {
     // Ajouter des heros
     var intervalleY = 72
     let count = 0;
-    for (var i = 0; i < allHeroList.length; i++) {
-      const heroIndex = user.heroes.findIndex(hero => hero.heroName === allHeroList[i]);
+    for (let heroOfList of game.config.allHeroList) {
+      const heroIndex = user.heroes.findIndex(hero => hero.heroName === heroOfList);
       if (heroIndex == -1) {
-        createInteractiveImage(this, 670, 230 + count * intervalleY, allHeroList[i], 1000, true)
+        createInteractiveImage(this, 670, 230 + count * intervalleY, heroOfList, 1000, true)
         count++;
       }
     }
@@ -95,8 +96,8 @@ class Diligence extends Phaser.Scene {
       descriptionBg.displayWidth = 460;
       descriptionBg.displayHeight = 500;
       var heroName = scene.add.text(-200, -200, key.toUpperCase(), setFontStyles());
-      var heroImage = scene.add.image(-130, 65, "idle_" + key);
-      heroImage.setScale(0.5);
+      var heroImage = scene.add.sprite(-130, 20, "idle_" + key).play(key+"_idle").setOrigin(0.5, 0.5).setScale(0.95);
+
 
       descriptionContainer.add([descriptionBg, heroName, heroImage]);
 
