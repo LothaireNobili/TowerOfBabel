@@ -13,7 +13,7 @@ function setFontStyles(
     return fontStyles;
 }
 
-function createEnseigneReturnBtn(scene,enseigne) {
+function createEnseigneReturnBtn(scene, enseigne) {
     enseigne.setScale(0.55)
     var retourText = scene.add.text(150, 115, "RETOUR", setFontStyles());
     enseigne.setInteractive();
@@ -50,6 +50,37 @@ function addSellQuantityToPotions(potionsList) {
     }
 }
 
-// function InitialisationCompte(user) {
-//     user.
-// }
+function createPositionCard(scene, y, teamPosition, attackRange) {
+    var card = scene.add.container(0, 0);
+    var positions = [];
+    var ranges = [];
+
+    // Initialiser l’icône de position de capacité
+    for (var i = 0; i < 4; i++) {
+        var position = scene.add.image(36 + i * 13, y, "cercleWhite");
+        var range = scene.add.image(100 + i * 13, y, "cercleWhite");
+        position.setScale(0.2);
+        range.setScale(0.2);
+
+        card.add([position, range]);
+
+        positions.push(position);
+        ranges.push(range);
+    }
+
+    // Parcourez teamPosition, modifiez l’icône de la position
+    teamPosition.forEach(e => {
+        if (positions[e]) {
+            positions[e].setTexture("cercleYellow");
+        }
+    });
+
+    // Parcourez attackRange, modifiez l’icône de la position
+    attackRange.forEach(e => {
+        if (ranges[e]) {
+            ranges[e].setTexture("cercleRed");
+        }
+    });
+
+    return card;
+}

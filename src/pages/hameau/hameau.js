@@ -1,5 +1,5 @@
 // supprimer /--
-var allPotionsList = [{ name: "exemple1", description: "description", prix: 550, sellQuantity: 1 }, { name: "exemple2", description: "description", prix: 300, sellQuantity: 1 }]; 
+var allPotionsList = [{ name: "exemple1", description: "description", prix: 550, sellQuantity: 1 }, { name: "exemple2", description: "description", prix: 300, sellQuantity: 1 }];
 addSellQuantityToPotions(allPotionsList)
 // --/
 
@@ -26,26 +26,31 @@ class Hameau extends Phaser.Scene {
         this.load.image("card", "images/hameau/card.jpg")
         this.load.image("cardFocus", "images/hameau/card_focus.jpg")
         this.load.image("boutiqueBg", "images/hameau/boutique_bg.png");
+        this.load.image("cercleRed", "icons/cercle_red.png")
+        this.load.image("cercleWhite", "icons/cercle_white.png")
+        this.load.image("cercleYellow", "icons/cercle_yellow.png")
 
 
-        for (let hero of game.config.allHeroList){
+        for (let hero of game.config.allHeroList) {
 
-            this.load.spritesheet(hero, "images/heroes/"+hero+"/animations/idle.png", {
+            this.load.spritesheet(hero, "images/heroes/" + hero + "/animations/idle.png", {
                 frameWidth: this.graphicManager.spriteSheetDatas[hero].idle.frameWidth,
                 frameHeight: this.graphicManager.spriteSheetDatas[hero].idle.frameHeight
             })
-    
 
-            
+            for (let j = 0; j < 4; j++) {
+                this.load.image(hero + "Skill" + (j + 1) + "Icon",
+                    "images/heroes/" + hero + "/skill" + (j + 1) + "_icon.png")
+            }
             this.load.image("portrait_" + hero, "images/heroes/" + hero + "/portrait.png")
         }
 
     }
 
     create() {
-        for (let hero of game.config.allHeroList){
+        for (let hero of game.config.allHeroList) {
             this.anims.create({
-                key: hero+'_idle', // Animation key (can be any string)
+                key: hero + '_idle', // Animation key (can be any string)
                 frames: this.anims.generateFrameNumbers(hero, {
                     scale: 2,
                     start: 0,
@@ -55,7 +60,7 @@ class Hameau extends Phaser.Scene {
                 repeat: -1, // Set to -1 to loop the animation continuously, or a positive integer to specify the number of times to repeat
             });
         }
-        
+
         document.body.style.cursor = "default";
 
         var descriptions = {};
@@ -114,12 +119,12 @@ class Hameau extends Phaser.Scene {
             image.on("pointerdown", function () {
 
                 game.scene.stop('Hameau')
-                if(key == "Depart"){
+                if (key == "Depart") {
 
                     game.scene.start("ComposerEquipe");
 
                 }
-                else{
+                else {
 
                     game.scene.start(key);
                 }

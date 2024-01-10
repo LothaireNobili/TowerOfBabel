@@ -12,14 +12,15 @@ class ComposerEquipe extends Phaser.Scene {
   preload() {
     this.load.setBaseURL('./assets/')
     this.load.image("frame", "icons/frame.png")
-    this.load.image("king", "icons/king.png")
-    this.load.image("cercleYellow", "icons/cercle_yellow.png")
     this.load.image("goBtn", "icons/go.png")
     this.load.image("goBtnFocus", "icons/go_focus.png")
 
-    localStorage.setItem("listSelectedHeroes", ["null","null","null","null"]); //initalize the list of selected heroes
+    localStorage.setItem("listSelectedHeroes", ["null", "null", "null", "null"]); //initalize the list of selected heroes
   }
   create() {
+    const heroListClass = new FighterBluePrint()
+    var heroList = heroListClass.classBlueprints
+
     document.body.style.cursor = "default";
 
     this.add.image(540, 360, "hameauBg");
@@ -59,8 +60,8 @@ class ComposerEquipe extends Phaser.Scene {
           break;
         }
       }
-      if(go){
-        GOLDEARNT=user.coins
+      if (go) {
+        GOLDEARNT = user.coins
         message.setVisible(false);
         game.scene.stop("ComposerEquipe")
         game.scene.start('Salle');
@@ -70,9 +71,6 @@ class ComposerEquipe extends Phaser.Scene {
 
 
     // equipe
-    // var equipeBackground = this.add.image(1000, 350, "boutiqueBg")
-    // equipeBackground.displayWidth = 220;
-    // equipeBackground.displayHeight = 580;
     var cadreSelected = this.add.container(400, 650);
 
     var text = this.add.text(897, 100, "Votre équipe", {
@@ -132,21 +130,31 @@ class ComposerEquipe extends Phaser.Scene {
       descriptionBg.displayWidth = 700;
       descriptionBg.displayHeight = 400;
       var heroName = scene.add.text(-270, -150, key.toUpperCase(), setFontStyles());
-      var heroImage = scene.add.sprite(-210, 155, "idle_" + key).play(key+"_idle").setOrigin(0.5, 1).setScale(0.80);
+      var heroImage = scene.add.sprite(-210, 155, "idle_" + key).play(key + "_idle").setOrigin(0.5, 1).setScale(0.80);
 
-      var description = scene.add.text(-70, -20, "Description", setFontStyles())
-      var qualiteIcon = scene.add.image(-50, -100, "king");
-      qualiteIcon.setScale(0.08)
+      descriptionContainer.add([descriptionBg, heroName, heroImage]);
 
-      descriptionContainer.add([descriptionBg, heroName, heroImage, description, qualiteIcon]);
+      var qualityContainer = scene.add.container(-50, -50);
+      var hp = scene.add.text(0, -50, "HP : " + heroList[key].max_hp, setFontStyles("20px"))
+      var dodge = scene.add.text(0, -10, "Dodge : " + heroList[key].dodge, setFontStyles("20px"))
+      var prot = scene.add.text(0, 30, "Armor : " + heroList[key].prot, setFontStyles("20px"))
+      var speed = scene.add.text(0, 70, "Speed : " + heroList[key].speed, setFontStyles("20px"))
+      var crit = scene.add.text(0, 110, "Crit : " + heroList[key].crit + "%", setFontStyles("20px"))
+      qualityContainer.add([hp, dodge, prot, speed, crit])
 
-      for (let i = 0; i < 2; i++) {
-        var icon = scene.add.image(i * 160, -100, "cercleYellow")
-        icon.setScale(0.25)
-        var qualite = scene.add.text(16 + i * 160, -118, "qualite " + (i + 1), setFontStyles())
-        descriptionContainer.add([icon, qualite])
+      var skillContainer = scene.add.container(165, -30);
+      for (var i = 0; i < 4; i++) {
+        var skillCard = scene.add.image(-10, -50 + i * 65, key + "Skill" + (i + 1) + "Icon");
+        skillCard.setScale(0.6);
+        var skillName = scene.add.text(15, -70 + i * 65, heroList[key].skills[i].name, setFontStyles("18px"));
+        skillContainer.add([skillCard, skillName]);
+        
+        var positionCard = createPositionCard(scene, -36 + i * 65, heroList[key].skills[i].requiered_pos, heroList[key].skills[i].reach);
+        
+        skillContainer.add(positionCard);
       }
 
+      descriptionContainer.add([qualityContainer, skillContainer])
       descriptionContainer.setVisible(false);
 
       image.on("pointerover", function () {
