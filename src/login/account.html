@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,12 +18,14 @@
             font-size: 22px;
             color: white;
         }
-        
+
+
         input:focus {
             outline: none;
         }
     </style>
 </head>
+
 
 <body>
     <nav class="navbar bg-dark border-bottom border-body z-index-top" data-bs-theme="dark">
@@ -46,71 +49,89 @@
         </div>
     </nav>
 
-    <div class="container">
-        <div id="userInfoForm">
-            <div style="margin: 100px 150px;">
-                <h1 class="mb-80" style="text-align: center; color: white;">
-                    Informations du compte</h1>
-                <div class="input-group">
-                    <label for="name" class="col-sm-3 col-form-label">Nom et prénom : </label>
-                    <input type="text" aria-label="nom" id="userNom"
-                        class="form-control border-3 bg-transparent custom-input">
-                    <input type="text" aria-label="prenom" id="userPrenom"
-                        class="form-control border-3 bg-transparent custom-input">
-                </div>
-
-                <div class="input-group mb-3">
-                    <label for="email" class="col-sm-3 col-form-label">Email :</label>
-                    <div class="col-sm-9">
-                        <input type="email" class="form-control border-3 bg-transparent custom-input" id="userMel">
+    <div class="wrapper">
+        <div class="container">
+            <div id="userInfoForm">
+                <div style="margin: 100px 150px;">
+                    <h1 class="mb-80" style="text-align: center; color: white;">
+                        Informations du compte</h1>
+                    <div class="input-group  mb-3">
+                        <label for="name" class="col-sm-3 col-form-label">Nom et prénom : </label>
+                        <input type="text" aria-label="nom" id="userNom"
+                            class="form-control border-3 bg-transparent custom-input">
+                        <input type="text" aria-label="prenom" id="userPrenom"
+                            class="form-control border-3 bg-transparent custom-input">
                     </div>
-                </div>
 
-                <div class="input-group mb-3">
-                    <label for="date" class="col-sm-6 col-form-label">Date de naissance (dd/mm) :</label>
-                    <div class="col-sm-6">
-                        <input type="text" placeholder="dd/mm" class="form-control border-3 bg-transparent custom-input"
-                            maxlength="5" id="userBirthday">
+
+                    <div class="input-group mb-3">
+                        <label for="email" class="col-sm-3 col-form-label">Email :</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control border-3 bg-transparent custom-input" id="userMel">
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-group mb-3">
-                    <label for="login" class="col-sm-3 col-form-label">Login :</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control border-3 bg-transparent custom-input" id="login">
+
+                    <div class="input-group mb-3">
+                        <label for="date" class="col-sm-6 col-form-label">Date de naissance :</label>
+                        <div class="col-sm-6">z
+                            <input type="text" class="form-control border-3 bg-transparent custom-input" maxlength="5"
+                                id="userBirthday">
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-group mb-3">
-                    <label for="mdp" class="col-sm-3 col-form-label">Mot de passe :</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control border-3 bg-transparent custom-input" id="mdp">
+
+                    <div class="input-group mb-3">
+                        <label for="login" class="col-sm-3 col-form-label">Login :</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control border-3 bg-transparent custom-input" id="login">
+                        </div>
                     </div>
+
+                    <nav style="padding: 0 100px; margin-top: 80px;">
+                        <!-- <button type="button" onclick="editUserInfo()" class="btn btn-style btn-outline-success"
+                       style="float: left;" id="modifBtn">Modifier</button> -->
+                        <button type="button" class="btn btn-style btn-outline-success"
+                            style="float: left; display: none;" onclick="saveUserInfo()" id="saveBtn">Valider</button>
+                        <a href="../../index.html">
+                            <button type="button" class="btn btn-style btn-outline-secondary"
+                                style="float: right;">Retour</button>
+                        </a>
+                    </nav>
+
                 </div>
-
-                <nav style="padding: 0 100px; margin-top: 80px;">
-                    <button type="button" onclick="editUserInfo()" class="btn btn-style btn-outline-success"
-                        style="float: left;" id="modifBtn">Modifier</button>
-                    <button type="button" class="btn btn-style btn-outline-success"
-                        style="float: left; display: none;" onclick="saveUserInfo()" id="saveBtn">Valider</button>
-                    <a href="../../index.html">
-                        <button type="button" class="btn btn-style btn-outline-secondary"
-                            style="float: right;">Retour</button>
-                    </a>
-                </nav>
-
             </div>
         </div>
-        <footer class="footer">
-            <img src="../../assets/images/iut-logo.png" />
-            <p>NOBILI Lothaire | SAHININE Haroun | WANG Nuoxi</p>
+        <footer class="footer" style="margin-top: 300px;">
+            <div style="margin-bottom: 20px;">
+                <img src="../../assets/images/iut-logo.png" />
+                <p style="float: right;">NOBILI Lothaire | SAHININE Haroun | WANG Nuoxi</p>
+            </div>
+            <div style="margin: 10px 20px;">
+                <ul>
+                    <li>Librairie et Cadre Open Source: </li>
+                    <a href="https://getbootstrap.com/">https://getbootstrap.com/</a><br>
+                    <a href="https://jquery.com/">https://jquery.com/</a><br>
+                    <a href="https://phaser.io/">https://phaser.io/</a><br>
+                    <li>Référence Technique: </li>
+                    <a href="https://stackoverflow.com/">https://stackoverflow.com/</a><br>
+                    <a href="https://openai.com/blog/chatgpt">Chatgpt</a>
+                    <li>Source des Images: </li>
+                    <a href="https://game-icons.net/">https://game-icons.net/</a><br>
+                    <a href="https://www.iconfont.cn/?lang=en-us">https://www.iconfont.cn/?lang=en-us</a><br>
+                    <a href="https://www.darkestdungeon.com/">Darkest Dungeon® Red Hook Studios</a>
+                </ul>
+            </div>
         </footer>
+    </div>
 </body>
+
 
 <script>
     document.querySelectorAll('#userInfoForm input').forEach(input => {
         input.setAttribute('readonly', true);
     });
+
 
     // Obtenir l’ID dans le lien
     const urlParams = new URLSearchParams(window.location.search);
@@ -119,21 +140,24 @@
     let userInfo = document.getElementById("userInfo");
     let context = document.getElementById("context");
 
+
     let nom = document.getElementById('userNom')
     let prenom = document.getElementById('userPrenom')
     let mel = document.getElementById('userMel')
     let birthday = document.getElementById('userBirthday')
     let login = document.getElementById('login')
-    let mdp = document.getElementById('mdp')
-
+    // let mdp = document.getElementById('mdp')
 
     let user = new User();
     user.upDateUserClass();
 
+
     context.textContent = "Bonjour, " + user.username;
 
+
     // Les informations de l’utilisateur s’affichent lors de l’initialisation de la page
-    displayUserInfo(user);
+    displayUserInfo(userId);
+
 
     function logout() {
         localStorage.removeItem("userData");
@@ -150,6 +174,7 @@
         document.getElementById('saveBtn').style.display = 'block';
     }
 
+
     // Function to save edited user information
     function saveUserInfo() {
         // Disable input fields and hide the save button
@@ -159,14 +184,27 @@
         document.getElementById('saveBtn').style.display = 'none';
     }
 
-    function displayUserInfo(user) {
-        nom.value = "test"
-        prenom.value = "test"
-        mel.value = "test"
-        birthday.value = "11/11"
-        login.value = user.username
-        mdp.value = "test"
+
+    function displayUserInfo(id) {
+        fetch("../../API/SelectAllUser.php")
+            .then((response) => response.json())
+            .then((data) => {
+                // Traiter les données JSON renvoyées par PHP, parcourir les données et traiter les informations utilisateur
+                for (let userInfo of data) {
+                    if (userInfo.id == id) {
+                        nom.value = userInfo.nom
+                        prenom.value = userInfo.prenom
+                        mel.value = userInfo.mel
+                        birthday.value = userInfo.date_naiss
+                        login.value = userInfo.login
+                    }
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+
+
     }
 </script>
+
 
 </html>
