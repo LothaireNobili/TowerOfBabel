@@ -6,7 +6,7 @@ const connecterButton = document.querySelector("#connecter");
 $(document).ready(function () {
   $('#datetimepicker').datetimepicker(
     {
-      format: 'DD/MM/YYYY', // Mettre en forme la date
+      format: 'YYYY-MM-DD', // Mettre en forme la date
       viewMode: 'years', // Définissez le mode d’affichage sur Année
       maxDate: moment(), // Définissez la date maximale sur la date du jour
       useCurrent: false, // Désactiver la sélection automatique de la date du jour
@@ -49,30 +49,32 @@ function register() {
     message.classList.remove("hide");
   }
   else {
-
+    const userData = {
+      login: login,
+      nom: nom,
+      prenom: prenom,
+      mel: mel,
+      date_naiss:  date_naiss,
+      password: password,
+      salt: 'salt',
+      save_file: 0
+    };
     // Effacer le message d’erreur
     message.classList.add("hide");
 
     // Effectuer une requête Fetch
-    fetch("https://devweb.iutmetz.univ-lorraine.fr/~sahinine1u/TowerOfBabel/API/NewUser.php", {
-      method: "POST",
+    fetch("../../API/NewUserDebug.php", {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/json'
       },
-      body: new URLSearchParams({
-        nom,
-        prenom,
-        mel,
-        birthday,
-        login,
-        password,
-      }),
+      body: JSON.stringify(userData)
     })
       .then(response => response.json())
       .then(data => {
         if (data.status === "success") {
           goToConnexion()
-        } 
+        }
       })
       .catch(error => {
         console.error("Error:", error);
@@ -88,7 +90,7 @@ function connecter() {
 
   let loginTrue = false;
 
-  fetch("https://devweb.iutmetz.univ-lorraine.fr/~sahinine1u/TowerOfBabel/API/SelectAllUser.php")
+  fetch("../../API/SelectAllUser.php")
     .then(response => response.json())
     .then(data => {
       // Traiter les données JSON renvoyées par PHP, parcourir les données et traiter les informations utilisateur
