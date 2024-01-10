@@ -87,6 +87,23 @@ class GraphicManager{
                     end: 33
                 }
             },
+            graverobber : {
+                wait:{
+                    frameWidth: 166,
+                    frameHeight: 309,
+                    end: 28
+                },
+                idle:{
+                    frameWidth: 133,
+                    frameHeight: 316,
+                    end: 30
+                },
+                walk:{
+                    frameWidth: 164,
+                    frameHeight: 316,
+                    end: 32
+                }
+            },
             skeleton : {
                 wait:{
                     frameWidth: 144,

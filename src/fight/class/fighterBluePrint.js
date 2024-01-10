@@ -372,6 +372,78 @@ class FighterBluePrint{
                 ],
             },
 
+            graverobber: {
+                name : "graverobber",
+
+                max_hp : 25,   
+        
+                dodge : 35,
+        
+                prot : 0, 
+        
+                speed : 9,
+        
+                crit : 35, //in %
+        
+                damage_mult : 1,
+        
+                //resistance stats
+                stun_res : 40,
+                move_res : 20,
+                bleed_res : 40,
+                poison_res : 60,
+                debuff_res : 40,
+               
+                
+                skills : [
+                    {
+                        id:"pic",
+                        name: 'Pic',
+                        animation: "skill1",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [1, 2, 3], //spot reach
+                        requiered_pos : [1, 2, 3], //where the hero must be placed to cast it
+                        damage_low: 9, //minimum damage
+                        damage_high: 12 //max damage
+                    },
+                    {
+                        id:"dagger",
+                        name: 'Dagger',
+                        animation: "skill2",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [2, 3, 4], //spot reach
+                        requiered_pos : [2, 3, 4], //where the hero must be placed to cast it
+                        damage_low: 9, //minimum damage
+                        damage_high: 12 //max damage
+                    },
+                    {
+                        id:"flash",
+                        name: 'Flash',
+                        animation: "skill3",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "continuous",//one target only
+                        reach: [2, 3], //spot reach
+                        requiered_pos : [2, 3, 4], //where the hero must be placed to cast it
+                        damage_low: 7, //minimum damage
+                        damage_high: 9, //max damage
+                    },
+                    {
+                        id:"darts",
+                        name: 'Darts',
+                        animation: "skill4",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [1, 2, 3, 4], //spot reach
+                        requiered_pos : [3, 4], //where the hero must be placed to cast it
+                        damage_low: 4, //minimum damage
+                        damage_high: 8, //max damage
+                        poison: [140, 5]  //140% chance to proc poison, power 6
+                    }
+                ]
+            },
+
             //!Ennemies//
             skeleton: {
 
@@ -497,28 +569,19 @@ class FighterBluePrint{
 
                     let randomNumSkill = (Math.random() * 2) -1;
                     randomNumSkill = Math.ceil(randomNumSkill)
-            
+                    let randomNumTarget
+
                     if (randomNumSkill==0){
-                        let randomNumTarget = (Math.random() * playerTeam.length) -1;
+                        randomNumTarget = (Math.random() * playerTeam.length) -1;
                         randomNumTarget = Math.ceil(randomNumTarget)
                     }
                     else if (randomNumSkill==1){
                         let targetCount = Math.min(2, playerTeam.length)
-                        let randomNumTarget = (Math.random() * targetCount) -1;
+                        randomNumTarget = (Math.random() * targetCount) -1;
                         randomNumTarget = Math.ceil(randomNumTarget)
                     }
 
                     return [this.skills[randomNumSkill], playerTeam[randomNumTarget]]
-
-                    /*
-                    if (playerTeam.length>1){
-                        let randomNumTarget = (Math.random() * 2) -1;
-                        randomNumTarget = Math.ceil(randomNumTarget)
-                        return [this.skills[randomNumSkill], playerTeam[0]];
-                    }
-                    else{
-                        return [this.skills[randomNumSkill], playerTeam[randomNumTarget]]
-                    }*/
                     
                 }
 
