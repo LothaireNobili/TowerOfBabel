@@ -124,12 +124,12 @@ const user = new User("User1", 100000, [
         equipment: [
             {
                 equipmentName: "eqpWeapon",
-                level: 1,
+                level: 0,
                 attack: 5
             },
             {
                 equipmentName: "eqpArmour",
-                level: 1,
+                level: 0,
                 defense: 8
             },
         ]
@@ -139,12 +139,12 @@ const user = new User("User1", 100000, [
         equipment: [
             {
                 equipmentName: "eqpWeapon",
-                level: 1,
+                level: 0,
                 attack: 5
             },
             {
                 equipmentName: "eqpArmour",
-                level: 1,
+                level: 0,
                 defense: 8
             },
         ]

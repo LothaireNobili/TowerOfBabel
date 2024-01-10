@@ -1,4 +1,4 @@
-const MAX_EQUIPEMENT_LEVEL = 5
+const MAX_EQUIPEMENT_LEVEL = 4
 const UPGRADE_PRICE_LIST = [300, 1000, 4000, 10000]
 const UPGRADE_VALUE = 2
 
@@ -46,8 +46,11 @@ class Forge extends Phaser.Scene {
     for (let i = 0; i < user.heroes.length; i++) {
       var eqpCard = this.add.container(0, 0)
       console.log(user)
-      eqpCard.add(createEquipmentCard(this, 0, "weapon_" + user.heroes[i].heroName+0, user.heroes[i].equipment[0].attack, user.heroes[i].equipment[0].level,barreInfo))
-      eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName+0, user.heroes[i].equipment[1].defense, user.heroes[i].equipment[1].level,barreInfo))
+      console.log(user.heroes[i].equipment[0])
+      eqpCard.add(createEquipmentCard(this, 0, "weapon_" + user.heroes[i].heroName+user.heroes[i].equipment[0].level,
+                                      user.heroes[i].equipment[0].attack, user.heroes[i].equipment[0].level,barreInfo))
+      eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName+user.heroes[i].equipment[0].level, 
+                                      user.heroes[i].equipment[1].defense, user.heroes[i].equipment[1].level,barreInfo))
       eqpCard.visible = false
       boutiqueCard.add(eqpCard)
     }
@@ -146,12 +149,12 @@ class Forge extends Phaser.Scene {
       var leveCard = scene.add.container(70, 20);
       let padlockList = scene.add.container(0, 0);
 
-      for (let j = 0; j < MAX_EQUIPEMENT_LEVEL - 1; j++) {
+      for (let j = 0; j < MAX_EQUIPEMENT_LEVEL; j++) {
         let padlock;
 
         if (j < level - 1)
           padlock = scene.add.image(20 + j * (intervalleX + 4), 0, "check");
-        else if (j === level - 1)
+        else if (j === level)
           padlock = scene.add.image(20 + j * (intervalleX + 4), 0, "padlockOpen");
         else
           padlock = scene.add.image(20 + j * (intervalleX + 4), 0, "padlock");
@@ -169,7 +172,7 @@ class Forge extends Phaser.Scene {
 
       if (level != MAX_EQUIPEMENT_LEVEL) { 
         setPadlockEvents(scene, heroName, eqpType == "weapon" ? 0 : 1, padlockList, level, addValue, valueCard, eqpValue, barreInfo) // eqpValue : puissance d'attaque ou puissance de défense
-        padlockList.list[level - 1].setInteractive()
+        padlockList.list[level].setInteractive()
       }
 
       leveCard.add(padlockList);
@@ -214,9 +217,15 @@ class Forge extends Phaser.Scene {
             padlockList.list[i].disableInteractive();
 
             // Ajouter l'interactivité de l'icône suivante
-            if (i != MAX_EQUIPEMENT_LEVEL - 2) {
+            if (i != MAX_EQUIPEMENT_LEVEL - 1) {
+              //!HERE
               padlockList.list[i + 1].setTexture("padlockOpen");
               padlockList.list[i + 1].setInteractive()
+              /*
+              eqpCard.add(createEquipmentCard(this, 0, "weapon_" + user.heroes[i].heroName+user.heroes[i].equipment[0].level,
+                                      user.heroes[i].equipment[0].attack, user.heroes[i].equipment[0].level,barreInfo))
+              eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName+user.heroes[i].equipment[0].level, 
+                                      user.heroes[i].equipment[1].defense, user.heroes[i].equipment[1].level,barreInfo))*/
             }
             addValue.visible = false;
             document.body.style.cursor = "default";
