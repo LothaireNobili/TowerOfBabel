@@ -21,7 +21,6 @@ class GameOver extends Phaser.Scene
         this.add.text(game.config.width/2-100,game.config.height/2+100,"Total Earnt Gold : "+(user.coins-GOLDEARNT))
         for(var i = 0; i <EQUIPE.length; i++) 
         {
-            console.log(EQUIPE[i]);
             this.add.image(this.position[i],600,EQUIPE[i]+"_iconsDeath")
         }
        

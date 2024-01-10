@@ -45,9 +45,9 @@ class Salle extends Phaser.Scene {
   }
 
   preload() {
-   // console.log(Math.floor(Math.random(BACKGROUNDS.length+2,0)))
+   
     var chosenGround = BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)];
-    console.log(chosenGround)
+
     this.load.image(
       "background",
       "./assets/images/exploration/"+chosenGround
@@ -172,7 +172,6 @@ class Salle extends Phaser.Scene {
     this.content.add(moneyValue);
     money.setInteractive();
     money.on("pointerdown", () => {
-      console.log()
       user.updateCoins(addedGold);
       this.coffre.disableInteractive();
       this.turnOff(this.content);
@@ -297,15 +296,14 @@ class Salle extends Phaser.Scene {
         this.salleVisitee = 0;
       }
     } catch (e) {
-      console.error("window not set");
     }
   }
 
   static returnToRoom() {
-    console.log("back to room");
+
     window.myScene.returnFromFight = true;
     game.scene.stop("playFight");
     game.scene.start(window.myScene);
-    console.log(window.myScene.returnFromFight);
+
   }
 }
