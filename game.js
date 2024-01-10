@@ -16,9 +16,10 @@ var config = {
         ComposerEquipe,
         LoadingFight,        
         Fight,
-        Salle,
         Couloir,
-        Escalier
+        Salle,
+        Escalier,
+        GameOver,
     ]
 }
 

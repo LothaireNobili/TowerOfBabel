@@ -9,6 +9,7 @@ class Fight extends Phaser.Scene {
     }
 
     create(){
+        Salle.returnToRoom();
         this.add.text(20, 20, "Fight in progress...", {font: "40px Arial", fill:"white"}); //deletable
 
         this.background = this.add.image(0,0,"background");
