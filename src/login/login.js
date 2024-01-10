@@ -25,7 +25,7 @@ $(document).ready(function () {
 });
 
 
-function register() {
+async function register() {
   // Récupérer la valeur d'un champ de formulaire
   const nom = document.querySelector('[aria-label="nom"]').value;
   const prenom = document.querySelector('[aria-label="prenom"]').value;
@@ -38,7 +38,29 @@ function register() {
 
   // message d'erreur
   // Valider les données du formulaire
-  if (isValidData(nom, prenom, mel, birthday, login, password, message)) {
+  if (
+    nom.trim() === "" ||
+    prenom.trim() === "" ||
+    mel.trim() === "" ||
+    birthday.trim() === "" ||
+    login.trim() === "" ||
+    password.trim() === ""
+  ) {
+    // Si l’un des champs est vide, un message d’erreur s’affiche
+    message.textContent = "Veuillez remplir tous les champs.";
+    message.classList.remove("hide");
+  } else if (await isLoginExist(login)) {
+    message.textContent = "Le compte existe déja.";
+    message.classList.remove("hide");
+  } else if (!isValidEmail(mel)) {
+    message.textContent = "Veuillez entrer une adresse e-mail valide.";
+    message.classList.remove("hide");
+  } else if (!isValidPassword(password)) {
+    message.textContent =
+      "Mot de passe doit inclure majuscules, minuscules, chiffres, caractères spéciaux, et être entre 8 et 20 caractères.";
+    message.classList.remove("hide");
+  }
+  else {
     const userData = {
       login: login,
       nom: nom,
@@ -51,7 +73,6 @@ function register() {
     };
     // Effacer le message d’erreur
     message.classList.add("hide");
-
 
     // Effectuer une requête Fetch
     fetch("../../API/NewUser.php", {
@@ -114,34 +135,6 @@ function goToConnexion() {
   connexion.classList.remove("hide");
 }
 
-async function isValidData(nom, prenom, mel, birthday, login, password, message) {
-  if (
-    nom.trim() === "" ||
-    prenom.trim() === "" ||
-    mel.trim() === "" ||
-    birthday.trim() === "" ||
-    login.trim() === "" ||
-    password.trim() === ""
-  ) {
-    // Si l’un des champs est vide, un message d’erreur s’affiche
-    message.textContent = "Veuillez remplir tous les champs.";
-    message.classList.remove("hide");
-  } else if (!isLoginExist(login)) {
-    message.textContent = "Le compte existe déja.";
-    message.classList.remove("hide");
-  } else if (isValidEmail(mel)) {
-    message.textContent = "Veuillez entrer une adresse e-mail valide.";
-    message.classList.remove("hide");
-  } else if (!isValidPassword(password)) {
-    message.textContent =
-      "Mot de passe doit inclure majuscules, minuscules, chiffres, caractères spéciaux, et être entre 8 et 20 caractères.";
-    message.classList.remove("hide");
-  } else {
-    return true
-  }
-  return false
-}
-
 // Vérifier le format de l’e-mail
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -158,14 +151,13 @@ async function isLoginExist(login) {
     const response = await fetch("../../API/SelectAllUser.php");
     const data = await response.json();
 
-
     for (let userInfo of data) {
       if (userInfo.login === login) {
         return true;
       }
     }
   } catch (error) {
-    console.error("Error:", error);
+    // console.error("Error:", error);
   }
 
 
