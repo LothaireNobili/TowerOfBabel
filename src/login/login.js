@@ -68,7 +68,7 @@ async function register() {
       mel: mel,
       date_naiss: birthday,
       password: Mycrypt(password)["mdp"],
-      salt: "salt",
+      salt: Mycrypt(password)["salt"],
       save_file: 0,
     };
     // Effacer le message d’erreur
@@ -108,7 +108,7 @@ function connecter() {
       // Traiter les données JSON renvoyées par PHP, parcourir les données et traiter les informations utilisateur
       let loginCorrrect = true;
       for (let userInfo of data) {
-        if (isLoginExist(login) && userInfo.password == password) {
+        if (isLoginExist(login) && VerifyPassword( password, userInfo.password, userInfo.salt) ) {
           loginTrue = true;
           let user = new User(userInfo.id, userInfo.login, 10000); // ....
           user.saveToLocalStorage();
@@ -198,6 +198,25 @@ function Mycrypt(mdp) {
     };
   }
 }
+
+function VerifyPassword(inputPassword, storedHashedPassword, salt) {
+  const S = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+
+  let inputHashedPassword = "";
+  
+  for (let i = 0; i < inputPassword.length; i++) {
+      const pos = (S.indexOf(inputPassword.charAt(i)) + S.indexOf(salt.charAt(i))) % S.length;
+      inputHashedPassword += S.charAt(pos);
+  }
+
+  // 使用 CryptoJS 的 SHA-256 哈希函数
+  const inputHashedPasswordSHA256 = CryptoJS.SHA256(inputHashedPassword).toString(CryptoJS.enc.Hex);
+
+  return {
+      isMatch: inputHashedPasswordSHA256 === storedHashedPassword
+  };
+}
+
 
 
 
