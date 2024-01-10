@@ -53,7 +53,7 @@ class Diligence extends Phaser.Scene {
     equipeBackground.displayHeight = 580;
 
     var text = this.add.text(897, 135, "Votre équipe", {
-      fontFamily: "Comic Sans MS",
+      fontFamily: "Pixel",
       fontSize: "24px",
       backgroundColor: "rgba(0, 0, 0, 0.6)",
       padding: { x: 25, y: 10 },

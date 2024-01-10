@@ -2,7 +2,7 @@
 function setFontStyles(
     fontSize = "24px",
     color = "#fff",
-    fontFamily = "Comic Sans MS",
+    fontFamily = "Pixel",
 ) {
     var fontStyles = {
         fontFamily: fontFamily,

@@ -75,7 +75,7 @@ class ComposerEquipe extends Phaser.Scene {
     var cadreSelected = this.add.container(400, 650);
 
     var text = this.add.text(897, 100, "Votre équipe", {
-      fontFamily: "Comic Sans MS",
+      fontFamily: "Pixel",
       fontSize: "24px",
       backgroundColor: "rgba(0, 0, 0, 0.8)",
       padding: { x: 25, y: 10 },

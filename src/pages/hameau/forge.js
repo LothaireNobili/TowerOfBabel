@@ -16,8 +16,10 @@ class Forge extends Phaser.Scene {
     this.load.image("defense", "icons/shield_echoes.png")
 
     for (let i = 0; i < user.heroes.length; i++) {
-      this.load.image("armour_" + user.heroes[i].heroName, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_armour_0.png")
-      this.load.image("weapon_" + user.heroes[i].heroName, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_weapon_0.png")
+      for (let j = 0; j < 4; j++) {
+        this.load.image("armour_" + user.heroes[i].heroName + j, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_armour_"+j+".png")
+        this.load.image("weapon_" + user.heroes[i].heroName + j, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_weapon_"+j+".png")
+      }
     }
   }
   create() {
@@ -43,8 +45,9 @@ class Forge extends Phaser.Scene {
     var boutiqueCard = this.add.container(0, 350)
     for (let i = 0; i < user.heroes.length; i++) {
       var eqpCard = this.add.container(0, 0)
-      eqpCard.add(createEquipmentCard(this, 0, "weapon_" + user.heroes[i].heroName, user.heroes[i].equipment[0].attack, user.heroes[i].equipment[0].level,barreInfo))
-      eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName, user.heroes[i].equipment[1].defense, user.heroes[i].equipment[1].level,barreInfo))
+      console.log(user)
+      eqpCard.add(createEquipmentCard(this, 0, "weapon_" + user.heroes[i].heroName+0, user.heroes[i].equipment[0].attack, user.heroes[i].equipment[0].level,barreInfo))
+      eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName+0, user.heroes[i].equipment[1].defense, user.heroes[i].equipment[1].level,barreInfo))
       eqpCard.visible = false
       boutiqueCard.add(eqpCard)
     }
@@ -54,7 +57,7 @@ class Forge extends Phaser.Scene {
     equipeBackground.displayHeight = 580;
 
     var text = this.add.text(897, 135, "Votre équipe", {
-      fontFamily: "Comic Sans MS",
+      fontFamily: "Pixel",
       fontSize: "24px",
       backgroundColor: "rgba(0, 0, 0, 0.6)",
       padding: { x: 25, y: 10 },
