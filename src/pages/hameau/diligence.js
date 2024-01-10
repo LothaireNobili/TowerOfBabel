@@ -17,6 +17,8 @@ class Diligence extends Phaser.Scene {
     }
   }
   create() {
+    const heroList = new FighterBluePrint()
+
     document.body.style.cursor = "default";
 
     this.add.image(540, 360, "hameauBg");
@@ -72,7 +74,8 @@ class Diligence extends Phaser.Scene {
     function createInteractiveImage(scene, x, y, key, prix, onSale) {
       var card = scene.add.container(x, y);
       var image = scene.add.image(0, 0, "card");
-
+      let hero = heroList[key]
+      console.log(hero)
       var portrait = scene.add.image(-85, 0, "portrait_" + key);
       portrait.setScale(0.75);
       image.displayHeight = 65;
@@ -133,12 +136,12 @@ class Diligence extends Phaser.Scene {
             let eqpWeapon = {
               equipmentName: "eqpWeapon",
               level: 1,
-              attack: 9
+              attack: 5
             }
             let eqpArmour = {
               equipmentName: "eqpArmour",
               level: 1,
-              defense: 4
+              defense: 3
             }
 
             // Retirer le héros de la boutique

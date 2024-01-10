@@ -1,5 +1,4 @@
 // supprimer /--
-var allHeroList = ["crusader", "bandit","plaguedoctor","vestal"];
 var allPotionsList = [{ name: "exemple1", description: "description", prix: 550, sellQuantity: 1 }, { name: "exemple2", description: "description", prix: 300, sellQuantity: 1 }]; 
 addSellQuantityToPotions(allPotionsList)
 // --/
@@ -44,7 +43,6 @@ class Hameau extends Phaser.Scene {
     }
 
     create() {
-
         for (let hero of game.config.allHeroList){
             this.anims.create({
                 key: hero+'_idle', // Animation key (can be any string)
