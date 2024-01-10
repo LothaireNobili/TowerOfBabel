@@ -6,7 +6,7 @@ const TYPE_SALLE = [
   ["Combat&Curio", 4],
   ["Curio", 1],
 ];
-const GOLDEARNT= user.coins
+
 class Salle extends Phaser.Scene {
   etage = 0; //etage actuelle
   clear; //si on peut passer a la salle suivant

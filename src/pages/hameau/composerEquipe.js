@@ -2,7 +2,7 @@
  * Enregistrer les liste des héros choisis sur localStorage
  * Item: listSelectedHeroes
  */
-
+var GOLDEARNT;
 var listSelectedHeroes = ['null', 'null', 'null', 'null'];
 
 class ComposerEquipe extends Phaser.Scene {
@@ -60,6 +60,7 @@ class ComposerEquipe extends Phaser.Scene {
         }
       }
       if(go){
+        GOLDEARNT=user.coins
         message.setVisible(false);
         game.scene.stop("ComposerEquipe")
         game.scene.start('Salle');
