@@ -17,7 +17,7 @@ class GameOver extends Phaser.Scene
     }
     create()
     {
-        this.add.image(game.config.width/2,game.config.height/2 ,"defeat");
+        this.add.image(game.config.width/2,game.config.height/2-100 ,"defeat");
         this.add.text(game.config.width/2-100,game.config.height/2+100,"Total Earnt Gold : "+(user.coins-GOLDEARNT))
         for(var i = 0; i <EQUIPE.length; i++) 
         {

@@ -6,7 +6,7 @@ const TYPE_SALLE = [
   ["Combat&Curio", 4],
   ["Curio", 1],
 ];
-
+const GOLDEARNT= user.coins
 class Salle extends Phaser.Scene {
   etage = 0; //etage actuelle
   clear; //si on peut passer a la salle suivant
@@ -97,11 +97,20 @@ class Salle extends Phaser.Scene {
       fill: "white",
     }); //DEBUG ONLY
 
+    var shine = this.add.text(600, 20, "Shine", {
+      font: "80px Arial",
+      fill: "white",
+    }); //DEBUG ONLY
+
+    shine.setInteractive();
+    shine.on("pointerdown", () => {game.scene.stop("Salle"); game.scene.start("GameOver")}); //DEBUG ONLY
     if (this.etage != 0) this.determinerProchaineSalle();
     this.premiereSalle = false;
 
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();
+
+    
   }
 
   update() {
