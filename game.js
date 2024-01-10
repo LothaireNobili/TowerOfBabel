@@ -18,7 +18,8 @@ var config = {
         Fight,
         Salle,
         Couloir,
-        Escalier
+        Escalier,
+        GameOver,
     ]
 }
 
