@@ -17,7 +17,8 @@ class Diligence extends Phaser.Scene {
     }
   }
   create() {
-    const heroList = new FighterBluePrint()
+    const heroListClass = new FighterBluePrint()
+    var heroList = heroListClass.classBlueprints
 
     document.body.style.cursor = "default";
 
@@ -74,8 +75,8 @@ class Diligence extends Phaser.Scene {
     function createInteractiveImage(scene, x, y, key, prix, onSale) {
       var card = scene.add.container(x, y);
       var image = scene.add.image(0, 0, "card");
-      let hero = heroList[key]
-      console.log(hero)
+      let heroSkills = heroList[key].skills
+      
       var portrait = scene.add.image(-85, 0, "portrait_" + key);
       portrait.setScale(0.75);
       image.displayHeight = 65;
@@ -101,16 +102,16 @@ class Diligence extends Phaser.Scene {
       var heroName = scene.add.text(-200, -200, key.toUpperCase(), setFontStyles());
       var heroImage = scene.add.sprite(-130, 20, "idle_" + key).play(key+"_idle").setOrigin(0.5, 0.5).setScale(0.95);
 
-
       descriptionContainer.add([descriptionBg, heroName, heroImage]);
 
       for (var i = 0; i < 4; i++) {
         var skillCard = scene.add.image(0, -50 + i * 80, key + "Skill" + (i + 1) + "Icon");
         skillCard.setScale(0.6);
-        var skillName = scene.add.text(30, -72 + i * 80, "Coup d'épée", setFontStyles("18px"));
+        var skillName = scene.add.text(30, -72 + i * 80, heroSkills[i].name, setFontStyles("18px"));
         descriptionContainer.add([skillCard, skillName]);
-
-        var positionCard = createPositionCard(scene, -40 + i * 80, [0, 0, 1, 1], [1, 1, 0, 0]);
+        
+        var positionCard = createPositionCard(scene, -40 + i * 80, heroSkills[i].requiered_pos, heroSkills[i].reach);
+        // var damage = scene.add.text(100, -72 + i * 80, heroSkills[i].damage_low + '-' + heroSkills[i].damage_high, setFontStyles("18px")) 
         descriptionContainer.add(positionCard);
       }
 
@@ -166,18 +167,39 @@ class Diligence extends Phaser.Scene {
 
     function createPositionCard(scene, y, teamPosition, attackRange) {
       var card = scene.add.container(0, 0);
-
+      var positions = [];
+      var ranges = [];
+  
+      // Initialiser l’icône de position de capacité
       for (var i = 0; i < 4; i++) {
-        var position = scene.add.image(36 + i * 13, y, "cercle" + (teamPosition[i] ? "Yellow" : "White"));
-        var range = scene.add.image(100 + i * 13, y, "cercle" + (attackRange[i] ? "Red" : "White"));
-        position.setScale(0.2);
-        range.setScale(0.2);
-
-        card.add([position, range]);
+          var position = scene.add.image(36 + i * 13, y, "cercleWhite");
+          var range = scene.add.image(100 + i * 13, y, "cercleWhite");
+          position.setScale(0.2);
+          range.setScale(0.2);
+  
+          card.add([position, range]);
+  
+          positions.push(position);
+          ranges.push(range);
       }
-
+  
+      // Parcourez teamPosition, modifiez l’icône de la position
+      teamPosition.forEach(e => {
+          if (positions[e]) {
+              positions[e].setTexture("cercleYellow");
+          }
+      });
+  
+      // Parcourez attackRange, modifiez l’icône de la position
+      attackRange.forEach(e => {
+          if (ranges[e]) {
+              ranges[e].setTexture("cercleRed");
+          }
+      });
+  
       return card;
-    }
+  }
+  
 
 
   }
