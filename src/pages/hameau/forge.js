@@ -16,7 +16,7 @@ class Forge extends Phaser.Scene {
     this.load.image("defense", "icons/shield_echoes.png")
 
     for (let i = 0; i < user.heroes.length; i++) {
-      for (let j = 0; j < 4; j++) {
+      for (let j = 0; j <= 4; j++) {
         this.load.image("armour_" + user.heroes[i].heroName + "_" + j, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_armour_"+j+".png")
         this.load.image("weapon_" + user.heroes[i].heroName + "_" + j, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_weapon_"+j+".png")
       }
@@ -68,7 +68,7 @@ class Forge extends Phaser.Scene {
 
     text.setFixedSize(200, 50);
 
-    var intervalleY = 72
+    var intervalleY = 65
 
     var herosListCard = this.add.container(1020, 210)
     for (let i = 0; i < user.heroes.length; i++) {

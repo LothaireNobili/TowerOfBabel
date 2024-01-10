@@ -36,7 +36,7 @@ class Diligence extends Phaser.Scene {
     var diligence = this.add.image(300, 450, "Diligence")
     diligence.setScale(0.6)
     // Ajouter des heros
-    var intervalleY = 72
+    var intervalleY = 65
     let count = 0;
     for (let heroOfList of game.config.allHeroList) {
       const heroIndex = user.heroes.findIndex(hero => hero.heroName === heroOfList);
@@ -61,7 +61,7 @@ class Diligence extends Phaser.Scene {
     });
     text.setFixedSize(200, 50);
 
-    var intervalleY = 72
+    var intervalleY = 65
     for (let i = 0; i < user.heroes.length; i++) {
       createInteractiveImage(this, 1025, 230 + i * intervalleY, user.heroes[i].heroName)
     }

@@ -83,7 +83,7 @@ class ComposerEquipe extends Phaser.Scene {
     });
     text.setFixedSize(200, 50);
 
-    var intervalleY = 70
+    var intervalleY = 65
     for (let i = 0; i < user.heroes.length; i++) {
       createEquipeCard(this, 1012, 185 + i * intervalleY, user.heroes[i].heroName, cadreSelected)
     }
