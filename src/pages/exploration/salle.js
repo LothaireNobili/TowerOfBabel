@@ -45,7 +45,8 @@ class Salle extends Phaser.Scene {
   }
 
   preload() {
-    var chosenGround = BACKGROUNDS[Math.floor(Math.random(BACKGROUNDS.length+1))];
+   // console.log(Math.floor(Math.random(BACKGROUNDS.length+2,0)))
+    var chosenGround = BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)];
     console.log(chosenGround)
     this.load.image(
       "background",
@@ -92,11 +93,6 @@ class Salle extends Phaser.Scene {
     //this.content of room
 
     this.floor = this.add.text(600, 20, "etage  :" + this.etage, {
-      font: "40px Arial",
-      fill: "white",
-    }); //DEBUG ONLY
-
-    this.add.text(400, 20, this.type, {
       font: "40px Arial",
       fill: "white",
     }); //DEBUG ONLY
