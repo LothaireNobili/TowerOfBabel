@@ -9,6 +9,7 @@ class Couloir extends Phaser.Scene {
   goingLeft = false;
   constructor() {
     super({ key: "Couloir" });
+    this.graphicManager = new GraphicManager();
   }
 
   preload() {
@@ -19,16 +20,24 @@ class Couloir extends Phaser.Scene {
     this.load.image("chest", "./assets/images/exploration/chest.jpg");
     this.load.image("move", "./assets/icons/yellow_right_arrow.png");
 
-    for (var i = 0; i < EQUIPE.length; i++) {
-      this.load.image(
-        EQUIPE[i] + "_couloir",
-        "./assets/images/heroes/" + EQUIPE[i] + "/idle.png"
-      );
-    }
     this.load.image(
       "prochaineSalle",
       "./assets/images/exploration/mapBackground.jpg"
     );
+
+   
+    for (let hero of game.config.allHeroList) {
+      this.load.spritesheet(
+        hero,
+        "images/heroes/" + hero + "/animations/walk.png",
+        {
+          frameWidth:
+            this.graphicManager.spriteSheetDatas[hero].walk.frameWidth,
+          frameHeight:
+            this.graphicManager.spriteSheetDatas[hero].walk.frameHeight,
+        }
+      );
+    }
   }
 
   create() {
@@ -83,6 +92,20 @@ class Couloir extends Phaser.Scene {
     //on ajoute les heros, les positions sont relatives au centre de l'equipe
     this.ajouterEquipe();
 
+
+    for (let hero of game.config.allHeroList) {
+      this.anims.create({
+        key: hero + "_walk", // Animation key (can be any string)
+        frames: this.anims.generateFrameNumbers(hero, {
+          scale: 2,
+          start: 0,
+          end: this.graphicManager.spriteSheetDatas[hero].walk.end, //index of the last frame of the animation
+        }),
+        frameRate: 20, // Number of frames to display per second
+        repeat: -1, // Set to -1 to loop the animation continuously, or a positive integer to specify the number of times to repeat
+      });
+    }
+
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();
   }
@@ -111,7 +134,7 @@ class Couloir extends Phaser.Scene {
     var i = 0;
     this.equipe.getChildren().forEach((child) => {
       child.x = relativePosition - i + this.equipe.x;
-      child.y = this.equipe.y;
+      child.y = this.equipe.y+150;
       i += 75;
     });
   }
@@ -124,10 +147,10 @@ class Couloir extends Phaser.Scene {
     return this.prochaineSalle;
   }
   ajouterEquipe() {
-    for (var i = 0; i < EQUIPE.length; i++) {
-      var equipier = this.add.image(0, 0, EQUIPE[i] + "_exploration");
+    for (let hero of EQUIPE) {
+      var equipier = this.add.sprite(0, 0, "walk_" +hero).play(hero+"_walk").setOrigin(0.5, 1);
       this.equipe.add(equipier);
-      equipier.setScale(0.3);
+      equipier.setScale(0.5);
     }
     this.updateChildren();
   }

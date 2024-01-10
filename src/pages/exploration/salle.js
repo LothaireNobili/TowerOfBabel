@@ -1,5 +1,5 @@
 const EQUIPE = ["crusader", "bandit", "bandit", "vestal"];
-const BACKGROUNDS = ["ruin_background2.png","ruin_background1.png"]
+const BACKGROUNDS = ["ruin_background2.png", "ruin_background1.png"];
 const TYPE_SALLE = [
   ["Vide", 2],
   ["Combat", 3],
@@ -24,12 +24,11 @@ class Salle extends Phaser.Scene {
   content;
 
   positions = [
-    [400, 500],
-    [300, 500],
-    [200, 500],
-    [100, 500],
+    [400, 650],
+    [300, 650],
+    [200, 650],
+    [100, 650],
   ];
-
 
   salleVisitee = 0;
   constructor() {
@@ -42,15 +41,16 @@ class Salle extends Phaser.Scene {
       this.clear = true;
       this.fight = false;
     }
+       this.graphicManager = new GraphicManager();
   }
 
   preload() {
-   
-    var chosenGround = BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)];
+    var chosenGround =
+      BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)];
 
     this.load.image(
       "background",
-      "./assets/images/exploration/"+chosenGround
+      "./assets/images/exploration/" + chosenGround
     );
     this.load.image("chest", "./assets/images/exploration/chest.jpg");
 
@@ -63,7 +63,10 @@ class Salle extends Phaser.Scene {
     this.load.image("boutiqueBg", "./assets/images/hameau/boutique_bg.png");
     this.load.image("money", "./assets/icons/piece.png");
     this.load.image("couloir", "./assets/icons/yellow_right_arrow.png");
-    this.load.image("startFight", "./assets/images/fight_misc/announcement_combat.png");
+    this.load.image(
+      "startFight",
+      "./assets/images/fight_misc/announcement_combat.png"
+    );
   }
 
   create() {
@@ -80,7 +83,11 @@ class Salle extends Phaser.Scene {
     this.placerCouloir();
     this.creerCurio();
     //FOR DEBUG ONLY
-    this.fighting = this.add.image(game.config.width/2, game.config.height/2, "startFight");
+    this.fighting = this.add.image(
+      game.config.width / 2,
+      game.config.height / 2,
+      "startFight"
+    );
     this.fighting.setInteractive();
 
     this.fighting.on("pointerdown", () => {
@@ -102,15 +109,19 @@ class Salle extends Phaser.Scene {
       fill: "white",
     }); //DEBUG ONLY
 
-    shine.setInteractive();
-    shine.on("pointerdown", () => {game.scene.stop("Salle"); game.scene.start("GameOver")}); //DEBUG ONLY
+    shine.setInteractive();//!ACTIVE DEBUG ONLY
+    shine.on("pointerdown", () => {
+      game.scene.stop("Salle");
+      game.scene.start("GameOver");
+    }); //!DEBUG ONLY
     if (this.etage != 0) this.determinerProchaineSalle();
     this.premiereSalle = false;
 
+    
+    
+
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();
-
-    
   }
 
   update() {
@@ -124,13 +135,10 @@ class Salle extends Phaser.Scene {
   }
   placerEquipe() {
     for (var i = 0; i < EQUIPE.length; i++) {
-      var equipier = this.add.image(
-        this.positions[i][0],
-        this.positions[i][1],
-        EQUIPE[i] + "_exploration"
-      );
-      equipier.setScale(0.3);
+      var equipier = this.add.sprite(this.positions[i][0], this.positions[i][1], "idle_" + EQUIPE[i]).play(EQUIPE[i]+"_idle").setOrigin(0.5, 1);
+      equipier.setScale(0.7);
     }
+    
   }
   placerCoffre() {
     this.coffre = this.add.image(540, 450, "chest");
@@ -150,21 +158,26 @@ class Salle extends Phaser.Scene {
     this.couloir.on("pointerdown", () => {
       this.goToprochaineSalle();
     });
-    this.couloir.setScale(0.05)
+    this.couloir.setScale(0.05);
   }
   creerCurio() {
     //image de fond des curios
-    var addedGold = this.determinerGold()
+    var addedGold = this.determinerGold();
     var boutiqueBackground = this.add.image(530, 300, "boutiqueBg");
     boutiqueBackground.displayWidth = 1000;
     boutiqueBackground.displayHeight = 580;
     //boutton pour quitter l'ecran des curios
     var money = this.add.image(500, 300, "money");
     money.setScale(0.5);
-    var moneyValue=this.add.text((game.config.width/2)+50, (game.config.height/2)-100, addedGold, {
-      font: "80px Arial",
-      fill: "white",
-    }); 
+    var moneyValue = this.add.text(
+      game.config.width / 2 + 50,
+      game.config.height / 2 - 100,
+      addedGold,
+      {
+        font: "80px Arial",
+        fill: "white",
+      }
+    );
     //groupe contenant l'ensemble des objets relatifs a l'ecran des curios
     this.content = this.add.group();
     this.content.add(boutiqueBackground);
@@ -175,7 +188,6 @@ class Salle extends Phaser.Scene {
       user.updateCoins(addedGold);
       this.coffre.disableInteractive();
       this.turnOff(this.content);
-  
     });
     this.turnOff(this.content);
   }
@@ -258,16 +270,19 @@ class Salle extends Phaser.Scene {
       [10, 2500, 3000],
     ];
 
-    for(var i = 0; i<goldPerFloor.length; i++)
-    {
-      if(this.etage==0)return 250
-      if(window.myScene.etage<goldPerFloor[i][0])  return Math.floor(Math.random() * (goldPerFloor[i][2] - goldPerFloor[i][1]) + goldPerFloor[i][1])
+    for (var i = 0; i < goldPerFloor.length; i++) {
+      if (this.etage == 0) return 250;
+      if (window.myScene.etage < goldPerFloor[i][0])
+        return Math.floor(
+          Math.random() * (goldPerFloor[i][2] - goldPerFloor[i][1]) +
+            goldPerFloor[i][1]
+        );
     }
-    return 5000
+    return 5000;
   }
 
   goToprochaineSalle() {
-    game.scene.stop("Salle")
+    game.scene.stop("Salle");
     if (this.type == "Fin") {
       game.scene.start("Escalier");
     } else {
@@ -295,15 +310,12 @@ class Salle extends Phaser.Scene {
         window.myScene = this;
         this.salleVisitee = 0;
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   static returnToRoom() {
-
     window.myScene.returnFromFight = true;
     game.scene.stop("playFight");
     game.scene.start(window.myScene);
-
   }
 }
