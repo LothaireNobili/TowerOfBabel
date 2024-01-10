@@ -1,18 +1,10 @@
 class User {
-    constructor(username, coins, heroes, potions) {
-        this.username = username;
-        this.coins = coins;
+    constructor(id, username, coins, heroes, potions) {
+        this.userId = id || null;
+        this.username = username || null;
+        this.coins = coins || null;
         this.heroes = heroes || []; // heroes:[{heroName, equipment:[{equipmentName, level, attack},{equipmentName, level, defense}]}]
         this.potions = potions || []; // potions:[{potionName, qte}]
-
-        // Charger les informations utilisateur dans le constructeur
-        const storedUser = User.loadUserFromLocalStorage();
-        if (storedUser) {
-            this.coins = storedUser.coins;
-            this.heroes = storedUser.heroes;
-            this.potions = storedUser.potions;
-            console.log(storedUser)
-        }
     }
 
     saveToLocalStorage() {
@@ -20,19 +12,25 @@ class User {
         localStorage.setItem("userData", JSON.stringify(this));
 
         // Recharger les données utilisateur
-        const reloadedUser = User.loadUserFromLocalStorage();
+        this.upDateUserClass()
+    }
+
+    // Charger des données utilisateur à partir de localStorage
+    loadUserFromLocalStorage() {
+        const storedUserData = localStorage.getItem("userData"); //.loadUserFromLocalStorage()
+        // L'ajout d'un horodatage, obliger le navigateur à recharger les dernières données à chaque appel.
+        return storedUserData ? JSON.parse(storedUserData) : null;
+    }
+
+    upDateUserClass() {
+        const reloadedUser = this.loadUserFromLocalStorage();
         if (reloadedUser) {
+            this.userId = reloadedUser.userId
+            this.username = reloadedUser.username
             this.coins = reloadedUser.coins;
             this.heroes = reloadedUser.heroes;
             this.potions = reloadedUser.potions;
         }
-    }
-
-    // Charger des données utilisateur à partir de localStorage
-    static loadUserFromLocalStorage() {
-        const storedUserData = localStorage.getItem("userData?timestamp=" + new Date().getTime());
-        // L'ajout d'un horodatage, obliger le navigateur à recharger les dernières données à chaque appel.
-        return storedUserData ? JSON.parse(storedUserData) : null;
     }
 
 
@@ -116,44 +114,3 @@ class User {
     }
 
 }
-
-// Exemples de données
-const user = new User("User1", 10000, [
-    {
-        heroName: "crusader",
-        equipment: [
-            {
-                equipmentName: "eqpWeapon",
-                level: 1,
-                attack: 5
-            },
-            {
-                equipmentName: "eqpArmour",
-                level: 1,
-                defense: 8
-            },
-        ]
-    },
-    {
-        heroName: "bandit",
-        equipment: [
-            {
-                equipmentName: "eqpWeapon",
-                level: 1,
-                attack: 5
-            },
-            {
-                equipmentName: "eqpArmour",
-                level: 1,
-                defense: 8
-            },
-        ]
-    }
-], [
-    {
-        potionName: "exemple1",
-        qte: 2
-    }
-]);
-
-user.saveToLocalStorage();
