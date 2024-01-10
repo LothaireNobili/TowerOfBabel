@@ -17,8 +17,8 @@ class Forge extends Phaser.Scene {
 
     for (let i = 0; i < user.heroes.length; i++) {
       for (let j = 0; j < 4; j++) {
-        this.load.image("armour_" + user.heroes[i].heroName + j, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_armour_"+j+".png")
-        this.load.image("weapon_" + user.heroes[i].heroName + j, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_weapon_"+j+".png")
+        this.load.image("armour_" + user.heroes[i].heroName + "_" + j, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_armour_"+j+".png")
+        this.load.image("weapon_" + user.heroes[i].heroName + "_" + j, "images/heroes/" + user.heroes[i].heroName + "/icons_equip/eqp_weapon_"+j+".png")
       }
     }
   }
@@ -45,11 +45,10 @@ class Forge extends Phaser.Scene {
     var boutiqueCard = this.add.container(0, 350)
     for (let i = 0; i < user.heroes.length; i++) {
       var eqpCard = this.add.container(0, 0)
-      console.log(user)
-      console.log(user.heroes[i].equipment[0])
-      eqpCard.add(createEquipmentCard(this, 0, "weapon_" + user.heroes[i].heroName+user.heroes[i].equipment[0].level,
+
+      eqpCard.add(createEquipmentCard(this, 0, "weapon_" + user.heroes[i].heroName + "_" + user.heroes[i].equipment[0].level,
                                       user.heroes[i].equipment[0].attack, user.heroes[i].equipment[0].level,barreInfo))
-      eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName+user.heroes[i].equipment[0].level, 
+      eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName + "_" + user.heroes[i].equipment[1].level, 
                                       user.heroes[i].equipment[1].defense, user.heroes[i].equipment[1].level,barreInfo))
       eqpCard.visible = false
       boutiqueCard.add(eqpCard)
@@ -87,17 +86,22 @@ class Forge extends Phaser.Scene {
       cardImage.setInteractive();
 
       cardImage.on("pointerdown", function () {
+
         for (let j = 0; j < herosListCard.length; j++) {
           herosListCard.list[j].list[0].setTexture("card");
           boutiqueCard.list[j].visible = false
         }
         cardImage.setTexture("cardFocus");
+
         boutiqueCard.list[i].visible = true
         document.body.style.cursor = "default";
       });
     }
 
     // Créez une fonction pour les objets image, les paramètres de description
+    /*
+    création des cartes des perso à droites
+    */
     function createInteractiveImageContainer(scene, x, y, key, init) {
       const container = scene.add.container(x, y);
 
@@ -125,7 +129,12 @@ class Forge extends Phaser.Scene {
       return container;
     }
 
+
+    /*
+    créer la carte des armes et armures (image + icon atk/dfs + btn d'unlock)
+    */
     function createEquipmentCard(scene, y, key, eqpValue, level,barreInfo) { // eqpValue : puissance d'attaque ou puissance de défense
+
       var card = scene.add.container(430, y);
       var eqp = scene.add.image(0, 0, key);
 
@@ -139,7 +148,7 @@ class Forge extends Phaser.Scene {
         typeIcon.setTexture("defense");
 
       typeIcon.setScale(0.12);
-      var valueCard = scene.add.text(25, -12, eqpValue + (level - 1) * UPGRADE_VALUE, setFontStyles("20px"));
+      var valueCard = scene.add.text(25, -12, eqpValue + (level ) * UPGRADE_VALUE, setFontStyles("20px"));
       var addValue = scene.add.text(50, -13, "+" + UPGRADE_VALUE, setFontStyles("22px", "#D2BA70"));
       addValue.visible = false;
 
@@ -152,7 +161,7 @@ class Forge extends Phaser.Scene {
       for (let j = 0; j < MAX_EQUIPEMENT_LEVEL; j++) {
         let padlock;
 
-        if (j < level - 1)
+        if (j < level)
           padlock = scene.add.image(20 + j * (intervalleX + 4), 0, "check");
         else if (j === level)
           padlock = scene.add.image(20 + j * (intervalleX + 4), 0, "padlockOpen");
@@ -182,8 +191,10 @@ class Forge extends Phaser.Scene {
       return card;
     }
 
+    /*
+    création des padlocks
+    */
     function setPadlockEvents(scene, heroName, eqpType, padlockList, level, addValue, valueCard, value, barreInfo) {
-
       for (let i = 0; i < padlockList.length; i++) {
         padlockList.list[i].on("pointerover", function () {
           addValue.visible = true;
@@ -205,16 +216,28 @@ class Forge extends Phaser.Scene {
             
             level++;
             user.updateEqpLevel(heroName, eqpType, level)
-            // console.log(user)
+            
 
             // mise à jour le value
-            valueCard.setText((value + (level - 1) * UPGRADE_VALUE).toString());
-            valueCard.setText((value + (level - 1) * UPGRADE_VALUE).toString());
 
-            console.log(heroName)
+            valueCard.setText((value + (level) * UPGRADE_VALUE).toString());
+            valueCard.setText((value + (level) * UPGRADE_VALUE).toString());
 
             // Désactive l'interactivité de l'icône actuelle après l'avoir déverrouillée
             padlockList.list[i].disableInteractive();
+
+
+            /*
+            for (let i = 0; i < user.heroes.length; i++) {
+              var eqpCard = this.add.container(0, 0)
+        
+              eqpCard.add(createEquipmentCard(this, 0, "weapon_" + user.heroes[i].heroName + "_" + user.heroes[i].equipment[0].level,
+                                              user.heroes[i].equipment[0].attack, user.heroes[i].equipment[0].level,barreInfo))
+              eqpCard.add(createEquipmentCard(this, 210, "armour_" + user.heroes[i].heroName + "_" + user.heroes[i].equipment[1].level, 
+                                              user.heroes[i].equipment[1].defense, user.heroes[i].equipment[1].level,barreInfo))
+              eqpCard.visible = false
+              boutiqueCard.add(eqpCard)
+            }*/
 
             // Ajouter l'interactivité de l'icône suivante
             if (i != MAX_EQUIPEMENT_LEVEL - 1) {

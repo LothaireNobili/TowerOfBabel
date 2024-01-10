@@ -35,9 +35,6 @@ class Hameau extends Phaser.Scene {
                 frameWidth: this.graphicManager.spriteSheetDatas[hero].idle.frameWidth,
                 frameHeight: this.graphicManager.spriteSheetDatas[hero].idle.frameHeight
             })
-    
-
-            
             this.load.image("portrait_" + hero, "images/heroes/" + hero + "/portrait.png")
         }
 
