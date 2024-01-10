@@ -35,6 +35,7 @@ class Diligence extends Phaser.Scene {
     boutiqueBackground.displayHeight = 580;
     var diligence = this.add.image(300, 450, "Diligence")
     diligence.setScale(0.6)
+
     // Ajouter des heros
     var intervalleY = 65
     let count = 0;

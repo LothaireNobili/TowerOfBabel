@@ -2,7 +2,7 @@
  * Enregistrer les liste des héros choisis sur localStorage
  * Item: listSelectedHeroes
  */
-
+var GOLDEARNT;
 var listSelectedHeroes = ['null', 'null', 'null', 'null'];
 
 class ComposerEquipe extends Phaser.Scene {
@@ -14,8 +14,8 @@ class ComposerEquipe extends Phaser.Scene {
     this.load.image("frame", "icons/frame.png")
     this.load.image("king", "icons/king.png")
     this.load.image("cercleYellow", "icons/cercle_yellow.png")
-    this.load.image("startBtn", "icons/go.png")
-    this.load.image("startBtnFocus", "icons/go_focus.png")
+    this.load.image("goBtn", "icons/go.png")
+    this.load.image("goBtnFocus", "icons/go_focus.png")
 
     localStorage.setItem("listSelectedHeroes", ["null","null","null","null"]); //initalize the list of selected heroes
   }
@@ -34,18 +34,18 @@ class ComposerEquipe extends Phaser.Scene {
     message.setVisible(false);
 
     // button start
-    var startBtn = this.add.image(700, 655, "startBtn")
+    var startBtn = this.add.image(700, 655, "goBtn")
     startBtn.setScale(0.20)
 
     startBtn.setInteractive();
 
     startBtn.on("pointerover", function () {
-      startBtn.setTexture("startBtnFocus");
+      startBtn.setTexture("goBtnFocus");
       document.body.style.cursor = "pointer";
     });
 
     startBtn.on("pointerout", function () {
-      startBtn.setTexture("startBtn");
+      startBtn.setTexture("goBtn");
       document.body.style.cursor = "default";
     });
 
@@ -60,6 +60,7 @@ class ComposerEquipe extends Phaser.Scene {
         }
       }
       if(go){
+        GOLDEARNT=user.coins
         message.setVisible(false);
         game.scene.stop("ComposerEquipe")
         game.scene.start('Salle');

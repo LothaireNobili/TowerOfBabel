@@ -180,9 +180,11 @@ class Forge extends Phaser.Scene {
     
       let newKey = key.split('_')[0]+"_"+key.split('_')[1]
 
+
       if (level != MAX_EQUIPEMENT_LEVEL) {
-        setPadlockEvents(scene, heroName, eqpType == "weapon" ? 0 : 1, padlockList, level, addValue, valueCard, eqpValue, barreInfo, eqp, newKey);
+        setPadlockEvents(scene, heroName, eqpType == "weapon" ? 0 : 1, padlockList, level, addValue, valueCard, eqpValue, barreInfo, eqp, newKey); // eqpValue : puissance d'attaque ou puissance de défense
         padlockList.list[level].setInteractive();
+
       }
     
       leveCard.add(padlockList);
@@ -201,6 +203,7 @@ class Forge extends Phaser.Scene {
     création des padlocks
     */
     function setPadlockEvents(scene, heroName, eqpType, padlockList, level, addValue, valueCard, value, barreInfo, eqp, newKey) {
+
       for (let i = 0; i < padlockList.length; i++) {
         padlockList.list[i].on("pointerover", function () {
           addValue.visible = true;

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tower of Babel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="../../styles.css" />
+    <link rel="stylesheet" href="./login.css" />
+    <script src="./login.js"></script>
+    <script src="../util/userInfo.js"></script>
+    <style>
+        input[readonly],
+        label[for] {
+            font-size: 22px;
+            color: white;
+        }
+
+
+        input:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+
+<body>
+    <nav class="navbar bg-dark border-bottom border-body z-index-top" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Tower of Babel</a>
+            <div class="d-flex">
+                <div class="px-3" style="font-size: 20px;">
+                    <p id="context"></p>
+                </div>
+                <div id="userInfo">
+                    <button onclick="logout()" style="background-color: transparent; border: 0; margin-top: 10px;">
+                        <svg t="1704705059347" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" p-id="10811" width="35" height="35">
+                            <path
+                                d="M136.2 513.8v366.7c0 26.4 23.4 47.8 52.4 47.8h261.8c28.9 0 52.4-21.4 52.4-47.8s-23.4-47.8-52.4-47.8H241V194.8h209.5c28.9 0 52.4-21.4 52.4-47.8s-23.4-47.8-52.4-47.8H188.6c-28.9 0-52.4 21.4-52.4 47.8v366.8z m757.5-34.6c10.1 8.8 16.4 21.5 16.4 35.6 0 14.2-6.3 26.8-16.4 35.6L728.3 693.8c-8.8 7.6-20.5 12.3-33.2 12.3-27.4 0-49.6-21.5-49.6-47.9 0-14.1 6.4-26.8 16.5-35.5l69.3-60.1h-301c-27.4 0-49.6-21.4-49.6-47.8s22.2-47.8 49.6-47.8h300.8l-69.3-60.1c-10.1-8.7-16.5-21.5-16.5-35.6 0-26.4 22.3-47.8 49.6-47.8 12.8 0 24.4 4.6 33.2 12.3l165.6 143.4z"
+                                fill="#ffffff" p-id="10812"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <div class="container">
+            <div id="userInfoForm">
+                <div style="margin: 100px 150px;">
+                    <h1 class="mb-80" style="text-align: center; color: white;">
+                        Informations du compte</h1>
+                    <div class="input-group  mb-3">
+                        <label for="name" class="col-sm-3 col-form-label">Nom et prénom : </label>
+                        <input type="text" aria-label="nom" id="userNom"
+                            class="form-control border-3 bg-transparent custom-input">
+                        <input type="text" aria-label="prenom" id="userPrenom"
+                            class="form-control border-3 bg-transparent custom-input">
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <label for="email" class="col-sm-3 col-form-label">Email :</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control border-3 bg-transparent custom-input" id="userMel">
+                        </div>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <label for="date" class="col-sm-6 col-form-label">Date de naissance :</label>
+                        <div class="col-sm-6">z
+                            <input type="text" class="form-control border-3 bg-transparent custom-input" maxlength="5"
+                                id="userBirthday">
+                        </div>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <label for="login" class="col-sm-3 col-form-label">Login :</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control border-3 bg-transparent custom-input" id="login">
+                        </div>
+                    </div>
+
+                    <nav style="padding: 0 100px; margin-top: 80px;">
+                        <!-- <button type="button" onclick="editUserInfo()" class="btn btn-style btn-outline-success"
+                       style="float: left;" id="modifBtn">Modifier</button> -->
+                        <button type="button" class="btn btn-style btn-outline-success"
+                            style="float: left; display: none;" onclick="saveUserInfo()" id="saveBtn">Valider</button>
+                        <a href="../../index.html">
+                            <button type="button" class="btn btn-style btn-outline-secondary"
+                                style="float: right;">Retour</button>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+        <footer class="footer" style="margin-top: 300px;">
+            <div style="margin-bottom: 20px;">
+                <img src="../../assets/images/iut-logo.png" />
+                <p style="float: right;">NOBILI Lothaire | SAHININE Haroun | WANG Nuoxi</p>
+            </div>
+            <div style="margin: 10px 20px;">
+                <ul>
+                    <li>Librairie et Cadre Open Source: </li>
+                    <a href="https://getbootstrap.com/">https://getbootstrap.com/</a><br>
+                    <a href="https://jquery.com/">https://jquery.com/</a><br>
+                    <a href="https://phaser.io/">https://phaser.io/</a><br>
+                    <li>Référence Technique: </li>
+                    <a href="https://stackoverflow.com/">https://stackoverflow.com/</a><br>
+                    <a href="https://openai.com/blog/chatgpt">Chatgpt</a>
+                    <li>Source des Images: </li>
+                    <a href="https://game-icons.net/">https://game-icons.net/</a><br>
+                    <a href="https://www.iconfont.cn/?lang=en-us">https://www.iconfont.cn/?lang=en-us</a><br>
+                    <a href="https://www.darkestdungeon.com/">Darkest Dungeon® Red Hook Studios</a>
+                </ul>
+            </div>
+        </footer>
+    </div>
+</body>
+
+
+<script>
+    document.querySelectorAll('#userInfoForm input').forEach(input => {
+        input.setAttribute('readonly', true);
+    });
+
+
+    // Obtenir l’ID dans le lien
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('id');
+    let logoutBtn = document.getElementById("logoutBtn");
+    let userInfo = document.getElementById("userInfo");
+    let context = document.getElementById("context");
+
+
+    let nom = document.getElementById('userNom')
+    let prenom = document.getElementById('userPrenom')
+    let mel = document.getElementById('userMel')
+    let birthday = document.getElementById('userBirthday')
+    let login = document.getElementById('login')
+    // let mdp = document.getElementById('mdp')
+
+    let user = new User();
+    user.upDateUserClass();
+
+
+    context.textContent = "Bonjour, " + user.username;
+
+
+    // Les informations de l’utilisateur s’affichent lors de l’initialisation de la page
+    displayUserInfo(userId);
+
+
+    function logout() {
+        localStorage.removeItem("userData");
+        window.location.href = "../../index.html";
+    }
+
+    // Function to show the edit form
+    function editUserInfo() {
+        // Enable input fields and show the save button
+        document.querySelectorAll('#userInfoForm input').forEach(input => {
+            input.removeAttribute('readonly');
+        });
+        document.getElementById('modifBtn').style.display = 'none';
+        document.getElementById('saveBtn').style.display = 'block';
+    }
+
+
+    // Function to save edited user information
+    function saveUserInfo() {
+        // Disable input fields and hide the save button
+        document.querySelectorAll('#userInfoForm input').forEach(input => {
+            input.setAttribute('readonly', true);
+        });
+        document.getElementById('saveBtn').style.display = 'none';
+    }
+
+
+    function displayUserInfo(id) {
+        fetch("../../API/SelectAllUser.php")
+            .then((response) => response.json())
+            .then((data) => {
+                // Traiter les données JSON renvoyées par PHP, parcourir les données et traiter les informations utilisateur
+                for (let userInfo of data) {
+                    if (userInfo.id == id) {
+                        nom.value = userInfo.nom
+                        prenom.value = userInfo.prenom
+                        mel.value = userInfo.mel
+                        birthday.value = userInfo.date_naiss
+                        login.value = userInfo.login
+                    }
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+
+
+    }
+</script>
+
+
+</html>

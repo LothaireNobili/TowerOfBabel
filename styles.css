@@ -1,0 +1,100 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: url("./assets/images/web_bg.jpg") center center no-repeat;
+    background-color: #000000;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+canvas {
+    position: absolute;
+    left: 50%;
+    top: 450px;
+    transform: translate(-50%, -50%);
+    border: 1px solid black;
+}
+
+#game-container {
+    width: 1200px;
+    height: 1200px;
+    background-color: rgba(21, 25, 29, 0.95);
+
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+
+}
+
+.z-index-top {
+    z-index: 99;
+}
+
+.card-presentation {
+    position: absolute;
+    left: 50%;
+    top: 1020px;
+    transform: translate(-50%, -50%);
+    width: 1080px;
+
+}
+
+.navbar-brand {
+    font-size: 28px;
+    margin-left: 5px;
+}
+
+.card-header {
+    font-size: 28px;
+    text-align: center;
+}
+
+.card-text {
+    font-size: 22px;
+    text-align: justify;
+}
+
+.btn-login {
+    font-size: 22px;
+    margin-right: 5px;
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+}
+
+.footer {
+    background-color: rgba(21, 25, 29, 0.95);
+    color: white;
+    padding: 20px;
+    width: 100%;
+    min-width: 1200px;
+    font-size: 22px;
+}
+
+
+.footer img {
+    height: 60px;
+    width: auto;
+}
+
+#userId {
+    margin-right: 20px;
+    margin: auto;
+}
+
+#context {
+    color: white;
+    font-size: 24px;
+    margin-top: 13px;
+}

@@ -8,6 +8,7 @@ var config = {
     height: 720,
     backgroundColor: 0x000000,
     scene: [
+        Accueil,
         Hameau, 
         Laboratoire, 
         Forge, 
@@ -15,9 +16,10 @@ var config = {
         ComposerEquipe,
         LoadingFight,        
         Fight,
-        Salle,
         Couloir,
-        Escalier
+        Salle,
+        Escalier,
+        GameOver,
     ]
 }
 
