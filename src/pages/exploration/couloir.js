@@ -9,6 +9,8 @@ class Couloir extends Phaser.Scene {
   goingLeft = false;
   constructor() {
     super({ key: "Couloir" });
+    this.graphicManager = new GraphicManager();
+    console.log(this.graphicManager.spriteSheetDatas.crusader.walk.end)
   }
 
   preload() {
@@ -19,19 +21,27 @@ class Couloir extends Phaser.Scene {
     this.load.image("chest", "./assets/images/exploration/chest.jpg");
     this.load.image("move", "./assets/icons/yellow_right_arrow.png");
 
-    for (var i = 0; i < listSelectedHeroes.length; i++) {
-      this.load.image(
-        listSelectedHeroes[i] + "_couloir",
-        "./assets/images/heroes/" + listSelectedHeroes[i] + "/idle.png"
-      );
-    }
     this.load.image(
       "prochaineSalle",
       "./assets/images/exploration/mapBackground.jpg"
     );
+
   }
 
   create() {
+    for (let hero of listSelectedHeroes) {
+      console.log(hero)
+      this.anims.create({
+        key: hero + "_walk", // Animation key (can be any string)
+        frames: this.anims.generateFrameNumbers(hero, {
+          scale: 2,
+          start: 0,
+          end: this.graphicManager.spriteSheetDatas[hero].walk.end, //index of the last frame of the animation
+        }),
+        frameRate: 20, // Number of frames to display per second
+        repeat: -1, // Set to -1 to loop the animation continuously, or a positive integer to specify the number of times to repeat
+      });
+    } 
     this.cursors = this.input.keyboard.createCursorKeys();
     this.add.image(540, 360, "background_corridor").setScale(1.7, 1.7);
     this.moveRight = this.add.image(300, 650, "move").setScale(0.20);
@@ -57,16 +67,27 @@ class Couloir extends Phaser.Scene {
     // on creer un group pour controler l'ensemble de l'listSelectedHeroes plutot que de controler chaque heros individuellement
     this.listSelectedHeroes = this.add.group();
     this.listSelectedHeroes.x = 175;
+
     this.listSelectedHeroes.y = 500;
 
     //on ajoute les heros, les positions sont relatives au centre de l'listSelectedHeroes
     this.ajouterlistSelectedHeroes();
 
+
+    for (let hero of listSelectedHeroes) {
+    console.log("walk")
+    var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
+    this.listSelectedHeroes.add(equipier);
+    equipier.setScale(0.5);
+  }
+  this.updateChildren();
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();
   }
 
   update() {
+
+    
     if (
       (this.goingRight || this.cursors.right.isDown) &&
       this.listSelectedHeroes.x < game.config.width - 250
@@ -90,14 +111,15 @@ class Couloir extends Phaser.Scene {
     var i = 0;
     this.listSelectedHeroes.getChildren().forEach((child) => {
       child.x = relativePosition - i + this.listSelectedHeroes.x;
-      child.y = this.listSelectedHeroes.y;
+
+      child.y = this.listSelectedHeroes.y+150;
+
       i += 75;
     });
   }
 
   canGoToprochaineSalle() {
     return this.prochaineSalle.getBounds().x - this.listSelectedHeroes.x - 200 < 0;
-  }
 
   deplacementSouris()
   {
@@ -123,17 +145,19 @@ class Couloir extends Phaser.Scene {
     this.moveLeft.on("pointerout", () => {
       this.goingLeft = false;
     });
-
   }
 
   getprochaineSalle() {
     return this.prochaineSalle;
   }
   ajouterlistSelectedHeroes() {
-    for (var i = 0; i < listSelectedHeroes.length; i++) {
-      var equipier = this.add.image(0, 0, listSelectedHeroes[i] + "_exploration");
+
+    for (let hero of listSelectedHeroes) {
+      console.log("walk")
+      var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
       this.listSelectedHeroes.add(equipier);
-      equipier.setScale(0.3);
+      equipier.setScale(0.5);
+
     }
     this.updateChildren();
   }
