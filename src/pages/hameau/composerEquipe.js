@@ -136,7 +136,10 @@ class ComposerEquipe extends Phaser.Scene {
       
       if(key == "plaguedoctor"){
         var heroName = scene.add.text(-60, -155,"PLAGUE DOCTOR", setFontStyles("24px", "#D2BA70"));
-      }else{
+      }else if(key == "graverobber"){
+        var heroName = scene.add.text(-60, -155,"GRAVE ROBBER", setFontStyles("24px", "#D2BA70"));
+      }
+      else{
         var heroName = scene.add.text(-60, -155, key.toUpperCase(), setFontStyles("24px", "#D2BA70"));
       }
       var heroImage = scene.add.sprite(-210, 160, "idle_" + key).play(key + "_idle").setOrigin(0.5, 1).setScale(0.9);
