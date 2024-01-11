@@ -43,7 +43,7 @@ class LoadingFight extends Phaser.Scene {
         ]
 
         for (let i = 0; i < heroList.length; i++){
-            this.load.spritesheet(heroList[i], "./assets/images/heroes/"+heroList[i]+"/animations/wait.png", {
+            this.load.spritesheet(heroList[i]+'_wait', "./assets/images/heroes/"+heroList[i]+"/animations/wait.png", {
                 frameWidth: this.graphicManager.spriteSheetDatas[heroList[i]].wait.frameWidth,
                 frameHeight: this.graphicManager.spriteSheetDatas[heroList[i]].wait.frameHeight
             })
@@ -54,7 +54,7 @@ class LoadingFight extends Phaser.Scene {
         }  
 
         for (let i = 0; i < enemyList.length; i++){
-            this.load.spritesheet(enemyList[i], "./assets/images/enemies/"+enemyList[i]+"/animations/wait.png",{
+            this.load.spritesheet(enemyList[i]+'_wait', "./assets/images/enemies/"+enemyList[i]+"/animations/wait.png",{
                 frameWidth: this.graphicManager.spriteSheetDatas[enemyList[i]].wait.frameWidth,
                 frameHeight: this.graphicManager.spriteSheetDatas[enemyList[i]].wait.frameHeight
             })
@@ -70,7 +70,7 @@ class LoadingFight extends Phaser.Scene {
         for (let i = 0; i < heroList.length; i++){
             this.anims.create({
                 key: heroList[i]+'_wait', // Animation key (can be any string)
-                frames: this.anims.generateFrameNumbers(heroList[i], {
+                frames: this.anims.generateFrameNumbers(heroList[i]+'_wait', {
                     scale: 2,
                     start: 0,
                     end: this.graphicManager.spriteSheetDatas[heroList[i]].wait.end //index of the last frame of the animation
@@ -83,7 +83,7 @@ class LoadingFight extends Phaser.Scene {
         for (let i = 0; i < enemyList.length; i++){
             this.anims.create({
                 key: enemyList[i]+'_wait', // Animation key (can be any string)
-                frames: this.anims.generateFrameNumbers(enemyList[i], {
+                frames: this.anims.generateFrameNumbers(enemyList[i]+'_wait', {
                     start: 0,
                     end: this.graphicManager.spriteSheetDatas[enemyList[i]].wait.end //index of the last frame of the animation
                 }),

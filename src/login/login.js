@@ -99,8 +99,8 @@ function connecter() {
   const message = document.getElementById("message_login");
 
   //!here to change local/web
-  //fetch("https://devweb.iutmetz.univ-lorraine.fr/~wang318u/TowerOfBabel/API/SelectAllUser.php")
-  fetch("../../API/SelectAllUser.php")
+  fetch("https://devweb.iutmetz.univ-lorraine.fr/~nobili2u/TowerOfBabel/API/SelectAllUser.php")
+  //fetch("../../API/SelectAllUser.php")
     .then((response) => response.json())
     .then((data) => {
       // Traiter les données JSON renvoyées par PHP, parcourir les données et traiter les informations utilisateur
