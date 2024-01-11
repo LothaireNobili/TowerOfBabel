@@ -12,7 +12,6 @@ class Escalier extends Phaser.Scene {
             "./assets/images/heroes/" + listSelectedHeroes[i] + "/idle.png"
           );
         }
-        this.load.image("etageSuivant","./icons/cercle_red.png")
       }
 
       create()
@@ -24,13 +23,17 @@ class Escalier extends Phaser.Scene {
             var equipier = this.add.image(positions[i][0],positions[i][1],listSelectedHeroes[i]).setScale(0.7);
             if(i>1) equipier.flipX=true
         }
-        
-        var prochainEtage= this.add.image(570,300,"etageSuivant");
+        var flecheMontante=this.add.image(725,220,"move").setScale(0.25)
+        flecheMontante.rotation=-1.5
+        flecheMontante.setInteractive()
+        flecheMontante.on("pointerdown", () => {        
+          this.goToNextFloor()
+         });
+
+        var prochainEtage= this.add.text(320,200,"Passer à l'étage superieur",setFontStyles("30px"));
         prochainEtage.setInteractive();
         prochainEtage.on("pointerdown", () => {        
-           window.myScene.nouvelEtage=true;
-           window.myScene.nbSalle=this.determinerMaxSalle()
-           this.scene.start("Salle");
+          this.goToNextFloor()
           });
           
           const barreInfo = new BarreInfo(this);
@@ -62,5 +65,11 @@ class Escalier extends Phaser.Scene {
       Math.random() * (max_salle[max][2] - max_salle[max][1]) +
         max_salle[max][1]
     );
+  }
+
+  goToNextFloor(){
+    window.myScene.nouvelEtage=true;
+          window.myScene.nbSalle=this.determinerMaxSalle()
+          this.scene.start("Salle");
   }
 }
