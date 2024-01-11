@@ -6,10 +6,10 @@ class Escalier extends Phaser.Scene {
 
     preload(){
         this.load.image("feu", "./assets/images/exploration/escalier.jpg");
-        for (var i = 0; i < EQUIPE.length; i++) {
+        for (var i = 0; i < listSelectedHeroes.length; i++) {
           this.load.image(
-            EQUIPE[i] + "_escalier",
-            "./assets/images/heroes/" + EQUIPE[i] + "/idle.png"
+            listSelectedHeroes[i] + "_escalier",
+            "./assets/images/heroes/" + listSelectedHeroes[i] + "/idle.png"
           );
         }
         this.load.image("etageSuivant","./icons/cercle_red.png")
@@ -19,9 +19,9 @@ class Escalier extends Phaser.Scene {
       {
         var positions=[[500,500],[400,600],[700,500],[800,600]]
         var background = this.add.image(540, 360, "feu");
-        for(var i = 0;i<EQUIPE.length;i++)
+        for(var i = 0;i<listSelectedHeroes.length;i++)
         {
-            var equipier = this.add.image(positions[i][0],positions[i][1],EQUIPE[i]).setScale(0.7);
+            var equipier = this.add.image(positions[i][0],positions[i][1],listSelectedHeroes[i]).setScale(0.7);
             if(i>1) equipier.flipX=true
         }
         
