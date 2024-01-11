@@ -1,4 +1,4 @@
-const EQUIPE = ["crusader", "bandit", "bandit", "vestal"];
+//const listSelectedHeroes = ["crusader", "bandit", "bandit", "vestal"];
 const BACKGROUNDS = ["ruin_background2.png","ruin_background1.png"]
 const TYPE_SALLE = [
   ["Vide", 2],
@@ -16,13 +16,13 @@ class Salle extends Phaser.Scene {
   fight;
   couloir; //prochain couloir
   premiereSalle;
-  //debug variables
   fighting;
   coffre;
   nouvelEtage = false;
   nbSalle = 0;
   content;
-
+  battleBegin;
+  fightStartGroup;
   positions = [
     [400, 500],
     [300, 500],
@@ -54,13 +54,12 @@ class Salle extends Phaser.Scene {
     );
     this.load.image("chest", "./assets/images/exploration/chest.jpg");
 
-    for (var i = 0; i < EQUIPE.length; i++) {
+    for (var i = 0; i < listSelectedHeroes.length; i++) {
       this.load.image(
-        EQUIPE[i] + "_exploration",
-        "./assets/images/heroes/" + EQUIPE[i] + "/idle.png"
+        listSelectedHeroes[i] + "_exploration",
+        "./assets/images/heroes/" + listSelectedHeroes[i] + "/idle.png"
       );
     }
-    this.load.image("boutiqueBg", "./assets/images/hameau/boutique_bg.png");
     this.load.image("money", "./assets/icons/piece.png");
     this.load.image("couloir", "./assets/icons/yellow_right_arrow.png");
     this.load.image("startFight", "./assets/images/fight_misc/announcement_combat.png");
@@ -75,24 +74,31 @@ class Salle extends Phaser.Scene {
 
     var background = this.add.image(540, 360, "background_salle");
     this.setRoomContent();
-    this.placerEquipe();
+    this.placerlistSelectedHeroes();
     this.placerCoffre();
     this.placerCouloir();
     this.creerCurio();
-    //FOR DEBUG ONLY
+
+    
+
+    this.battleBegin = this.add.text((game.config.width/2)-80, (game.config.height/2)-200,"Begin Battle!",setFontStyles("40px"));
     this.fighting = this.add.image(game.config.width/2, game.config.height/2, "startFight");
     this.fighting.setInteractive();
+
+    this.fightStartGroup=this.add.group()
+    this.fightStartGroup.add(this.fighting)
+    this.fightStartGroup.add(this.battleBegin)
 
     this.fighting.on("pointerdown", () => {
       window.myScene = this;
       game.scene.stop("Salle");
       game.scene.start("bootFight");
       this.clear = true;
-    }); //DEBUG ONLY
+    });
 
     //this.content of room
 
-    this.floor = this.add.text(30, game.config.height-50, "FLOOR : " + this.etage, setFontStyles("40px")); //DEBUG ONLY
+    this.floor = this.add.text(30, game.config.height-50, "FLOOR : " + this.etage, setFontStyles("40px")); 
 
     if (this.etage != 0) this.determinerProchaineSalle();
     this.premiereSalle = false;
@@ -105,19 +111,19 @@ class Salle extends Phaser.Scene {
 
   update() {
     this.couloir.setVisible(this.clear);
-    this.fighting.setVisible(!this.clear);
+    if(this.clear) this.turnOff(this.fightStartGroup);
     if (this.curio && this.clear) this.coffre.setVisible(true);
     if (window.myScene.returnFromFight) {
       window.myScene.returnFromFight = false;
       this.clear = true;
     }
   }
-  placerEquipe() {
-    for (var i = 0; i < EQUIPE.length; i++) {
+  placerlistSelectedHeroes() {
+    for (var i = 0; i < listSelectedHeroes.length; i++) {
       var equipier = this.add.image(
         this.positions[i][0],
         this.positions[i][1],
-        EQUIPE[i] + "_exploration"
+        listSelectedHeroes[i] + "_exploration"
       );
       equipier.setScale(0.3);
     }
@@ -145,13 +151,14 @@ class Salle extends Phaser.Scene {
   creerCurio() {
     //image de fond des curios
     var addedGold = this.determinerGold()
-    var boutiqueBackground = this.add.image(530, 300, "boutiqueBg");
-    boutiqueBackground.displayWidth = 1000;
-    boutiqueBackground.displayHeight = 580;
+    var boutiqueBackground = this.add.image(game.config.width/2, game.config.height/2, "boutiqueBg");
+    boutiqueBackground.displayWidth = game.config.width-game.config.width/10;
+    boutiqueBackground.displayHeight = game.config.height-game.config.height/10;
     //boutton pour quitter l'ecran des curios
-    var money = this.add.image(500, 300, "money");
-    money.setScale(0.5);
-    var moneyValue=this.add.text((game.config.width/2)+50, (game.config.height/2)-100, addedGold, {
+    var loot = this.add.text((game.config.width/2)-150,  (game.config.height/2)-200, "LOOT !",setFontStyles("80px"))
+    var money = this.add.image((game.config.width/2)-45,  (game.config.height/2), "money")
+    money.setScale(0.7);
+    var moneyValue=this.add.text((game.config.width/2)+25, (game.config.height/2)-50, addedGold, {
       font: "80px Arial",
       fill: "white",
     }); 
@@ -159,6 +166,7 @@ class Salle extends Phaser.Scene {
     this.content = this.add.group();
     this.content.add(boutiqueBackground);
     this.content.add(money);
+    this.content.add(loot);
     this.content.add(moneyValue);
     money.setInteractive();
     money.on("pointerdown", () => {
