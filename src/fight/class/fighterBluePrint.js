@@ -626,6 +626,14 @@ class FighterBluePrint{
                         color = "#ffd299"
                         text = "Cured!"
                         break;
+                    case 'miss':
+                        color = "#b8b8b8"
+                        text = 'Dodge!'
+                        break;
+                    case 'crit':
+                        color = "#db6a00"
+                        text = amount+"!"
+                        break;
                     default:
                         color = '#ffffff';
                   }
@@ -740,19 +748,48 @@ class FighterBluePrint{
                 this.displayDamage(0,'stun')
             },
         
-            applyNormalDamage(damage){
-                this.applyRawDamages(damage, "normal")
+            applyNormalDamage(damage, type){
+                this.applyRawDamages(damage, type)
             },
         
         
             isTargeted(skill, caster){
 
+                let dodgeRoll = Math.random() * 100;
+                let missed = 0
+
                 if (skill.damage_low != undefined && skill.damage_high!= undefined){
-                    let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
-                    this.applyNormalDamage(damage)
+                    if (dodgeRoll >= this.dodge){//if dodge fails
+
+                        let critRoll = Math.random() * 100;
+                        let critCheck
+  
+                        if(skill.crit_mod!=undefined){      
+                            critCheck = caster.crit + skill.crit_mod
+                        }
+                        else{
+                            critCheck = caster.crit
+                        }
+                        
+                        if (critRoll >= critCheck){ //if crit fails
+                            let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
+                            this.applyNormalDamage(damage, 'normal')
+                        }
+                        else{
+                            let damage = Math.round(skill.damage_high * 1.5 * caster.damage_mult)
+                            this.applyNormalDamage(damage, 'crit')
+                        }
+                        
+
+                    }
+                    else{
+                        missed = 1
+                        this.displayDamage(0, 'miss')
+                    }
                 }
                 
-                if(!this.isDead()){
+                if(!this.isDead() && !missed){
+                    
                     if(skill.bleed != undefined){ //si l'attaque inflige du saignement
                         let proba = skill.bleed[0] - this.bleed_res //get the power of the probability of success
                         let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
