@@ -25,10 +25,10 @@ class Salle extends Phaser.Scene {
   battleBegin;
   fightStartGroup;
   positions = [
-    [400, 650],
-    [300, 650],
-    [200, 650],
-    [100, 650],
+    400, 
+    300, 
+    200, 
+    100, 
   ];
 
   salleVisitee = 0;
@@ -51,12 +51,12 @@ class Salle extends Phaser.Scene {
 
     this.load.image(
 
-      "background",
+      "background_salle",
       "./assets/images/exploration/" + chosenGround
     );
     this.load.image("chest", "./assets/images/exploration/chest.jpg");
 
-    for (let hero of listSelectedHeroes) {
+    /*for (let hero of listSelectedHeroes) {
       this.load.spritesheet(
         hero+"_walk",
         "./images/heroes/" + hero + "/animations/walk.png",
@@ -68,7 +68,7 @@ class Salle extends Phaser.Scene {
         }
 
       );
-    }
+    }*/
     this.load.image("money", "./assets/icons/piece.png");
     this.load.image("couloir", "./assets/icons/yellow_right_arrow.png");
     this.load.image(
@@ -89,7 +89,7 @@ class Salle extends Phaser.Scene {
     this.setRoomContent();
 
     for (var i = 0; i < listSelectedHeroes.length; i++) {
-      var equipier = this.add.sprite(this.positions[i][0], this.positions[i][1], "idle_" + listSelectedHeroes[i]).play(listSelectedHeroes[i]+"_idle").setOrigin(0.5, 1);
+      var equipier = this.add.sprite(this.positions[i], 600, "idle_" + listSelectedHeroes[i]).play(listSelectedHeroes[i]+"_idle").setOrigin(0.5, 1);
       equipier.setScale(0.7);
     }
     this.placerCoffre();
@@ -103,10 +103,6 @@ class Salle extends Phaser.Scene {
     ).setScale(0.5);
 
     this.fighting.setInteractive();
-
-    this.fightStartGroup=this.add.group()
-    this.fightStartGroup.add(this.fighting)
-    this.fightStartGroup.add(this.battleBegin)
 
     this.fighting.on("pointerdown", () => {
       window.myScene = this;
@@ -129,7 +125,8 @@ class Salle extends Phaser.Scene {
 
   update() {
     this.couloir.setVisible(this.clear);
-    if(this.clear) this.turnOff(this.fightStartGroup);
+    this.fighting.setVisible(!this.clear)
+
     if (this.curio && this.clear) this.coffre.setVisible(true);
     if (window.myScene.returnFromFight) {
       window.myScene.returnFromFight = false;
