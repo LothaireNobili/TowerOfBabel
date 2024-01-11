@@ -98,6 +98,8 @@ function connecter() {
   const password = document.getElementById("mdp").value;
   const message = document.getElementById("message_login");
 
+  //!here to change local/web
+  //fetch("https://devweb.iutmetz.univ-lorraine.fr/~wang318u/TowerOfBabel/API/SelectAllUser.php")
   fetch("../../API/SelectAllUser.php")
     .then((response) => response.json())
     .then((data) => {
