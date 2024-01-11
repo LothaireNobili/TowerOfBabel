@@ -585,7 +585,9 @@ class Arbiter {
             if(playerTeam.length==0){  //on vérifie d'abord l'équipe du joueur, en cas d'égalité (impossible pour l'instant), il a perdu car il n'a plus de héros pour continuer
                 game.scene.stop(this.fight_scene)
                 game.scene.start("GameOver")
-                
+                console.log("avant destroy")
+                this.destroy()
+                console.log("après destroy")
             }
             else{
                 listSelectedHeroes = heroList
