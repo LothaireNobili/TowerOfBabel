@@ -4,8 +4,7 @@ class Escalier extends Phaser.Scene {
   }
 
 
-      preload()
-      {
+    preload(){
         this.load.image("feu", "./assets/images/exploration/escalier.jpg");
         for (var i = 0; i < EQUIPE.length; i++) {
           this.load.image(
@@ -22,7 +21,7 @@ class Escalier extends Phaser.Scene {
         var background = this.add.image(540, 360, "feu");
         for(var i = 0;i<EQUIPE.length;i++)
         {
-            var equipier = this.add.image(positions[i][0],positions[i][1],EQUIPE[i]).setScale(0.3);
+            var equipier = this.add.image(positions[i][0],positions[i][1],EQUIPE[i]).setScale(0.7);
             if(i>1) equipier.flipX=true
         }
         
@@ -37,19 +36,7 @@ class Escalier extends Phaser.Scene {
           const barreInfo = new BarreInfo(this);
         barreInfo.creerBarreInfo();
       }
-
-
-    var prochainEtage = this.add.image(570, 300, "prochainEtage");
-    prochainEtage.setInteractive();
-    prochainEtage.on("pointerdown", () => {
-      window.myScene.nouvelEtage = true;
-      window.myScene.nbSalle = this.determinerMaxSalle();
-      this.scene.start("Salle");
-    });
-
-    const barreInfo = new BarreInfo(this);
-    barreInfo.creerBarreInfo();
-  }
+  
 
   update() {}
 
@@ -75,5 +62,5 @@ class Escalier extends Phaser.Scene {
       Math.random() * (max_salle[max][2] - max_salle[max][1]) +
         max_salle[max][1]
     );
-  } //TBD
+  }
 }

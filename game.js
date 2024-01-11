@@ -8,7 +8,6 @@ var config = {
     height: 720,
     backgroundColor: 0x000000,
     scene: [
-    
         Accueil,
         Hameau, 
         Laboratoire, 

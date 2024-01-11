@@ -68,17 +68,17 @@ class Couloir extends Phaser.Scene {
     this.listSelectedHeroes = this.add.group();
     this.listSelectedHeroes.x = 175;
 
-    this.listSelectedHeroes.y = 500;
+    this.listSelectedHeroes.y = 450;
 
     //on ajoute les heros, les positions sont relatives au centre de l'listSelectedHeroes
-    this.ajouterlistSelectedHeroes();
+    //this.ajouterlistSelectedHeroes();
 
 
     for (let hero of listSelectedHeroes) {
     console.log("walk")
     var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
     this.listSelectedHeroes.add(equipier);
-    equipier.setScale(0.5);
+    equipier.setScale(0.7);
   }
   this.updateChildren();
     const barreInfo = new BarreInfo(this);
@@ -114,13 +114,13 @@ class Couloir extends Phaser.Scene {
 
       child.y = this.listSelectedHeroes.y+150;
 
-      i += 75;
+      i += 100;
     });
   }
 
   canGoToprochaineSalle() {
     return this.prochaineSalle.getBounds().x - this.listSelectedHeroes.x - 200 < 0;
-
+  }
   deplacementSouris()
   {
     this.moveRight.on("pointerdown", () => {
