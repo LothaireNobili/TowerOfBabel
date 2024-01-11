@@ -9,7 +9,7 @@ class FighterBluePrint{
 
                 name : "crusader",
 
-                max_hp: 45,  
+                max_hp: 50,  
         
                 dodge: 10,
         
@@ -84,7 +84,7 @@ class FighterBluePrint{
 
                 max_hp : 25,   
         
-                dodge : 25,
+                dodge : 50,
         
                 prot : 0, 
         
@@ -157,7 +157,7 @@ class FighterBluePrint{
 
                 max_hp : 30,
 
-                dodge : 25,
+                dodge : 40,
 
                 prot : 0, 
 
@@ -230,7 +230,7 @@ class FighterBluePrint{
             vestal: {
 
                 name: "vestal",
-                max_hp : 40,  
+                max_hp : 45,  
 
                 dodge : 15,
 
@@ -303,7 +303,7 @@ class FighterBluePrint{
                 name: "hellion",
                 max_hp : 30,  
     
-                dodge : 20,
+                dodge : 50,
     
                 prot : 0, 
     
@@ -377,7 +377,7 @@ class FighterBluePrint{
 
                 max_hp : 25,   
         
-                dodge : 35,
+                dodge : 60,
         
                 prot : 0, 
         
@@ -450,7 +450,7 @@ class FighterBluePrint{
                 name: "skeleton",
                 max_hp : 25,  
 
-                dodge : 10,
+                dodge : 5,
 
                 prot : 0, 
 
@@ -519,7 +519,7 @@ class FighterBluePrint{
                 name: "spider",
                 max_hp : 15,  
 
-                dodge : 20,
+                dodge : 5,
 
                 prot : 0, 
 
@@ -751,19 +751,7 @@ class FighterBluePrint{
                     let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
                     this.applyNormalDamage(damage)
                 }
-                if (skill.heal != undefined){
-                    let heal = skill.heal * caster.damage_mult
-                    this.applyHeal(heal, "heal")
-                }
-
-                if (skill.cure != undefined){
-                    this.applyCure(skill.cure)
-                }
-
-                if (skill.regen != undefined){
-                    this.status_effect.regen.push([skill.regen[0],skill.regen[1]]) //apply regen as a list
-                }
-        
+                
                 if(!this.isDead()){
                     if(skill.bleed != undefined){ //si l'attaque inflige du saignement
                         let proba = skill.bleed[0] - this.bleed_res //get the power of the probability of success
@@ -795,6 +783,19 @@ class FighterBluePrint{
                             this.status_effect.stun+=1 //apply stun
                         }
                     }
+                }
+
+                if (skill.heal != undefined){
+                    let heal = skill.heal * caster.damage_mult
+                    this.applyHeal(heal, "heal")
+                }
+
+                if (skill.cure != undefined){
+                    this.applyCure(skill.cure)
+                }
+
+                if (skill.regen != undefined){
+                    this.status_effect.regen.push([skill.regen[0],skill.regen[1]]) //apply regen as a list
                 }
         
                 this.healthBar.update()
