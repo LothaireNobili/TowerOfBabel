@@ -358,16 +358,15 @@ class FighterBluePrint{
                         stun: 110  //chance of the stun to proc, ennemies have some resistance so <100 doesn't guarantee the stun
                     },
                     {
-                         id:"razorEdge",
-                         name: "Razor Edge",
-                         animation: "skill4",
-                         target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
-                         type: "single",//all reachable target are touched
-                        reach: [2, 3], //spot reach
-                        requiered_pos: [1, 2], //where the hero must be placed to cast it
-                         damage_low: 4, //minimum damage
-                         damage_high: 8, //max damage
-                        bleed: [130, 6, 3]  //120% chance to proc bleed, 5 damage for 3 turns
+                        id:"rush",
+                        name: "Rusg",
+                        animation: "skill4",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "continuous",//all reachable target are touched
+                        reach: [1, 2, 3], //spot reach
+                        requiered_pos: [2, 3, 4], //where the hero must be placed to cast it
+                        damage_low: 6, //minimum damage
+                        damage_high: 8 //max damage
                     }
                 ],
             },
