@@ -34,9 +34,9 @@ class Couloir extends Phaser.Scene {
   create() {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.add.image(540, 360, "background_corridor").setScale(1.7, 1.7);
-    this.moveRight = this.add.image(300, 650, "move").setScale(0.05);
-    this.moveLeft = this.add.image(150, 650, "move").setScale(0.05);
-    this.goInsideNextRoom = this.add.image(900, 300, "move").setScale(0.05);
+    this.moveRight = this.add.image(300, 650, "move").setScale(0.20);
+    this.moveLeft = this.add.image(150, 650, "move").setScale(0.20);
+    this.goInsideNextRoom = this.add.image(900, 300, "move").setScale(0.20);
     this.prochaineSalle = this.add
       .image(900, 450, "prochaineSalle")
       .setScale(0.2, 0.2).setVisible(false);

@@ -146,7 +146,7 @@ class Salle extends Phaser.Scene {
     this.couloir.on("pointerdown", () => {
       this.goToprochaineSalle();
     });
-    this.couloir.setScale(0.05)
+    this.couloir.setScale(0.20)
   }
   creerCurio() {
     //image de fond des curios
