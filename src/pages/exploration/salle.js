@@ -92,7 +92,7 @@ class Salle extends Phaser.Scene {
 
     //this.content of room
 
-    this.floor = this.add.text(30, game.config.height-100, "FLOOR : " + this.etage, setFontStyles("80px")); //DEBUG ONLY
+    this.floor = this.add.text(30, game.config.height-100, "FLOOR : " + this.etage, setFontStyles("60px")); //DEBUG ONLY
 
     if (this.etage != 0) this.determinerProchaineSalle();
     this.premiereSalle = false;
