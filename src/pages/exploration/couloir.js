@@ -1,6 +1,6 @@
 class Couloir extends Phaser.Scene {
   cursors;
-  equipe;
+  listSelectedHeroes;
   prochaineSalle;
   moveRight;
   moveLeft;
@@ -10,6 +10,7 @@ class Couloir extends Phaser.Scene {
   constructor() {
     super({ key: "Couloir" });
     this.graphicManager = new GraphicManager();
+    console.log(this.graphicManager.spriteSheetDatas.crusader.walk.end)
   }
 
   preload() {
@@ -25,22 +26,25 @@ class Couloir extends Phaser.Scene {
       "./assets/images/exploration/mapBackground.jpg"
     );
 
-   
-    for (let hero of game.config.allHeroList) {
-      this.load.spritesheet(
-        hero,
-        "images/heroes/" + hero + "/animations/walk.png",
-        {
-          frameWidth:
-            this.graphicManager.spriteSheetDatas[hero].walk.frameWidth,
-          frameHeight:
-            this.graphicManager.spriteSheetDatas[hero].walk.frameHeight,
-        }
-      );
-    }
+
+    
+
   }
 
   create() {
+    for (let hero of listSelectedHeroes) {
+      console.log(hero)
+      this.anims.create({
+        key: hero + "_walk", // Animation key (can be any string)
+        frames: this.anims.generateFrameNumbers(hero, {
+          scale: 2,
+          start: 0,
+          end: this.graphicManager.spriteSheetDatas[hero].walk.end, //index of the last frame of the animation
+        }),
+        frameRate: 20, // Number of frames to display per second
+        repeat: -1, // Set to -1 to loop the animation continuously, or a positive integer to specify the number of times to repeat
+      });
+    } 
     this.cursors = this.input.keyboard.createCursorKeys();
     this.add.image(540, 360, "background_corridor").setScale(1.7, 1.7);
     this.moveRight = this.add.image(300, 650, "move").setScale(0.05);
@@ -84,42 +88,41 @@ class Couloir extends Phaser.Scene {
       game.scene.start("Salle");
     });
 
-    // on creer un group pour controler l'ensemble de l'equipe plutot que de controler chaque heros individuellement
-    this.equipe = this.add.group();
-    this.equipe.x = 175;
-    this.equipe.y = 450;
+    // on creer un group pour controler l'ensemble de l'listSelectedHeroes plutot que de controler chaque heros individuellement
+    this.listSelectedHeroes = this.add.group();
+    this.listSelectedHeroes.x = 175;
+    this.listSelectedHeroes.y = 450;
 
-    //on ajoute les heros, les positions sont relatives au centre de l'equipe
-    this.ajouterEquipe();
+    //on ajoute les heros, les positions sont relatives au centre de l'listSelectedHeroes
+    
 
 
-    for (let hero of game.config.allHeroList) {
-      this.anims.create({
-        key: hero + "_walk", // Animation key (can be any string)
-        frames: this.anims.generateFrameNumbers(hero, {
-          scale: 2,
-          start: 0,
-          end: this.graphicManager.spriteSheetDatas[hero].walk.end, //index of the last frame of the animation
-        }),
-        frameRate: 20, // Number of frames to display per second
-        repeat: -1, // Set to -1 to loop the animation continuously, or a positive integer to specify the number of times to repeat
-      });
-    }
+    for (let hero of listSelectedHeroes) {
+    console.log("walk")
+    var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
+    this.listSelectedHeroes.add(equipier);
+    equipier.setScale(0.5);
+  }
+  this.updateChildren();
+
+  //this.ajouterlistSelectedHeroes();
 
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();
   }
 
   update() {
+
+    
     if (
       (this.goingRight || this.cursors.right.isDown) &&
-      this.equipe.x < game.config.width - 250
+      this.listSelectedHeroes.x < game.config.width - 250
     ) {
-      this.equipe.x += 10;
+      this.listSelectedHeroes.x += 10;
       this.updateChildren();
     }
-    if (50 < this.equipe.x && (this.goingLeft || this.cursors.left.isDown)) {
-      this.equipe.x -= 5;
+    if (50 < this.listSelectedHeroes.x && (this.goingLeft || this.cursors.left.isDown)) {
+      this.listSelectedHeroes.x -= 5;
       this.updateChildren();
     }
     if (this.cursors.up.isDown && this.canGoToprochaineSalle()) {
@@ -132,24 +135,25 @@ class Couloir extends Phaser.Scene {
   updateChildren() {
     var relativePosition = 200;
     var i = 0;
-    this.equipe.getChildren().forEach((child) => {
-      child.x = relativePosition - i + this.equipe.x;
-      child.y = this.equipe.y+150;
+    this.listSelectedHeroes.getChildren().forEach((child) => {
+      child.x = relativePosition - i + this.listSelectedHeroes.x;
+      child.y = this.listSelectedHeroes.y+150;
       i += 75;
     });
   }
 
   canGoToprochaineSalle() {
-    return this.prochaineSalle.getBounds().x - this.equipe.x - 200 < 0;
+    return this.prochaineSalle.getBounds().x - this.listSelectedHeroes.x - 200 < 0;
   }
 
   getprochaineSalle() {
     return this.prochaineSalle;
   }
-  ajouterEquipe() {
-    for (let hero of EQUIPE) {
-      var equipier = this.add.sprite(0, 0, "walk_" +hero).play(hero+"_walk").setOrigin(0.5, 1);
-      this.equipe.add(equipier);
+  ajouterlistSelectedHeroes() {
+    for (let hero of listSelectedHeroes) {
+      console.log("walk")
+      var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
+      this.listSelectedHeroes.add(equipier);
       equipier.setScale(0.5);
     }
     this.updateChildren();

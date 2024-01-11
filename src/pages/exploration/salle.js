@@ -1,4 +1,4 @@
-const EQUIPE = ["crusader", "bandit", "bandit", "vestal"];
+//const listSelectedHeroes = ["crusader", "bandit", "bandit", "vestal"];
 const BACKGROUNDS = ["ruin_background2.png", "ruin_background1.png"];
 const TYPE_SALLE = [
   ["Vide", 2],
@@ -54,10 +54,16 @@ class Salle extends Phaser.Scene {
     );
     this.load.image("chest", "./assets/images/exploration/chest.jpg");
 
-    for (var i = 0; i < EQUIPE.length; i++) {
-      this.load.image(
-        EQUIPE[i] + "_exploration",
-        "./assets/images/heroes/" + EQUIPE[i] + "/idle.png"
+    for (let hero of listSelectedHeroes) {
+      this.load.spritesheet(
+        hero+"_walk",
+        "./images/heroes/" + hero + "/animations/walk.png",
+        {
+          frameWidth:
+            this.graphicManager.spriteSheetDatas[hero].walk.frameWidth,
+          frameHeight:
+            this.graphicManager.spriteSheetDatas[hero].walk.frameHeight,
+        }
       );
     }
     this.load.image("boutiqueBg", "./assets/images/hameau/boutique_bg.png");
@@ -70,6 +76,7 @@ class Salle extends Phaser.Scene {
   }
 
   create() {
+    
     for (var i = 0; i < 10; i++) this.reset();
     window.myScene = this;
 
@@ -78,7 +85,11 @@ class Salle extends Phaser.Scene {
 
     var background = this.add.image(540, 360, "background");
     this.setRoomContent();
-    this.placerEquipe();
+    //this.placerlistSelectedHeroes();
+    for (var i = 0; i < listSelectedHeroes.length; i++) {
+      var equipier = this.add.sprite(this.positions[i][0], this.positions[i][1], "idle_" + listSelectedHeroes[i]).play(listSelectedHeroes[i]+"_idle").setOrigin(0.5, 1);
+      equipier.setScale(0.7);
+    }
     this.placerCoffre();
     this.placerCouloir();
     this.creerCurio();
@@ -109,11 +120,6 @@ class Salle extends Phaser.Scene {
       fill: "white",
     }); //DEBUG ONLY
 
-    shine.setInteractive();//!ACTIVE DEBUG ONLY
-    shine.on("pointerdown", () => {
-      game.scene.stop("Salle");
-      game.scene.start("GameOver");
-    }); //!DEBUG ONLY
     if (this.etage != 0) this.determinerProchaineSalle();
     this.premiereSalle = false;
 
@@ -133,11 +139,8 @@ class Salle extends Phaser.Scene {
       this.clear = true;
     }
   }
-  placerEquipe() {
-    for (var i = 0; i < EQUIPE.length; i++) {
-      var equipier = this.add.sprite(this.positions[i][0], this.positions[i][1], "idle_" + EQUIPE[i]).play(EQUIPE[i]+"_idle").setOrigin(0.5, 1);
-      equipier.setScale(0.7);
-    }
+  placerlistSelectedHeroes() {
+
     
   }
   placerCoffre() {
