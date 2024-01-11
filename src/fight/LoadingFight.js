@@ -10,7 +10,7 @@ class LoadingFight extends Phaser.Scene {
 
     preload(){
 
-        heroList = ["vestal", "plaguedoctor" , "crusader", "hellion"];
+        heroList = listSelectedHeroes
         enemyList = this.generateRandomEnemyTeam()
 
         document.body.style.cursor = "default";
