@@ -149,7 +149,7 @@ class ComposerEquipe extends Phaser.Scene {
         var skillName = scene.add.text(15, -70 + i * 65, heroList[key].skills[i].name, setFontStyles("18px"));
         skillContainer.add([skillCard, skillName]);
         
-        var positionCard = createPositionCard(scene, -36 + i * 65, heroList[key].skills[i].requiered_pos, heroList[key].skills[i].reach);
+        var positionCard = createPositionCard(scene, -36 + i * 65, heroList[key].skills[i].requiered_pos, heroList[key].skills[i].reach, heroList[key].skills[i].target);
         
         skillContainer.add(positionCard);
       }

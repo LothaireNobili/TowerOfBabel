@@ -98,7 +98,7 @@ class Diligence extends Phaser.Scene {
         var skillName = scene.add.text(30, -72 + i * 80, heroSkills[i].name, setFontStyles("18px"));
         descriptionContainer.add([skillCard, skillName]);
         
-        var positionCard = createPositionCard(scene, -40 + i * 80, heroSkills[i].requiered_pos, heroSkills[i].reach);
+        var positionCard = createPositionCard(scene, -40 + i * 80, heroSkills[i].requiered_pos, heroSkills[i].reach, heroSkills[i].target);
         // var damage = scene.add.text(100, -72 + i * 80, heroSkills[i].damage_low + '-' + heroSkills[i].damage_high, setFontStyles("18px")) 
         descriptionContainer.add(positionCard);
       }
