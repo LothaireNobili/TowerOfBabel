@@ -72,7 +72,11 @@ class Diligence extends Phaser.Scene {
 
       if(key == "plaguedoctor"){
         var name = scene.add.text(-47, -30, "Plague Doctor", setFontStyles("20px"));
-      }else{
+      }
+      else if(key == "graverobber"){
+        var name = scene.add.text(-47, -30, "Plague Doctor", setFontStyles("20px"));
+      }
+      else{
         var name = scene.add.text(-47, -30, key.slice(0,1).toUpperCase()+key.slice(1), setFontStyles("20px"));
       }
       card.add([image, portrait, name]);
