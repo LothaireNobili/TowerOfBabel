@@ -106,8 +106,8 @@ function connecter() {
       for (let userInfo of data) {
         if (userInfo.login == login && userInfo.password == password) {
           loginCorrrect = true;
-          let user = new User(userInfo.id, userInfo.login, 10000); // ....
-          user.saveToLocalStorage();
+          let tmpUser = new User(userInfo.id, userInfo.login, 10000); // ....
+          tmpUser.saveToLocalStorage();
           console.log("login success");
           window.location.href = "../../index.html";
         }

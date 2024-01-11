@@ -148,11 +148,11 @@
     let login = document.getElementById('login')
     // let mdp = document.getElementById('mdp')
 
-    let user = new User();
-    user.upDateUserClass();
+    let tmpUser = new User();
+    tmpUser.upDateUserClass();
 
 
-    context.textContent = "Bonjour, " + user.username;
+    context.textContent = "Bonjour, " + tmpUser.username;
 
 
     // Les informations de l’utilisateur s’affichent lors de l’initialisation de la page

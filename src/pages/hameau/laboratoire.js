@@ -45,7 +45,6 @@ class Laboratoire extends Phaser.Scene {
         var pirce = this.add.text(440 + j * intervalleX, 405 + i * intervalleY, potion.prix, setFontStyles("20px"))
 
         var qte = user.getPotionQte(potion.name); 
-        console.log(user)
 
         if (j == 3)
           createInteractiveImage(this, 460 + j * intervalleX, 300 + i * intervalleY, potion.name, potion.description, qte, sellQuantity, potion.prix, true)
