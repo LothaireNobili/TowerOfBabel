@@ -151,7 +151,7 @@ class ComposerEquipe extends Phaser.Scene {
       var crit = scene.add.text(0, 110, "Crit : " + heroList[key].crit + "%", setFontStyles("20px"))
       qualityContainer.add([hp, dodge, prot, speed, crit])
 
-      var skillContainer = scene.add.container(165, -30);
+      var skillContainer = scene.add.container(140, -30);
       for (var i = 0; i < 4; i++) {
         var skillCard = scene.add.image(-10, -50 + i * 65, key + "Skill" + (i + 1) + "Icon");
         skillCard.setScale(0.6);
