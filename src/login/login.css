@@ -1,0 +1,47 @@
+.container {
+    min-width: 1200px;
+    background-color: rgba(0, 0, 0, 0.85);
+    margin-top: 100px;
+    height: 1200px;
+}
+
+#connexion-card {
+    /* min-width: 1000px; */
+    color: white;
+    font-size: 24px;
+}
+
+.custom-input {
+    color: white;
+    height: 55px;
+    font-size: 20px;
+}
+
+.btn-style {
+    height: 70px;
+    min-width: 200px;
+    font-size: 24px;
+}
+
+.mb-80 {
+    margin-bottom: 80px;
+}
+
+#inscrption-card {
+    color: white;
+    font-size: 24px;
+}
+
+#inscrption-card input {
+    margin-bottom: 40px;
+}
+
+.hide {
+    display: none;
+}
+  
+input:focus  {
+    /* color: white !important; */
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    box-shadow: 0 0 0 1000px white inset !important;
+} 

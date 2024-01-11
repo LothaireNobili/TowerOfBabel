@@ -1,88 +1,164 @@
 class Couloir extends Phaser.Scene {
   cursors;
-  equipe;
+  listSelectedHeroes;
   prochaineSalle;
+  moveRight;
+  moveLeft;
+  goInsideNextRoom;
+  goingRight = false;
+  goingLeft = false;
   constructor() {
     super({ key: "Couloir" });
-    //this.prochaineSalle=this.scene.get('Salle').data.get('prochaineSalle')
+    this.graphicManager = new GraphicManager();
+    console.log(this.graphicManager.spriteSheetDatas.crusader.walk.end)
   }
 
   preload() {
-
-    this.load.image("background", "./assets/images/exploration/Corridor1.jpg");
+    this.load.image(
+      "background_corridor",
+      "./assets/images/exploration/Corridor1.png"
+    );
     this.load.image("chest", "./assets/images/exploration/chest.jpg");
-    this.load.image("crusader_couloir", "./assets/images/heroes/crusader/idle.png");
-    this.load.image("bandit_couloir", "./assets/images/heroes/bandit/skill1.png");
-    this.load.image("prochaineSalle", "./assets/images/exploration/mapBackground.jpg");
+    this.load.image("move", "./assets/icons/yellow_right_arrow.png");
+
+    this.load.image(
+      "prochaineSalle",
+      "./assets/images/exploration/mapBackground.jpg"
+    );
+
   }
 
   create() {
+    for (let hero of listSelectedHeroes) {
+      console.log(hero)
+      this.anims.create({
+        key: hero + "_walk", // Animation key (can be any string)
+        frames: this.anims.generateFrameNumbers(hero, {
+          scale: 2,
+          start: 0,
+          end: this.graphicManager.spriteSheetDatas[hero].walk.end, //index of the last frame of the animation
+        }),
+        frameRate: 20, // Number of frames to display per second
+        repeat: -1, // Set to -1 to loop the animation continuously, or a positive integer to specify the number of times to repeat
+      });
+    } 
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.add.image(540, 360, "background").setScale(1.7, 1.7);
+    this.add.image(540, 360, "background_corridor").setScale(1.7, 1.7);
+    this.moveRight = this.add.image(300, 650, "move").setScale(0.20);
+    this.moveLeft = this.add.image(150, 650, "move").setScale(0.20);
+    this.goInsideNextRoom = this.add.image(900, 300, "move").setScale(0.20);
     this.prochaineSalle = this.add
       .image(900, 450, "prochaineSalle")
-      .setScale(0.2, 0.2);
+      .setScale(0.2, 0.2).setVisible(false);
 
-    // on creer un group pour controler l'ensemble de l'equipe plutot que de controler chaque heros individuellement
-    this.equipe = this.add.group();
-    this.equipe.x = 175;
-    this.equipe.y = 450;
+    this.moveLeft.flipX = true;
 
-    //on ajoute les heros manuellement pour l'instnat , les positions sont relatives au centre de l'equipe
-    var crusader = this.add.image(50, 0, "crusader_couloir");
-    var bandit = this.add.image(-50, 0, "bandit_couloir");
+    this.moveRight.setInteractive();
+    this.moveLeft.setInteractive();
+    this.goInsideNextRoom.setInteractive();
 
-    // on ajoute les heros sur l'ecran
-    this.equipe.add(crusader);
-    this.equipe.add(bandit);
+    this.deplacementSouris()
 
-    this.equipe.getChildren().forEach((child) => {
-      child.x += this.equipe.x;
-      child.y += this.equipe.y;
+    this.goInsideNextRoom.on("pointerdown", () => {
+      game.scene.stop("Couloir");
+      game.scene.start("Salle");
     });
 
-    //possibilité d'ajout un curio a une section de couloir
-    if (false) {
-      var curio = this.add.image(540, 450, "chest");
-      curio.setInteractive();
-      curio.on("pointerdown", () => {
-      });
-      curio.setScale(0.15);
-    }
+    // on creer un group pour controler l'ensemble de l'listSelectedHeroes plutot que de controler chaque heros individuellement
+    this.listSelectedHeroes = this.add.group();
+    this.listSelectedHeroes.x = 175;
 
-    crusader.setScale(0.3);
-    bandit.setScale(0.3);
+    this.listSelectedHeroes.y = 500;
+
+    //on ajoute les heros, les positions sont relatives au centre de l'listSelectedHeroes
+    this.ajouterlistSelectedHeroes();
+
+
+    for (let hero of listSelectedHeroes) {
+    console.log("walk")
+    var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
+    this.listSelectedHeroes.add(equipier);
+    equipier.setScale(0.5);
+  }
+  this.updateChildren();
+    const barreInfo = new BarreInfo(this);
+    barreInfo.creerBarreInfo();
   }
 
   update() {
-    if (this.cursors.right.isDown) {
-      this.equipe.x += 10;
+
+    
+    if (
+      (this.goingRight || this.cursors.right.isDown) &&
+      this.listSelectedHeroes.x < game.config.width - 250
+    ) {
+      this.listSelectedHeroes.x += 10;
       this.updateChildren();
     }
-    if (this.cursors.left.isDown) {
-      this.equipe.x -= 5;
+    if (50 < this.listSelectedHeroes.x && (this.goingLeft || this.cursors.left.isDown)) {
+      this.listSelectedHeroes.x -= 5;
       this.updateChildren();
     }
     if (this.cursors.up.isDown && this.canGoToprochaineSalle()) {
-      this.scene.start("Salle");
+      game.scene.stop("Couloir");
+      game.scene.start("Salle");
     }
+    this.goInsideNextRoom.setVisible(this.canGoToprochaineSalle());
   }
 
   updateChildren() {
     var relativePosition = 200;
     var i = 0;
-    this.equipe.getChildren().forEach((child) => {
-      child.x = relativePosition - i + this.equipe.x;
-      child.y = this.equipe.y;
+    this.listSelectedHeroes.getChildren().forEach((child) => {
+      child.x = relativePosition - i + this.listSelectedHeroes.x;
+
+      child.y = this.listSelectedHeroes.y+150;
+
       i += 75;
     });
   }
 
   canGoToprochaineSalle() {
-    return this.prochaineSalle.getBounds().x - this.equipe.x - 200 < 0;
+    return this.prochaineSalle.getBounds().x - this.listSelectedHeroes.x - 200 < 0;
+
+  deplacementSouris()
+  {
+    this.moveRight.on("pointerdown", () => {
+      this.goingLeft = false;
+      this.goingRight = true;
+    });
+    this.moveLeft.on("pointerdown", () => {
+      this.goingLeft = true;
+      this.goingRight = false;
+    });
+
+    this.moveRight.on("pointerup", () => {
+      this.goingRight = false;
+    });
+    this.moveLeft.on("pointerup", () => {
+      this.goingLeft = false;
+    });
+
+    this.moveRight.on("pointerout", () => {
+      this.goingRight = false;
+    });
+    this.moveLeft.on("pointerout", () => {
+      this.goingLeft = false;
+    });
   }
 
   getprochaineSalle() {
-      return this.prochaineSalle;
+    return this.prochaineSalle;
+  }
+  ajouterlistSelectedHeroes() {
+
+    for (let hero of listSelectedHeroes) {
+      console.log("walk")
+      var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
+      this.listSelectedHeroes.add(equipier);
+      equipier.setScale(0.5);
+
+    }
+    this.updateChildren();
   }
 }

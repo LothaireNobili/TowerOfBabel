@@ -112,7 +112,11 @@ class Forge extends Phaser.Scene {
       const portrait = scene.add.image(-85, 0, "portrait_" + key);
       portrait.setScale(0.75);
 
-      const name = scene.add.text(-47, -30, key, setFontStyles("22px"));
+      if(key == "plaguedoctor"){
+        var name = scene.add.text(-47, -30, "Plague \nDoctor", setFontStyles("20px"));
+      }else{
+        var name = scene.add.text(-47, -30, key.slice(0,1).toUpperCase()+key.slice(1), setFontStyles("20px"));
+      }
 
       container.add([image, portrait, name]);
 
@@ -180,9 +184,11 @@ class Forge extends Phaser.Scene {
     
       let newKey = key.split('_')[0]+"_"+key.split('_')[1]
 
+
       if (level != MAX_EQUIPEMENT_LEVEL) {
-        setPadlockEvents(scene, heroName, eqpType == "weapon" ? 0 : 1, padlockList, level, addValue, valueCard, eqpValue, barreInfo, eqp, newKey);
+        setPadlockEvents(scene, heroName, eqpType == "weapon" ? 0 : 1, padlockList, level, addValue, valueCard, eqpValue, barreInfo, eqp, newKey); // eqpValue : puissance d'attaque ou puissance de défense
         padlockList.list[level].setInteractive();
+
       }
     
       leveCard.add(padlockList);
@@ -201,6 +207,7 @@ class Forge extends Phaser.Scene {
     création des padlocks
     */
     function setPadlockEvents(scene, heroName, eqpType, padlockList, level, addValue, valueCard, value, barreInfo, eqp, newKey) {
+
       for (let i = 0; i < padlockList.length; i++) {
         padlockList.list[i].on("pointerover", function () {
           addValue.visible = true;

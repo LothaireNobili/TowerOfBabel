@@ -161,30 +161,3 @@ async function isLoginExist(login) {
   return false;
 }
 
-// // Fonction de Cryptage de Mot de Passe
-// function hashPassword(password, salt) {
-//   const hashedPassword = CryptoJS.SHA256(password + salt).toString(CryptoJS.enc.Hex);
-//   console.log(password, salt)
-//   return hashedPassword;
-// }
-
-
-// // Fonction de Génération de Sel Aléatoire
-// function generateSalt() {
-//   return CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex);
-// }
-
-
-// //
-// function verifyPassword(password, storedHashedPassword, storedSalt) {
- //   const hashedPassword = hashPassword(password, storedSalt);
-
-
-//   console.log(password, storedHashedPassword, storedSalt, hashedPassword)
-//   if (hashedPassword == storedHashedPassword) {
-//     return true
-//   } else {
-//     return false
-//   }
-// }
-

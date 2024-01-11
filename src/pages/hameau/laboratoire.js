@@ -44,10 +44,12 @@ class Laboratoire extends Phaser.Scene {
         pieceIcon.setScale(0.16);
         var pirce = this.add.text(440 + j * intervalleX, 405 + i * intervalleY, potion.prix, setFontStyles("20px"))
 
+        var qte = user.getPotionQte(potion.name); 
+
         if (j == 3)
-          createInteractiveImage(this, 460 + j * intervalleX, 300 + i * intervalleY, potion.name, potion.description, user.getPotionQte(potion.name), sellQuantity, potion.prix, true)
+          createInteractiveImage(this, 460 + j * intervalleX, 300 + i * intervalleY, potion.name, potion.description, qte, sellQuantity, potion.prix, true)
         else
-          createInteractiveImage(this, 460 + j * intervalleX, 300 + i * intervalleY, potion.name, potion.description, user.getPotionQte(potion.name), sellQuantity, potion.prix, false)
+          createInteractiveImage(this, 460 + j * intervalleX, 300 + i * intervalleY, potion.name, potion.description, qte, sellQuantity, potion.prix, false)
 
       }
     }
