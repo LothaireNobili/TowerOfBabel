@@ -71,7 +71,7 @@ class Salle extends Phaser.Scene {
     this.load.image("couloir", "./assets/icons/yellow_right_arrow.png");
     this.load.image(
       "startFight",
-      "./assets/images/fight_misc/announcement_combat.png"
+      "./assets/images/exploration/start_fight.png"
     );
   }
 
@@ -93,12 +93,15 @@ class Salle extends Phaser.Scene {
     this.placerCoffre();
     this.placerCouloir();
     this.creerCurio();
-    //FOR DEBUG ONLY
+    
+
+
+
     this.fighting = this.add.image(
-      game.config.width / 2,
-      game.config.height / 2,
+      540,
+      300,
       "startFight"
-    );
+    ).setScale(0.5);
     this.fighting.setInteractive();
 
     this.fighting.on("pointerdown", () => {
