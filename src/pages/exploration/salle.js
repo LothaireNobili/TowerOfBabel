@@ -85,7 +85,6 @@ class Salle extends Phaser.Scene {
 
     var background = this.add.image(540, 360, "background");
     this.setRoomContent();
-    //this.placerlistSelectedHeroes();
     for (var i = 0; i < listSelectedHeroes.length; i++) {
       var equipier = this.add.sprite(this.positions[i][0], this.positions[i][1], "idle_" + listSelectedHeroes[i]).play(listSelectedHeroes[i]+"_idle").setOrigin(0.5, 1);
       equipier.setScale(0.7);
@@ -109,19 +108,19 @@ class Salle extends Phaser.Scene {
       game.scene.stop("Salle");
       game.scene.start("bootFight");
       this.clear = true;
-    }); //DEBUG ONLY
+    });
 
     //this.content of room
 
     this.floor = this.add.text(600, 20, "etage  :" + this.etage, {
       font: "40px Arial",
       fill: "white",
-    }); //DEBUG ONLY
+    });
 
     var shine = this.add.text(600, 20, "Shine", {
       font: "80px Arial",
       fill: "white",
-    }); //DEBUG ONLY
+    });
 
     if (this.etage != 0) this.determinerProchaineSalle();
     this.premiereSalle = false;

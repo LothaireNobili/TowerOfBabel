@@ -26,9 +26,6 @@ class Couloir extends Phaser.Scene {
       "./assets/images/exploration/mapBackground.jpg"
     );
 
-
-    
-
   }
 
   create() {
@@ -104,9 +101,6 @@ class Couloir extends Phaser.Scene {
     equipier.setScale(0.5);
   }
   this.updateChildren();
-
-  //this.ajouterlistSelectedHeroes();
-
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();
   }
