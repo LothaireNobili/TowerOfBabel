@@ -74,7 +74,7 @@ class Diligence extends Phaser.Scene {
         var name = scene.add.text(-47, -30, "Plague Doctor", setFontStyles("20px"));
       }
       else if(key == "graverobber"){
-        var name = scene.add.text(-47, -30, "Plague Doctor", setFontStyles("20px"));
+        var name = scene.add.text(-47, -30, "Grave Robber", setFontStyles("20px"));
       }
       else{
         var name = scene.add.text(-47, -30, key.slice(0,1).toUpperCase()+key.slice(1), setFontStyles("20px"));
@@ -98,7 +98,11 @@ class Diligence extends Phaser.Scene {
 
       if(key == "plaguedoctor"){
         var heroName = scene.add.text(-200, -200, "PLAGUE DOCTOR", setFontStyles());
-      }else{
+      }
+      else if(key == "graverobber"){
+        var heroName = scene.add.text(-200, -200, "GRAVE ROBBER", setFontStyles());
+      }
+      else{
         var heroName = scene.add.text(-200, -200, key.toUpperCase(), setFontStyles());
       }
       
