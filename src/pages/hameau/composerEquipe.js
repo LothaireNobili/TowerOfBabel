@@ -119,7 +119,11 @@ class ComposerEquipe extends Phaser.Scene {
       var portrait = scene.add.image(-85, 0, "portrait_" + key);
       portrait.setScale(0.75);
 
-      var name = scene.add.text(-47, -30, key, setFontStyles("22px"));
+      if(key == "plaguedoctor"){
+        var name = scene.add.text(-47, -30, "Plague \nDoctor", setFontStyles("20px"));
+      }else{
+        var name = scene.add.text(-47, -30, key.slice(0,1).toUpperCase()+key.slice(1), setFontStyles("20px"));
+      }
       card.add([image, portrait, name]);
 
       image.setInteractive();
@@ -129,7 +133,12 @@ class ComposerEquipe extends Phaser.Scene {
       var descriptionBg = scene.add.image(0, 0, "boutiqueBg");
       descriptionBg.displayWidth = 700;
       descriptionBg.displayHeight = 400;
-      var heroName = scene.add.text(-270, -150, key.toUpperCase(), setFontStyles());
+      
+      if(key == "plaguedoctor"){
+        var heroName = scene.add.text(-270, -150,"PLAGUE DOCTOR", setFontStyles());
+      }else{
+        var heroName = scene.add.text(-270, -150, key.toUpperCase(), setFontStyles());
+      }
       var heroImage = scene.add.sprite(-210, 155, "idle_" + key).play(key + "_idle").setOrigin(0.5, 1).setScale(0.80);
 
       descriptionContainer.add([descriptionBg, heroName, heroImage]);

@@ -21,8 +21,8 @@ class Diligence extends Phaser.Scene {
 
 
     // La boutique
-    var boutiqueBackground = this.add.image(430, 440, "boutiqueBg")
-    boutiqueBackground.displayWidth = 830;
+    var boutiqueBackground = this.add.image(400, 440, "boutiqueBg")
+    boutiqueBackground.displayWidth = 700;
     boutiqueBackground.displayHeight = 580;
     var diligence = this.add.image(300, 450, "Diligence")
     diligence.setScale(0.6)
@@ -33,15 +33,15 @@ class Diligence extends Phaser.Scene {
     for (let heroOfList of game.config.allHeroList) {
       const heroIndex = user.heroes.findIndex(hero => hero.heroName === heroOfList);
       if (heroIndex == -1) {
-        createInteractiveImage(this, 670, 230 + count * intervalleY, heroOfList, 1000, true)
+        createInteractiveImage(this, 680, 230 + count * intervalleY, heroOfList, 1000, true)
         count++;
       }
     }
 
 
     // equipe
-    var equipeBackground = this.add.image(1000, 440, "boutiqueBg")
-    equipeBackground.displayWidth = 220;
+    var equipeBackground = this.add.image(1020, 440, "boutiqueBg")
+    equipeBackground.displayWidth = 400;
     equipeBackground.displayHeight = 580;
 
     var text = this.add.text(897, 135, "Votre équipe", {
@@ -55,7 +55,7 @@ class Diligence extends Phaser.Scene {
 
     var intervalleY = 65
     for (let i = 0; i < user.heroes.length; i++) {
-      createInteractiveImage(this, 1025, 230 + i * intervalleY, user.heroes[i].heroName)
+      createInteractiveImage(this, 965, 230 + i * intervalleY, user.heroes[i].heroName)
     }
 
 
@@ -70,7 +70,11 @@ class Diligence extends Phaser.Scene {
       image.displayHeight = 65;
       image.displayWidth = 230;
 
-      var name = scene.add.text(-47, -30, key, setFontStyles("22px"));
+      if(key == "plaguedoctor"){
+        var name = scene.add.text(-47, -30, "Plague Doctor", setFontStyles("20px"));
+      }else{
+        var name = scene.add.text(-47, -30, key.slice(0,1).toUpperCase()+key.slice(1), setFontStyles("20px"));
+      }
       card.add([image, portrait, name]);
 
       if (prix !== undefined) {
@@ -87,7 +91,13 @@ class Diligence extends Phaser.Scene {
       var descriptionBg = scene.add.image(0, 0, "card");
       descriptionBg.displayWidth = 460;
       descriptionBg.displayHeight = 500;
-      var heroName = scene.add.text(-200, -200, key.toUpperCase(), setFontStyles());
+
+      if(key == "plaguedoctor"){
+        var heroName = scene.add.text(-200, -200, "PLAGUE DOCTOR", setFontStyles());
+      }else{
+        var heroName = scene.add.text(-200, -200, key.toUpperCase(), setFontStyles());
+      }
+      
       var heroImage = scene.add.sprite(-130, 20, "idle_" + key).play(key+"_idle").setOrigin(0.5, 0.5).setScale(0.95);
 
       descriptionContainer.add([descriptionBg, heroName, heroImage]);
