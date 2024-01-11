@@ -13,7 +13,7 @@ class Escalier extends Phaser.Scene
             "./assets/images/heroes/" + EQUIPE[i] + "/idle.png"
           );
         }
-        this.load.image("prochainEtage","./icons/cercle_red.png")
+        this.load.image("etageSuivant","./icons/cercle_red.png")
       }
 
       create()
@@ -26,7 +26,7 @@ class Escalier extends Phaser.Scene
             if(i>1) equipier.flipX=true
         }
         
-        var prochainEtage= this.add.image(570,300,"prochainEtage");
+        var prochainEtage= this.add.image(570,300,"etageSuivant");
         prochainEtage.setInteractive();
         prochainEtage.on("pointerdown", () => {        
            window.myScene.nouvelEtage=true;

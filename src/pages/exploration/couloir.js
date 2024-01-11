@@ -1,6 +1,6 @@
 class Couloir extends Phaser.Scene {
   cursors;
-  equipe;
+  listSelectedHeroes;
   prochaineSalle;
   moveRight;
   moveLeft;
@@ -14,15 +14,15 @@ class Couloir extends Phaser.Scene {
   preload() {
     this.load.image(
       "background_corridor",
-      "./assets/images/exploration/Corridor1.jpg"
+      "./assets/images/exploration/Corridor1.png"
     );
     this.load.image("chest", "./assets/images/exploration/chest.jpg");
     this.load.image("move", "./assets/icons/yellow_right_arrow.png");
 
-    for (var i = 0; i < EQUIPE.length; i++) {
+    for (var i = 0; i < listSelectedHeroes.length; i++) {
       this.load.image(
-        EQUIPE[i] + "_couloir",
-        "./assets/images/heroes/" + EQUIPE[i] + "/idle.png"
+        listSelectedHeroes[i] + "_couloir",
+        "./assets/images/heroes/" + listSelectedHeroes[i] + "/idle.png"
       );
     }
     this.load.image(
@@ -39,7 +39,7 @@ class Couloir extends Phaser.Scene {
     this.goInsideNextRoom = this.add.image(900, 300, "move").setScale(0.05);
     this.prochaineSalle = this.add
       .image(900, 450, "prochaineSalle")
-      .setScale(0.2, 0.2);
+      .setScale(0.2, 0.2).setVisible(false);
 
     this.moveLeft.flipX = true;
 
@@ -47,6 +47,60 @@ class Couloir extends Phaser.Scene {
     this.moveLeft.setInteractive();
     this.goInsideNextRoom.setInteractive();
 
+    this.deplacementSouris()
+
+    this.goInsideNextRoom.on("pointerdown", () => {
+      game.scene.stop("Couloir");
+      game.scene.start("Salle");
+    });
+
+    // on creer un group pour controler l'ensemble de l'listSelectedHeroes plutot que de controler chaque heros individuellement
+    this.listSelectedHeroes = this.add.group();
+    this.listSelectedHeroes.x = 175;
+    this.listSelectedHeroes.y = 500;
+
+    //on ajoute les heros, les positions sont relatives au centre de l'listSelectedHeroes
+    this.ajouterlistSelectedHeroes();
+
+    const barreInfo = new BarreInfo(this);
+    barreInfo.creerBarreInfo();
+  }
+
+  update() {
+    if (
+      (this.goingRight || this.cursors.right.isDown) &&
+      this.listSelectedHeroes.x < game.config.width - 250
+    ) {
+      this.listSelectedHeroes.x += 10;
+      this.updateChildren();
+    }
+    if (50 < this.listSelectedHeroes.x && (this.goingLeft || this.cursors.left.isDown)) {
+      this.listSelectedHeroes.x -= 5;
+      this.updateChildren();
+    }
+    if (this.cursors.up.isDown && this.canGoToprochaineSalle()) {
+      game.scene.stop("Couloir");
+      game.scene.start("Salle");
+    }
+    this.goInsideNextRoom.setVisible(this.canGoToprochaineSalle());
+  }
+
+  updateChildren() {
+    var relativePosition = 200;
+    var i = 0;
+    this.listSelectedHeroes.getChildren().forEach((child) => {
+      child.x = relativePosition - i + this.listSelectedHeroes.x;
+      child.y = this.listSelectedHeroes.y;
+      i += 75;
+    });
+  }
+
+  canGoToprochaineSalle() {
+    return this.prochaineSalle.getBounds().x - this.listSelectedHeroes.x - 200 < 0;
+  }
+
+  deplacementSouris()
+  {
     this.moveRight.on("pointerdown", () => {
       this.goingLeft = false;
       this.goingRight = true;
@@ -70,63 +124,15 @@ class Couloir extends Phaser.Scene {
       this.goingLeft = false;
     });
 
-    this.goInsideNextRoom.on("pointerdown", () => {
-      game.scene.stop("Couloir");
-      game.scene.start("Salle");
-    });
-
-    // on creer un group pour controler l'ensemble de l'equipe plutot que de controler chaque heros individuellement
-    this.equipe = this.add.group();
-    this.equipe.x = 175;
-    this.equipe.y = 450;
-
-    //on ajoute les heros, les positions sont relatives au centre de l'equipe
-    this.ajouterEquipe();
-
-    const barreInfo = new BarreInfo(this);
-    barreInfo.creerBarreInfo();
-  }
-
-  update() {
-    if (
-      (this.goingRight || this.cursors.right.isDown) &&
-      this.equipe.x < game.config.width - 250
-    ) {
-      this.equipe.x += 10;
-      this.updateChildren();
-    }
-    if (50 < this.equipe.x && (this.goingLeft || this.cursors.left.isDown)) {
-      this.equipe.x -= 5;
-      this.updateChildren();
-    }
-    if (this.cursors.up.isDown && this.canGoToprochaineSalle()) {
-      game.scene.stop("Couloir");
-      game.scene.start("Salle");
-    }
-    this.goInsideNextRoom.setVisible(this.canGoToprochaineSalle());
-  }
-
-  updateChildren() {
-    var relativePosition = 200;
-    var i = 0;
-    this.equipe.getChildren().forEach((child) => {
-      child.x = relativePosition - i + this.equipe.x;
-      child.y = this.equipe.y;
-      i += 75;
-    });
-  }
-
-  canGoToprochaineSalle() {
-    return this.prochaineSalle.getBounds().x - this.equipe.x - 200 < 0;
   }
 
   getprochaineSalle() {
     return this.prochaineSalle;
   }
-  ajouterEquipe() {
-    for (var i = 0; i < EQUIPE.length; i++) {
-      var equipier = this.add.image(0, 0, EQUIPE[i] + "_exploration");
-      this.equipe.add(equipier);
+  ajouterlistSelectedHeroes() {
+    for (var i = 0; i < listSelectedHeroes.length; i++) {
+      var equipier = this.add.image(0, 0, listSelectedHeroes[i] + "_exploration");
+      this.listSelectedHeroes.add(equipier);
       equipier.setScale(0.3);
     }
     this.updateChildren();
