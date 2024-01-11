@@ -49,7 +49,7 @@ class Salle extends Phaser.Scene {
     var chosenGround = BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)];
 
     this.load.image(
-      "background",
+      "background_salle",
       "./assets/images/exploration/"+chosenGround
     );
     this.load.image("chest", "./assets/images/exploration/chest.jpg");
@@ -73,7 +73,7 @@ class Salle extends Phaser.Scene {
     if (!(this.prochaineSalle == null || this.premiereSalle))
       this.type = this.prochaineSalle;
 
-    var background = this.add.image(540, 360, "background");
+    var background = this.add.image(540, 360, "background_salle");
     this.setRoomContent();
     this.placerEquipe();
     this.placerCoffre();
@@ -92,18 +92,8 @@ class Salle extends Phaser.Scene {
 
     //this.content of room
 
-    this.floor = this.add.text(600, 20, "etage  :" + this.etage, {
-      font: "40px Arial",
-      fill: "white",
-    }); //DEBUG ONLY
+    this.floor = this.add.text(30, game.config.height-100, "FLOOR : " + this.etage, setFontStyles("80px")); //DEBUG ONLY
 
-    var shine = this.add.text(600, 20, "Shine", {
-      font: "80px Arial",
-      fill: "white",
-    }); //DEBUG ONLY
-
-    shine.setInteractive();
-    shine.on("pointerdown", () => {game.scene.stop("Salle"); game.scene.start("GameOver")}); //DEBUG ONLY
     if (this.etage != 0) this.determinerProchaineSalle();
     this.premiereSalle = false;
 

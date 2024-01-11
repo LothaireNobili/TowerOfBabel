@@ -39,7 +39,7 @@ class Couloir extends Phaser.Scene {
     this.goInsideNextRoom = this.add.image(900, 300, "move").setScale(0.05);
     this.prochaineSalle = this.add
       .image(900, 450, "prochaineSalle")
-      .setScale(0.2, 0.2);
+      .setScale(0.2, 0.2).setVisible(false);
 
     this.moveLeft.flipX = true;
 
@@ -47,28 +47,7 @@ class Couloir extends Phaser.Scene {
     this.moveLeft.setInteractive();
     this.goInsideNextRoom.setInteractive();
 
-    this.moveRight.on("pointerdown", () => {
-      this.goingLeft = false;
-      this.goingRight = true;
-    });
-    this.moveLeft.on("pointerdown", () => {
-      this.goingLeft = true;
-      this.goingRight = false;
-    });
-
-    this.moveRight.on("pointerup", () => {
-      this.goingRight = false;
-    });
-    this.moveLeft.on("pointerup", () => {
-      this.goingLeft = false;
-    });
-
-    this.moveRight.on("pointerout", () => {
-      this.goingRight = false;
-    });
-    this.moveLeft.on("pointerout", () => {
-      this.goingLeft = false;
-    });
+    this.deplacementSouris()
 
     this.goInsideNextRoom.on("pointerdown", () => {
       game.scene.stop("Couloir");
@@ -78,7 +57,7 @@ class Couloir extends Phaser.Scene {
     // on creer un group pour controler l'ensemble de l'equipe plutot que de controler chaque heros individuellement
     this.equipe = this.add.group();
     this.equipe.x = 175;
-    this.equipe.y = 450;
+    this.equipe.y = 500;
 
     //on ajoute les heros, les positions sont relatives au centre de l'equipe
     this.ajouterEquipe();
@@ -118,6 +97,33 @@ class Couloir extends Phaser.Scene {
 
   canGoToprochaineSalle() {
     return this.prochaineSalle.getBounds().x - this.equipe.x - 200 < 0;
+  }
+
+  deplacementSouris()
+  {
+    this.moveRight.on("pointerdown", () => {
+      this.goingLeft = false;
+      this.goingRight = true;
+    });
+    this.moveLeft.on("pointerdown", () => {
+      this.goingLeft = true;
+      this.goingRight = false;
+    });
+
+    this.moveRight.on("pointerup", () => {
+      this.goingRight = false;
+    });
+    this.moveLeft.on("pointerup", () => {
+      this.goingLeft = false;
+    });
+
+    this.moveRight.on("pointerout", () => {
+      this.goingRight = false;
+    });
+    this.moveLeft.on("pointerout", () => {
+      this.goingLeft = false;
+    });
+
   }
 
   getprochaineSalle() {
