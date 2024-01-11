@@ -1,7 +1,5 @@
 var heroList //= ["hellion", "bandit" , "graverobber", "vestal"];
-//var heroList = ["bandit", "plaguedoctor",];
 var enemyList //= ["spider","spider","spider", "spider"];
-//var initialFighterList = [...heroList, ...enemyList]; //->contrary to previous indication, it doesn't merge the lists by reference, it just merges them
 
 class LoadingFight extends Phaser.Scene {
     constructor(){

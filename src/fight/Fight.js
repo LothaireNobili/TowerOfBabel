@@ -1,10 +1,9 @@
 var playerTeam = [];
 var enemyTeam = [];
-//var bothTeam = [...playerTeam, ...enemyTeam]; //->contrary to previous indication, it doesn't merge the lists by reference, it just merges them
 
 class Fight extends Phaser.Scene {
     constructor(){
-        super("playFight"); //REMEMBER TO CHANGE THAT WHEN NOT IN PROTOTYPING STATE ANYMORE (for team composition)
+        super("playFight"); 
         
     }
 
@@ -14,8 +13,6 @@ class Fight extends Phaser.Scene {
         this.background = this.add.image(0,0,"background");
         this.background.setOrigin(0,0);
 
-        //const crusader = new Crusader(this, 100, 200, "crusader_wait");
-        //this.playerTeam.push(crusader);
 
         var arbiter = new Arbiter(this)
         var heroFactory = new HeroFactory(arbiter)
@@ -62,50 +59,6 @@ class Fight extends Phaser.Scene {
             enemyTeam.push(newEnemy);
             i++;
         }
-        
-        
-        /*for (var h of heroList){
-            
-            if(h==="crusader"){
-                let newHero = new Crusader(i, this.heroSprites[i-1])
-                newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
-                newHero.arbiter = arbiter
-                playerTeam.push(newHero);
-            }
-            else if(h==="bandit"){
-                let newHero = new Bandit(i, this.heroSprites[i-1])
-                newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
-                newHero.arbiter = arbiter
-                playerTeam.push(newHero);
-            }
-            else if(h==="plaguedoctor"){
-                let newHero = new PlagueDoctor(i, this.heroSprites[i-1])
-                newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
-                newHero.arbiter = arbiter
-                playerTeam.push(newHero);
-            }
-            else if(h==="vestal"){
-                let newHero = new Vestal(i, this.heroSprites[i-1])
-                newHero.healthBar = new HealthBar(this, newHero, "hero", arbiter);
-                newHero.arbiter = arbiter
-                playerTeam.push(newHero);
-            }
-            i++;
-
-        }*/
-
-        /*i=1//reset the position for the ennemy
-        for (var e of enemyList){
-            if(e==="skeleton"){
-                let newEnemy = new Skeleton(i, this.enemySprites[i-1])
-                newEnemy.healthBar = new HealthBar(this, newEnemy, "enemy", arbiter);
-                newEnemy.arbiter = arbiter
-                enemyTeam.push(newEnemy);
-            }i++;/*
-            if(h==="spider"){
-                playerTeam.push(new SPider());
-            }
-        }*/
 
         arbiter.startFight()
     }

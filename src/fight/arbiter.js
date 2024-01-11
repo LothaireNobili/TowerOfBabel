@@ -582,7 +582,7 @@ class Arbiter {
 
         if (enemyTeam.length==0 || playerTeam.length==0){
             console.warn("Le combat est fini")
-            if(playerTeam.length==0){  //on vérifie d'abord l'équipe du joueur, en cas d'égalité (impossible pour l'instant), il a perdu
+            if(playerTeam.length==0){  //on vérifie d'abord l'équipe du joueur, en cas d'égalité (impossible pour l'instant), il a perdu car il n'a plus de héros pour continuer
                 console.log("Vous avez perdu")
             }
             else{
