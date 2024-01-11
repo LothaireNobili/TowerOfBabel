@@ -110,7 +110,6 @@ function connecter() {
           loginCorrrect = true;
           let tmpUser = new User(userInfo.id, userInfo.login, 10000); // ....
           tmpUser.saveToLocalStorage();
-          console.log("login success");
           window.location.href = "../../index.html";
         }
       }

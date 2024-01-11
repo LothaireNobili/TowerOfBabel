@@ -581,7 +581,6 @@ class Arbiter {
 
 
         if (enemyTeam.length==0 || playerTeam.length==0){
-            console.warn("Le combat est fini")
             for (let hero of playerTeam){
                 hero.destroyGraphics()
             }

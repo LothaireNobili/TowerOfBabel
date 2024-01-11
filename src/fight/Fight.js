@@ -8,7 +8,6 @@ class Fight extends Phaser.Scene {
     }
 
     create(){
-        console.log("poke")
         this.add.text(20, 20, "Fight in progress...", {font: "40px Arial", fill:"white"}); //deletable
 
         this.background = this.add.image(0,0,"background");

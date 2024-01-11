@@ -10,7 +10,6 @@ class Couloir extends Phaser.Scene {
   constructor() {
     super({ key: "Couloir" });
     this.graphicManager = new GraphicManager();
-    console.log(this.graphicManager.spriteSheetDatas.crusader.walk.end)
   }
 
   preload() {
@@ -30,7 +29,6 @@ class Couloir extends Phaser.Scene {
 
   create() {
     for (let hero of listSelectedHeroes) {
-      console.log(hero)
       this.anims.create({
         key: hero + "_walk", // Animation key (can be any string)
         frames: this.anims.generateFrameNumbers(hero, {
@@ -75,7 +73,6 @@ class Couloir extends Phaser.Scene {
 
 
     for (let hero of listSelectedHeroes) {
-    console.log("walk")
     var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
     this.listSelectedHeroes.add(equipier);
     equipier.setScale(0.7);
@@ -153,7 +150,6 @@ class Couloir extends Phaser.Scene {
   ajouterlistSelectedHeroes() {
 
     for (let hero of listSelectedHeroes) {
-      console.log("walk")
       var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
       this.listSelectedHeroes.add(equipier);
       equipier.setScale(0.5);

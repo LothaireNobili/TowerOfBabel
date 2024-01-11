@@ -24,7 +24,7 @@ class Map extends Phaser.Scene {
         curio.setInteractive();
         curio.on('pointerdown', ()=>
         {
-            console.log("MAIS MDR")
+            console.log("curious clicked")
         })
 
     }
