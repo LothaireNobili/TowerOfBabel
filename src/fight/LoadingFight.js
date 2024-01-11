@@ -1,15 +1,19 @@
-var heroList = ["hellion", "bandit" , "plaguedoctor", "vestal"];
+var heroList //= ["hellion", "bandit" , "graverobber", "vestal"];
 //var heroList = ["bandit", "plaguedoctor",];
-var enemyList = ["skeleton","skeleton","skeleton", "skeleton"];
-var initialFighterList = [...heroList, ...enemyList]; //->contrary to previous indication, it doesn't merge the lists by reference, it just merges them
+var enemyList //= ["spider","spider","spider", "spider"];
+//var initialFighterList = [...heroList, ...enemyList]; //->contrary to previous indication, it doesn't merge the lists by reference, it just merges them
 
 class LoadingFight extends Phaser.Scene {
     constructor(){
-        super("bootFight"); //REMEMBER TO CHANGE THAT WHEN NOT IN PROTOTYPING STATE ANYMORE (for team composition)
-        this.graphicManager = new GraphicManager();
+        super("bootFight"); 
+        this.graphicManager = new GraphicManager(); 
+        
     }
 
     preload(){
+
+        heroList = ["vestal", "plaguedoctor" , "crusader", "hellion"];
+        enemyList = this.generateRandomEnemyTeam()
 
         document.body.style.cursor = "default";
 
@@ -93,5 +97,19 @@ class LoadingFight extends Phaser.Scene {
 
         this.add.text(20, 20, "Loading...", {font: "40px Arial", fill:"white"});
         this.scene.start("playFight");  
+    }
+
+    generateRandomEnemyTeam(){
+        let enemyTeams = [
+            ["skeleton", "skeleton"],
+            ["spider", "spider"],
+            ["skeleton", "spider"],
+            ["skeleton", "skeleton","skeleton", "skeleton"],
+            ["spider", "spider","spider", "spider"],
+            ["skeleton", "skeleton","spider", "spider"]
+        ]
+
+        let randomIndex = Math.floor(Math.random() * enemyTeams.length);
+        return enemyTeams[randomIndex];
     }
 }

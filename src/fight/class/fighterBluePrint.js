@@ -9,7 +9,7 @@ class FighterBluePrint{
 
                 name : "crusader",
 
-                max_hp: 45,  
+                max_hp: 50,  
         
                 dodge: 10,
         
@@ -84,7 +84,7 @@ class FighterBluePrint{
 
                 max_hp : 25,   
         
-                dodge : 25,
+                dodge : 50,
         
                 prot : 0, 
         
@@ -157,7 +157,7 @@ class FighterBluePrint{
 
                 max_hp : 30,
 
-                dodge : 25,
+                dodge : 40,
 
                 prot : 0, 
 
@@ -230,7 +230,7 @@ class FighterBluePrint{
             vestal: {
 
                 name: "vestal",
-                max_hp : 40,  
+                max_hp : 45,  
 
                 dodge : 15,
 
@@ -303,7 +303,7 @@ class FighterBluePrint{
                 name: "hellion",
                 max_hp : 30,  
     
-                dodge : 20,
+                dodge : 50,
     
                 prot : 0, 
     
@@ -358,18 +358,89 @@ class FighterBluePrint{
                         stun: 110  //chance of the stun to proc, ennemies have some resistance so <100 doesn't guarantee the stun
                     },
                     {
-                         id:"razorEdge",
-                         name: "Razor Edge",
-                         animation: "skill4",
-                         target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
-                         type: "single",//all reachable target are touched
-                        reach: [2, 3], //spot reach
-                        requiered_pos: [1, 2], //where the hero must be placed to cast it
-                         damage_low: 4, //minimum damage
-                         damage_high: 8, //max damage
-                        bleed: [130, 6, 3]  //120% chance to proc bleed, 5 damage for 3 turns
+                        id:"rush",
+                        name: "Rusg",
+                        animation: "skill4",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "continuous",//all reachable target are touched
+                        reach: [1, 2, 3], //spot reach
+                        requiered_pos: [2, 3, 4], //where the hero must be placed to cast it
+                        damage_low: 6, //minimum damage
+                        damage_high: 8 //max damage
                     }
                 ],
+            },
+
+            graverobber: {
+                name : "graverobber",
+
+                max_hp : 25,   
+        
+                dodge : 60,
+        
+                prot : 0, 
+        
+                speed : 9,
+        
+                crit : 35, //in %
+        
+                damage_mult : 1,
+        
+                //resistance stats
+                stun_res : 40,
+                move_res : 20,
+                bleed_res : 40,
+                poison_res : 60,
+                debuff_res : 40,
+               
+                
+                skills : [
+                    {
+                        id:"pic",
+                        name: 'Pic',
+                        animation: "skill1",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [1, 2, 3], //spot reach
+                        requiered_pos : [1, 2, 3], //where the hero must be placed to cast it
+                        damage_low: 9, //minimum damage
+                        damage_high: 12 //max damage
+                    },
+                    {
+                        id:"dagger",
+                        name: 'Dagger',
+                        animation: "skill2",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [2, 3, 4], //spot reach
+                        requiered_pos : [2, 3, 4], //where the hero must be placed to cast it
+                        damage_low: 9, //minimum damage
+                        damage_high: 12 //max damage
+                    },
+                    {
+                        id:"flash",
+                        name: 'Flash',
+                        animation: "skill3",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "continuous",//one target only
+                        reach: [2, 3], //spot reach
+                        requiered_pos : [2, 3, 4], //where the hero must be placed to cast it
+                        damage_low: 7, //minimum damage
+                        damage_high: 9, //max damage
+                    },
+                    {
+                        id:"darts",
+                        name: 'Darts',
+                        animation: "skill4",
+                        target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
+                        type: "single",//one target only
+                        reach: [1, 2, 3, 4], //spot reach
+                        requiered_pos : [3, 4], //where the hero must be placed to cast it
+                        damage_low: 4, //minimum damage
+                        damage_high: 8, //max damage
+                        poison: [140, 5]  //140% chance to proc poison, power 6
+                    }
+                ]
             },
 
             //!Ennemies//
@@ -378,7 +449,7 @@ class FighterBluePrint{
                 name: "skeleton",
                 max_hp : 25,  
 
-                dodge : 10,
+                dodge : 5,
 
                 prot : 0, 
 
@@ -447,7 +518,7 @@ class FighterBluePrint{
                 name: "spider",
                 max_hp : 15,  
 
-                dodge : 20,
+                dodge : 5,
 
                 prot : 0, 
 
@@ -497,28 +568,19 @@ class FighterBluePrint{
 
                     let randomNumSkill = (Math.random() * 2) -1;
                     randomNumSkill = Math.ceil(randomNumSkill)
-            
+                    let randomNumTarget
+
                     if (randomNumSkill==0){
-                        let randomNumTarget = (Math.random() * playerTeam.length) -1;
+                        randomNumTarget = (Math.random() * playerTeam.length) -1;
                         randomNumTarget = Math.ceil(randomNumTarget)
                     }
                     else if (randomNumSkill==1){
                         let targetCount = Math.min(2, playerTeam.length)
-                        let randomNumTarget = (Math.random() * targetCount) -1;
+                        randomNumTarget = (Math.random() * targetCount) -1;
                         randomNumTarget = Math.ceil(randomNumTarget)
                     }
 
                     return [this.skills[randomNumSkill], playerTeam[randomNumTarget]]
-
-                    /*
-                    if (playerTeam.length>1){
-                        let randomNumTarget = (Math.random() * 2) -1;
-                        randomNumTarget = Math.ceil(randomNumTarget)
-                        return [this.skills[randomNumSkill], playerTeam[0]];
-                    }
-                    else{
-                        return [this.skills[randomNumSkill], playerTeam[randomNumTarget]]
-                    }*/
                     
                 }
 
@@ -562,6 +624,14 @@ class FighterBluePrint{
                     case 'cure':
                         color = "#ffd299"
                         text = "Cured!"
+                        break;
+                    case 'miss':
+                        color = "#b8b8b8"
+                        text = 'Dodge!'
+                        break;
+                    case 'crit':
+                        color = "#db6a00"
+                        text = amount+"!"
                         break;
                     default:
                         color = '#ffffff';
@@ -677,31 +747,48 @@ class FighterBluePrint{
                 this.displayDamage(0,'stun')
             },
         
-            applyNormalDamage(damage){
-                this.applyRawDamages(damage, "normal")
+            applyNormalDamage(damage, type){
+                this.applyRawDamages(damage, type)
             },
         
         
             isTargeted(skill, caster){
 
+                let dodgeRoll = Math.random() * 100;
+                let missed = 0
+
                 if (skill.damage_low != undefined && skill.damage_high!= undefined){
-                    let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
-                    this.applyNormalDamage(damage)
-                }
-                if (skill.heal != undefined){
-                    let heal = skill.heal * caster.damage_mult
-                    this.applyHeal(heal, "heal")
-                }
+                    if (dodgeRoll >= this.dodge){//if dodge fails
 
-                if (skill.cure != undefined){
-                    this.applyCure(skill.cure)
-                }
+                        let critRoll = Math.random() * 100;
+                        let critCheck
+  
+                        if(skill.crit_mod!=undefined){      
+                            critCheck = caster.crit + skill.crit_mod
+                        }
+                        else{
+                            critCheck = caster.crit
+                        }
+                        
+                        if (critRoll >= critCheck){ //if crit fails
+                            let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
+                            this.applyNormalDamage(damage, 'normal')
+                        }
+                        else{
+                            let damage = Math.round(skill.damage_high * 1.5 * caster.damage_mult)
+                            this.applyNormalDamage(damage, 'crit')
+                        }
+                        
 
-                if (skill.regen != undefined){
-                    this.status_effect.regen.push([skill.regen[0],skill.regen[1]]) //apply regen as a list
+                    }
+                    else{
+                        missed = 1
+                        this.displayDamage(0, 'miss')
+                    }
                 }
-        
-                if(!this.isDead()){
+                
+                if(!this.isDead() && !missed){
+                    
                     if(skill.bleed != undefined){ //si l'attaque inflige du saignement
                         let proba = skill.bleed[0] - this.bleed_res //get the power of the probability of success
                         let randomNum = Math.random() * 100; //get a random number between 0 and 100 to emulate randomness in %
@@ -732,6 +819,19 @@ class FighterBluePrint{
                             this.status_effect.stun+=1 //apply stun
                         }
                     }
+                }
+
+                if (skill.heal != undefined){
+                    let heal = skill.heal * caster.damage_mult
+                    this.applyHeal(heal, "heal")
+                }
+
+                if (skill.cure != undefined){
+                    this.applyCure(skill.cure)
+                }
+
+                if (skill.regen != undefined){
+                    this.status_effect.regen.push([skill.regen[0],skill.regen[1]]) //apply regen as a list
                 }
         
                 this.healthBar.update()

@@ -7,15 +7,15 @@ var config = {
     width: 1080,
     height: 720,
     backgroundColor: 0x000000,
+
     scene: [
-    
         Accueil,
         Hameau, 
         Laboratoire, 
         Forge, 
         Diligence,
         ComposerEquipe,
-        LoadingFight,        
+        LoadingFight,  
         Fight,
         Couloir,
         Salle,
@@ -31,6 +31,7 @@ window.onload = function() {
         "bandit",
         "plaguedoctor",
         "vestal",
-        "hellion"
+        "hellion",
+        "graverobber"
     ] 
 }
