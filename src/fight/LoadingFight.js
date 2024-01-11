@@ -5,8 +5,7 @@ var enemyList //= ["spider","spider","spider", "spider"];
 
 class LoadingFight extends Phaser.Scene {
     constructor(){
-        super("bootFight"); //REMEMBER TO CHANGE THAT WHEN NOT IN PROTOTYPING STATE ANYMORE (for team composition)
-        this.graphicManager = new GraphicManager();
+        super("bootFight"); 
         
         
     }
