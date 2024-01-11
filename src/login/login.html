@@ -10,15 +10,16 @@
     <link rel="stylesheet" href="../../styles.css" />
     <link rel="stylesheet" href="./login.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
 
     <script src="./login.js"></script>
     <script src="../util/userInfo.js"></script>
-    
 </head>
 
 <body>
@@ -32,106 +33,128 @@
             </form>
         </div>
     </nav>
+    <div class="wrapper">
+        <div class="container">
+            <a href="../../index.html" style="float: right; margin-top: 30px;">
+                <svg t="1702735198292" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg" p-id="4239" width="128" height="64">
+                    <path
+                        d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"
+                        fill="#ffffff" p-id="4240"></path>
+                    <path
+                        d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"
+                        fill="#ffffff" p-id="4241"></path>
+                </svg>
+            </a>
+            <div id="connexion-card">
+                <div style="margin: 100px 150px;">
+                    <h1 class="mb-80" style="text-align: center;">Se connecter</h1>
 
-    <div class="container"> <!-- class="container" -->
-        <a href="../../index.html" style="float: right; margin-top: 30px;">
-            <svg t="1702735198292" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                p-id="4239" width="128" height="64">
-                <path
-                    d="M512 960c-247.039484 0-448-200.960516-448-448S264.960516 64 512 64 960 264.960516 960 512 759.039484 960 512 960zM512 128.287273c-211.584464 0-383.712727 172.128262-383.712727 383.712727 0 211.551781 172.128262 383.712727 383.712727 383.712727 211.551781 0 383.712727-172.159226 383.712727-383.712727C895.712727 300.415536 723.551781 128.287273 512 128.287273z"
-                    fill="#ffffff" p-id="4240"></path>
-                <path
-                    d="M557.05545 513.376159l138.367639-136.864185c12.576374-12.416396 12.672705-32.671738 0.25631-45.248112s-32.704421-12.672705-45.248112-0.25631l-138.560301 137.024163-136.447897-136.864185c-12.512727-12.512727-32.735385-12.576374-45.248112-0.063647-12.512727 12.480043-12.54369 32.735385-0.063647 45.248112l136.255235 136.671523-137.376804 135.904314c-12.576374 12.447359-12.672705 32.671738-0.25631 45.248112 6.271845 6.335493 14.496116 9.504099 22.751351 9.504099 8.12794 0 16.25588-3.103239 22.496761-9.247789l137.567746-136.064292 138.687596 139.136568c6.240882 6.271845 14.432469 9.407768 22.65674 9.407768 8.191587 0 16.352211-3.135923 22.591372-9.34412 12.512727-12.480043 12.54369-32.704421 0.063647-45.248112L557.05545 513.376159z"
-                    fill="#ffffff" p-id="4241"></path>
-            </svg>
-        </a>
-        <div id="connexion-card">
-            <div style="margin: 100px 150px;">
-                <h1 class="mb-80" style="text-align: center;">Se connecter</h1>
+                    <div class="mb-80 row">
+                        <label for="login" class="col-sm-3 col-form-label">Identifiant :</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control border-3 bg-transparent custom-input" id="login">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 80px;">
+                        <label for="password" class="col-sm-3 col-form-label ">Mot de passe :</label>
+                        <div class="col-sm-9">
+                            <input type="password" tabindex="0"
+                                class="form-control border-3 bg-transparent custom-input" id="mdp">
+                        </div>
+                    </div>
+                    <div class="alert alert-danger hide" id="message_login" role="alert">
+                        Identifiant ou mot de passe incorrect
+                    </div>
+                    <nav style="padding: 0 100px; margin-top: 80px;">
+                        <button type="submit" class="btn btn-style btn-outline-success" style="float: left;"
+                            id="connecter" onclick="connecter()">Se
+                            connecter</button>
+                        <button type="button" class="btn btn-style btn-outline-secondary" style="float: right;"
+                            onclick="goToInscription()">Je
+                            m'inscris</button>
+                    </nav>
+                </div>
 
-                <div class="mb-80 row">
-                    <label for="login" class="col-sm-3 col-form-label">Identifiant :</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control border-3 bg-transparent custom-input" id="login">
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 80px;">
-                    <label for="password" class="col-sm-3 col-form-label ">Mot de passe :</label>
-                    <div class="col-sm-9">
-                        <input type="password" tabindex="0" class="form-control border-3 bg-transparent custom-input" id="mdp">
-                    </div>
-                </div>
-                <div class="alert alert-danger hide" id="message_login" role="alert">
-                    Identifiant ou mot de passe incorrect
-                </div>
-                <nav style="padding: 0 100px; margin-top: 80px;">
-                    <button type="submit" class="btn btn-style btn-outline-success" style="float: left;" id="connecter"
-                        onclick="connecter()">Se
-                        connecter</button>
-                    <button type="button" class="btn btn-style btn-outline-secondary" style="float: right;"
-                        onclick="goToInscription()">Je
-                        m'inscris</button>
-                </nav>
             </div>
 
-        </div>
-
-        <div id="inscrption-card"  class="hide">
-            <div style="margin: 100px 150px;">
-                <h1 class="mb-80" style="text-align: center;">Inscrivez-vous</h1>
-                <div class="input-group">
-                    <label class="col-sm-3 col-form-label">Nom et prénom : </label>
-                    <input type="text" aria-label="nom" class="form-control border-3 bg-transparent custom-input">
-                    <input type="text" aria-label="prenom" class="form-control border-3 bg-transparent custom-input">
-                </div>
-
-                <div class="input-group mb-3">
-                    <label for="mel" class="col-sm-3 col-form-label">Email :</label>
-                    <div class="col-sm-9">
-                        <input type="email" class="form-control border-3 bg-transparent custom-input" id="mel">
+            <div id="inscrption-card" class="hide">
+                <div style="margin: 100px 150px;">
+                    <h1 class="mb-80" style="text-align: center;">Inscrivez-vous</h1>
+                    <div class="input-group">
+                        <label class="col-sm-3 col-form-label">Nom et prénom : </label>
+                        <input type="text" aria-label="nom" class="form-control border-3 bg-transparent custom-input">
+                        <input type="text" aria-label="prenom"
+                            class="form-control border-3 bg-transparent custom-input">
                     </div>
-                </div>
 
-                <div class="input-group mb-3">
-                    <label for="date_naiss" class="col-sm-6 col-form-label">Date de naissance :</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control border-3 bg-transparent custom-input" aria-label="Sélectionnez une date" id="datetimepicker">
+                    <div class="input-group mb-3">
+                        <label for="mel" class="col-sm-3 col-form-label">Email :</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control border-3 bg-transparent custom-input" id="mel">
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-group mb-3">
-                    <label for="login_inscription" class="col-sm-3 col-form-label">Login :</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control border-3 bg-transparent custom-input"
-                            id="login_inscription">
+                    <div class="input-group mb-3">
+                        <label for="date_naiss" class="col-sm-6 col-form-label">Date de naissance :</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control border-3 bg-transparent custom-input"
+                                aria-label="Sélectionnez une date" id="datetimepicker">
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-group mb-3">
-                    <label for="password" class="col-sm-3 col-form-label">Mot de passe :</label>
-                    <div class="col-sm-9">
-                        <input type="password" class="form-control border-3 bg-transparent custom-input"
-                            id="mdp_inscription">
+                    <div class="input-group mb-3">
+                        <label for="login_inscription" class="col-sm-3 col-form-label">Login :</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control border-3 bg-transparent custom-input"
+                                id="login_inscription">
+                        </div>
                     </div>
+
+                    <div class="input-group mb-3">
+                        <label for="password" class="col-sm-3 col-form-label">Mot de passe :</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control border-3 bg-transparent custom-input"
+                                id="mdp_inscription">
+                        </div>
+                    </div>
+
+                    <div class="alert alert-danger hide" id="message_register" role="alert">
+                        A simple danger alert—check it out!
+                    </div>
+
+                    <nav style="padding: 0 100px; margin-top: 80px;">
+                        <button type="submit" class="btn btn-style btn-outline-success" style="float: left;"
+                            onclick="register()">Enregistrer</button>
+                        <button type="button" class="btn btn-style btn-outline-secondary" style="float: right;"
+                            onclick="goToConnexion()">Déjà un compte ?</button>
+                    </nav>
+
                 </div>
-
-                <div class="alert alert-danger hide" id="message_register" role="alert">
-                    A simple danger alert—check it out!
-                </div>
-
-                <nav style="padding: 0 100px; margin-top: 80px;">
-                    <button type="submit" class="btn btn-style btn-outline-success" style="float: left;"
-                        onclick="register()">Enregistrer</button>
-                    <button type="button" class="btn btn-style btn-outline-secondary" style="float: right;"
-                        onclick="goToConnexion()">Déjà un compte ?</button>
-                </nav>
-
             </div>
         </div>
-        <footer class="footer">
-            <img src="../../assets/images/iut-logo.png" />
-            <p>NOBILI Lothaire | SAHININE Haroun | WANG Nuoxi</p>
+        <footer class="footer" style="margin-top: 100px;">
+            <div style="margin-bottom: 20px;">
+                <img src="../../assets/images/iut-logo.png" />
+                <p style="float: right;">NOBILI Lothaire | SAHININE Haroun | WANG Nuoxi</p>
+            </div>
+            <div style="margin: 10px 20px;">
+                <ul>
+                    <li>Librairie et Cadre Open Source: </li>
+                    <a href="https://getbootstrap.com/">https://getbootstrap.com/</a><br>
+                    <a href="https://jquery.com/">https://jquery.com/</a><br>
+                    <a href="https://phaser.io/">https://phaser.io/</a><br>
+                    <li>Référence Technique: </li>
+                    <a href="https://stackoverflow.com/">https://stackoverflow.com/</a><br>
+                    <a href="https://openai.com/blog/chatgpt">Chatgpt</a>
+                    <li>Source des Images: </li>
+                    <a href="https://game-icons.net/">https://game-icons.net/</a><br>
+                    <a href="https://www.iconfont.cn/?lang=en-us">https://www.iconfont.cn/?lang=en-us</a><br>
+                    <a href="https://www.darkestdungeon.com/">Darkest Dungeon® Red Hook Studios</a>
+                </ul>
+            </div>
         </footer>
+    </div>
 </body>
 
 </html>

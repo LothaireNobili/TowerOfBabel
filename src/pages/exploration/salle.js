@@ -1,5 +1,6 @@
 //const listSelectedHeroes = ["crusader", "bandit", "bandit", "vestal"];
-const BACKGROUNDS = ["ruin_background2.png", "ruin_background1.png"];
+
+const BACKGROUNDS = ["ruin_background2.png","ruin_background1.png"]
 const TYPE_SALLE = [
   ["Vide", 2],
   ["Combat", 3],
@@ -16,13 +17,13 @@ class Salle extends Phaser.Scene {
   fight;
   couloir; //prochain couloir
   premiereSalle;
-  //debug variables
   fighting;
   coffre;
   nouvelEtage = false;
   nbSalle = 0;
   content;
-
+  battleBegin;
+  fightStartGroup;
   positions = [
     [400, 650],
     [300, 650],
@@ -49,6 +50,7 @@ class Salle extends Phaser.Scene {
       BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)];
 
     this.load.image(
+
       "background",
       "./assets/images/exploration/" + chosenGround
     );
@@ -64,9 +66,9 @@ class Salle extends Phaser.Scene {
           frameHeight:
             this.graphicManager.spriteSheetDatas[hero].walk.frameHeight,
         }
+
       );
     }
-    this.load.image("boutiqueBg", "./assets/images/hameau/boutique_bg.png");
     this.load.image("money", "./assets/icons/piece.png");
     this.load.image("couloir", "./assets/icons/yellow_right_arrow.png");
     this.load.image(
@@ -83,8 +85,9 @@ class Salle extends Phaser.Scene {
     if (!(this.prochaineSalle == null || this.premiereSalle))
       this.type = this.prochaineSalle;
 
-    var background = this.add.image(540, 360, "background");
+    var background = this.add.image(540, 360, "background_salle");
     this.setRoomContent();
+
     for (var i = 0; i < listSelectedHeroes.length; i++) {
       var equipier = this.add.sprite(this.positions[i][0], this.positions[i][1], "idle_" + listSelectedHeroes[i]).play(listSelectedHeroes[i]+"_idle").setOrigin(0.5, 1);
       equipier.setScale(0.7);
@@ -93,15 +96,17 @@ class Salle extends Phaser.Scene {
     this.placerCouloir();
     this.creerCurio();
     
-
-
-
     this.fighting = this.add.image(
       540,
       300,
       "startFight"
     ).setScale(0.5);
+
     this.fighting.setInteractive();
+
+    this.fightStartGroup=this.add.group()
+    this.fightStartGroup.add(this.fighting)
+    this.fightStartGroup.add(this.battleBegin)
 
     this.fighting.on("pointerdown", () => {
       window.myScene = this;
@@ -112,21 +117,11 @@ class Salle extends Phaser.Scene {
 
     //this.content of room
 
-    this.floor = this.add.text(600, 20, "etage  :" + this.etage, {
-      font: "40px Arial",
-      fill: "white",
-    });
 
-    var shine = this.add.text(600, 20, "Shine", {
-      font: "80px Arial",
-      fill: "white",
-    });
+    this.floor = this.add.text(30, game.config.height-50, "FLOOR : " + this.etage, setFontStyles("40px")); 
 
     if (this.etage != 0) this.determinerProchaineSalle();
     this.premiereSalle = false;
-
-    
-    
 
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();
@@ -134,16 +129,25 @@ class Salle extends Phaser.Scene {
 
   update() {
     this.couloir.setVisible(this.clear);
-    this.fighting.setVisible(!this.clear);
+    if(this.clear) this.turnOff(this.fightStartGroup);
     if (this.curio && this.clear) this.coffre.setVisible(true);
     if (window.myScene.returnFromFight) {
       window.myScene.returnFromFight = false;
       this.clear = true;
     }
   }
+  
   placerlistSelectedHeroes() {
 
-    
+    for (var i = 0; i < listSelectedHeroes.length; i++) {
+      var equipier = this.add.image(
+        this.positions[i][0],
+        this.positions[i][1],
+        listSelectedHeroes[i] + "_exploration"
+      );
+      equipier.setScale(0.3);
+    }
+
   }
   placerCoffre() {
     this.coffre = this.add.image(540, 450, "chest");
@@ -163,30 +167,29 @@ class Salle extends Phaser.Scene {
     this.couloir.on("pointerdown", () => {
       this.goToprochaineSalle();
     });
-    this.couloir.setScale(0.05);
+
+    this.couloir.setScale(0.20)
   }
   creerCurio() {
     //image de fond des curios
-    var addedGold = this.determinerGold();
-    var boutiqueBackground = this.add.image(530, 300, "boutiqueBg");
-    boutiqueBackground.displayWidth = 1000;
-    boutiqueBackground.displayHeight = 580;
+    var addedGold = this.determinerGold()
+    var boutiqueBackground = this.add.image(game.config.width/2, game.config.height/2, "boutiqueBg");
+    boutiqueBackground.displayWidth = game.config.width-game.config.width/10;
+    boutiqueBackground.displayHeight = game.config.height-game.config.height/10;
     //boutton pour quitter l'ecran des curios
-    var money = this.add.image(500, 300, "money");
-    money.setScale(0.5);
-    var moneyValue = this.add.text(
-      game.config.width / 2 + 50,
-      game.config.height / 2 - 100,
-      addedGold,
-      {
-        font: "80px Arial",
-        fill: "white",
-      }
-    );
+    var loot = this.add.text((game.config.width/2)-150,  (game.config.height/2)-200, "LOOT !",setFontStyles("80px"))
+    var money = this.add.image((game.config.width/2)-45,  (game.config.height/2), "money")
+    money.setScale(0.7);
+    var moneyValue=this.add.text((game.config.width/2)+25, (game.config.height/2)-50, addedGold, {
+      font: "80px Arial",
+      fill: "white",
+    }); 
+    
     //groupe contenant l'ensemble des objets relatifs a l'ecran des curios
     this.content = this.add.group();
     this.content.add(boutiqueBackground);
     this.content.add(money);
+    this.content.add(loot);
     this.content.add(moneyValue);
     money.setInteractive();
     money.on("pointerdown", () => {

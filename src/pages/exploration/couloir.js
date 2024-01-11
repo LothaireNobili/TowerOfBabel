@@ -16,7 +16,7 @@ class Couloir extends Phaser.Scene {
   preload() {
     this.load.image(
       "background_corridor",
-      "./assets/images/exploration/Corridor1.jpg"
+      "./assets/images/exploration/Corridor1.png"
     );
     this.load.image("chest", "./assets/images/exploration/chest.jpg");
     this.load.image("move", "./assets/icons/yellow_right_arrow.png");
@@ -44,12 +44,12 @@ class Couloir extends Phaser.Scene {
     } 
     this.cursors = this.input.keyboard.createCursorKeys();
     this.add.image(540, 360, "background_corridor").setScale(1.7, 1.7);
-    this.moveRight = this.add.image(300, 650, "move").setScale(0.05);
-    this.moveLeft = this.add.image(150, 650, "move").setScale(0.05);
-    this.goInsideNextRoom = this.add.image(900, 300, "move").setScale(0.05);
+    this.moveRight = this.add.image(300, 650, "move").setScale(0.20);
+    this.moveLeft = this.add.image(150, 650, "move").setScale(0.20);
+    this.goInsideNextRoom = this.add.image(900, 300, "move").setScale(0.20);
     this.prochaineSalle = this.add
       .image(900, 450, "prochaineSalle")
-      .setScale(0.2, 0.2);
+      .setScale(0.2, 0.2).setVisible(false);
 
     this.moveLeft.flipX = true;
 
@@ -57,28 +57,7 @@ class Couloir extends Phaser.Scene {
     this.moveLeft.setInteractive();
     this.goInsideNextRoom.setInteractive();
 
-    this.moveRight.on("pointerdown", () => {
-      this.goingLeft = false;
-      this.goingRight = true;
-    });
-    this.moveLeft.on("pointerdown", () => {
-      this.goingLeft = true;
-      this.goingRight = false;
-    });
-
-    this.moveRight.on("pointerup", () => {
-      this.goingRight = false;
-    });
-    this.moveLeft.on("pointerup", () => {
-      this.goingLeft = false;
-    });
-
-    this.moveRight.on("pointerout", () => {
-      this.goingRight = false;
-    });
-    this.moveLeft.on("pointerout", () => {
-      this.goingLeft = false;
-    });
+    this.deplacementSouris()
 
     this.goInsideNextRoom.on("pointerdown", () => {
       game.scene.stop("Couloir");
@@ -88,10 +67,11 @@ class Couloir extends Phaser.Scene {
     // on creer un group pour controler l'ensemble de l'listSelectedHeroes plutot que de controler chaque heros individuellement
     this.listSelectedHeroes = this.add.group();
     this.listSelectedHeroes.x = 175;
-    this.listSelectedHeroes.y = 450;
+
+    this.listSelectedHeroes.y = 500;
 
     //on ajoute les heros, les positions sont relatives au centre de l'listSelectedHeroes
-    
+    this.ajouterlistSelectedHeroes();
 
 
     for (let hero of listSelectedHeroes) {
@@ -131,24 +111,53 @@ class Couloir extends Phaser.Scene {
     var i = 0;
     this.listSelectedHeroes.getChildren().forEach((child) => {
       child.x = relativePosition - i + this.listSelectedHeroes.x;
+
       child.y = this.listSelectedHeroes.y+150;
+
       i += 75;
     });
   }
 
   canGoToprochaineSalle() {
     return this.prochaineSalle.getBounds().x - this.listSelectedHeroes.x - 200 < 0;
+
+  deplacementSouris()
+  {
+    this.moveRight.on("pointerdown", () => {
+      this.goingLeft = false;
+      this.goingRight = true;
+    });
+    this.moveLeft.on("pointerdown", () => {
+      this.goingLeft = true;
+      this.goingRight = false;
+    });
+
+    this.moveRight.on("pointerup", () => {
+      this.goingRight = false;
+    });
+    this.moveLeft.on("pointerup", () => {
+      this.goingLeft = false;
+    });
+
+    this.moveRight.on("pointerout", () => {
+      this.goingRight = false;
+    });
+    this.moveLeft.on("pointerout", () => {
+      this.goingLeft = false;
+    });
   }
 
   getprochaineSalle() {
     return this.prochaineSalle;
   }
   ajouterlistSelectedHeroes() {
+
     for (let hero of listSelectedHeroes) {
       console.log("walk")
       var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
       this.listSelectedHeroes.add(equipier);
       equipier.setScale(0.5);
+
     }
     this.updateChildren();
   }

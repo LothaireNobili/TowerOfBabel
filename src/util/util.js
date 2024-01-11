@@ -2,7 +2,7 @@
 function setFontStyles(
     fontSize = "24px",
     color = "#fff",
-    fontFamily = "Comic Sans MS",
+    fontFamily = "Pixel",
 ) {
     var fontStyles = {
         fontFamily: fontFamily,
@@ -13,7 +13,7 @@ function setFontStyles(
     return fontStyles;
 }
 
-function createEnseigneReturnBtn(scene,enseigne) {
+function createEnseigneReturnBtn(scene, enseigne) {
     enseigne.setScale(0.55)
     var retourText = scene.add.text(150, 115, "RETOUR", setFontStyles());
     enseigne.setInteractive();
@@ -50,6 +50,41 @@ function addSellQuantityToPotions(potionsList) {
     }
 }
 
-// function InitialisationCompte(user) {
-//     user.
-// }
+function createPositionCard(scene, y, teamPosition, attackRange, type) {
+    var card = scene.add.container(0, 0);
+    var positions = [];
+    var ranges = [];
+
+    // Initialiser l’icône de position de capacité
+    for (var i = 0; i < 4; i++) {
+        var position = scene.add.image(36 + i * 13, y, "cercleWhite");
+        position.setScale(0.2);
+
+        positions.push(position);
+        card.add(position);
+    }
+
+    // Parcourez teamPosition, modifiez l’icône de la position
+    teamPosition.forEach(e => {
+        if (positions[e - 1]) {
+            positions[e - 1].setTexture("cercleYellow");
+        }
+    });
+
+    if (type != "team" && type != "hero") {
+        for (let i = 0; i < 4; i++) {
+            var range = scene.add.image(100 + i * 13, y, "cercleWhite");
+            range.setScale(0.2);
+
+            ranges.push(range);
+            card.add(range);
+        }
+        // Parcourez attackRange, modifiez l’icône de la position
+        attackRange.forEach(e => {
+            if (ranges[e - 1]) {
+                ranges[e - 1].setTexture("cercleRed");
+            }
+        });
+    }
+    return card;
+}

@@ -3,7 +3,6 @@
 const registerButton = document.querySelector("#valider");
 const connecterButton = document.querySelector("#connecter");
 
-
 $(document).ready(function () {
   $("#datetimepicker").datetimepicker({
     format: "YYYY-MM-DD", // Mettre en forme la date
@@ -24,7 +23,6 @@ $(document).ready(function () {
   });
 });
 
-
 async function register() {
   // Récupérer la valeur d'un champ de formulaire
   const nom = document.querySelector('[aria-label="nom"]').value;
@@ -34,7 +32,6 @@ async function register() {
   const login = document.getElementById("login_inscription").value;
   const password = document.getElementById("mdp_inscription").value;
   const message = document.getElementById("message_register");
-
 
   // message d'erreur
   // Valider les données du formulaire
@@ -57,7 +54,7 @@ async function register() {
     message.classList.remove("hide");
   } else if (!isValidPassword(password)) {
     message.textContent =
-      "Mot de passe doit inclure majuscules, minuscules, chiffres, caractères spéciaux, et être entre 8 et 20 caractères.";
+      "Mot de passe doit être entre 8 et 20 caractères.";
     message.classList.remove("hide");
   }
   else {
@@ -67,12 +64,13 @@ async function register() {
       prenom: prenom,
       mel: mel,
       date_naiss: birthday,
-      password: Mycrypt(password)["mdp"],
-      salt: Mycrypt(password)["salt"],
+      password: password,
+      salt: 'salt',
       save_file: 0,
     };
     // Effacer le message d’erreur
     message.classList.add("hide");
+
 
     // Effectuer une requête Fetch
     fetch("../../API/NewUser.php", {
@@ -100,23 +98,23 @@ function connecter() {
   const password = document.getElementById("mdp").value;
   const message = document.getElementById("message_login");
 
-  let loginTrue = false;
-
+  //!here to change local/web
+  //fetch("https://devweb.iutmetz.univ-lorraine.fr/~wang318u/TowerOfBabel/API/SelectAllUser.php")
   fetch("../../API/SelectAllUser.php")
     .then((response) => response.json())
     .then((data) => {
       // Traiter les données JSON renvoyées par PHP, parcourir les données et traiter les informations utilisateur
-      let loginCorrrect = true;
+      let loginCorrrect = false;
       for (let userInfo of data) {
-        if (isLoginExist(login) && VerifyPassword( password, userInfo.password, userInfo.salt) ) {
-          loginTrue = true;
-          let user = new User(userInfo.id, userInfo.login, 10000); // ....
-          user.saveToLocalStorage();
+        if (userInfo.login == login && userInfo.password == password) {
+          loginCorrrect = true;
+          let tmpUser = new User(userInfo.id, userInfo.login, 10000); // ....
+          tmpUser.saveToLocalStorage();
           console.log("login success");
           window.location.href = "../../index.html";
         }
       }
-      message.style.display = loginTrue ? "none" : "block";
+      message.style.display = loginCorrrect ? "none" : "block";
     })
     .catch((error) => console.error("Error:", error));
 }
@@ -142,7 +140,7 @@ function isValidEmail(email) {
 }
 
 function isValidPassword(psd) {
-  const verifRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\s]).{8,20}$/;
+  const verifRegex = /^.{8,20}$/;
   return verifRegex.test(psd);
 }
 
@@ -160,66 +158,5 @@ async function isLoginExist(login) {
     // console.error("Error:", error);
   }
 
-
   return false;
 }
-
-function Mycrypt(mdp) {
-  const verif = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\s]).{8,20}$/;
-  const S =
-    " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
-
-
-  let salt = "";
-  let encryptedPassword = "";
-
-
-  if (verif.test(mdp)) {
-    for (let i = 0; i < 20; i++) {
-      salt += S.charAt(Math.floor(Math.random() * S.length));
-    }
-
-
-    for (let i = 0; i < mdp.length; i++) {
-      const pos =
-        (S.indexOf(mdp.charAt(i)) + S.indexOf(salt.charAt(i))) % S.length;
-      encryptedPassword += S.charAt(pos);
-    }
-
-
-    return {
-      status: "success",
-      mdp: encryptedPassword,
-      salt: salt,
-    };
-  } else {
-    return {
-      status: "failed",
-    };
-  }
-}
-
-function VerifyPassword(inputPassword, storedHashedPassword, salt) {
-  const S = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
-
-  let inputHashedPassword = "";
-  
-  for (let i = 0; i < inputPassword.length; i++) {
-      const pos = (S.indexOf(inputPassword.charAt(i)) + S.indexOf(salt.charAt(i))) % S.length;
-      inputHashedPassword += S.charAt(pos);
-  }
-
-  // 使用 CryptoJS 的 SHA-256 哈希函数
-  const inputHashedPasswordSHA256 = CryptoJS.SHA256(inputHashedPassword).toString(CryptoJS.enc.Hex);
-
-  return {
-      isMatch: inputHashedPasswordSHA256 === storedHashedPassword
-  };
-}
-
-
-
-
-
-
-

@@ -3,30 +3,41 @@ class Escalier extends Phaser.Scene {
     super({ key: "Escalier" });
   }
 
-  preload() {
-    this.load.image("feu", "./assets/images/exploration/escalier.jpg");
-    for (var i = 0; i < EQUIPE.length; i++) {
-      this.load.image(
-        EQUIPE[i] + "_escalier",
-        "./assets/images/heroes/" + EQUIPE[i] + "/idle.png"
-      );
-    }    
-  }
 
-  create() {
-    var positions = [
-      [500, 500],
-      [400, 600],
-      [700, 500],
-      [800, 600],
-    ];
-    var background = this.add.image(540, 360, "feu");
-    for (var i = 0; i < EQUIPE.length; i++) {
-      var equipier = this.add
-        .image(positions[i][0], positions[i][1], EQUIPE[i])
-        .setScale(0.3);
-      if (i > 1) equipier.flipX = true;
-    }
+      preload()
+      {
+        this.load.image("feu", "./assets/images/exploration/escalier.jpg");
+        for (var i = 0; i < EQUIPE.length; i++) {
+          this.load.image(
+            EQUIPE[i] + "_escalier",
+            "./assets/images/heroes/" + EQUIPE[i] + "/idle.png"
+          );
+        }
+        this.load.image("etageSuivant","./icons/cercle_red.png")
+      }
+
+      create()
+      {
+        var positions=[[500,500],[400,600],[700,500],[800,600]]
+        var background = this.add.image(540, 360, "feu");
+        for(var i = 0;i<EQUIPE.length;i++)
+        {
+            var equipier = this.add.image(positions[i][0],positions[i][1],EQUIPE[i]).setScale(0.3);
+            if(i>1) equipier.flipX=true
+        }
+        
+        var prochainEtage= this.add.image(570,300,"etageSuivant");
+        prochainEtage.setInteractive();
+        prochainEtage.on("pointerdown", () => {        
+           window.myScene.nouvelEtage=true;
+           window.myScene.nbSalle=this.determinerMaxSalle()
+           this.scene.start("Salle");
+          });
+          
+          const barreInfo = new BarreInfo(this);
+        barreInfo.creerBarreInfo();
+      }
+
 
     var prochainEtage = this.add.image(570, 300, "prochainEtage");
     prochainEtage.setInteractive();
