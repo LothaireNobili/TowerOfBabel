@@ -135,11 +135,11 @@ class ComposerEquipe extends Phaser.Scene {
       descriptionBg.displayHeight = 400;
       
       if(key == "plaguedoctor"){
-        var heroName = scene.add.text(-270, -150,"PLAGUE DOCTOR", setFontStyles());
+        var heroName = scene.add.text(-60, -155,"PLAGUE DOCTOR", setFontStyles("24px", "#D2BA70"));
       }else{
-        var heroName = scene.add.text(-270, -150, key.toUpperCase(), setFontStyles());
+        var heroName = scene.add.text(-60, -155, key.toUpperCase(), setFontStyles("24px", "#D2BA70"));
       }
-      var heroImage = scene.add.sprite(-210, 155, "idle_" + key).play(key + "_idle").setOrigin(0.5, 1).setScale(0.80);
+      var heroImage = scene.add.sprite(-210, 160, "idle_" + key).play(key + "_idle").setOrigin(0.5, 1).setScale(0.9);
 
       descriptionContainer.add([descriptionBg, heroName, heroImage]);
 
