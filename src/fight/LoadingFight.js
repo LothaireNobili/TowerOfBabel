@@ -6,7 +6,7 @@ var enemyList //= ["spider","spider","spider", "spider"];
 class LoadingFight extends Phaser.Scene {
     constructor(){
         super("bootFight"); 
-        
+        this.graphicManager = new GraphicManager(); 
         
     }
 
