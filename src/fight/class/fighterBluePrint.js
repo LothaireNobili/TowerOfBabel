@@ -359,7 +359,7 @@ class FighterBluePrint{
                     },
                     {
                         id:"rush",
-                        name: "Rusg",
+                        name: "Rush",
                         animation: "skill4",
                         target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                         type: "continuous",//all reachable target are touched

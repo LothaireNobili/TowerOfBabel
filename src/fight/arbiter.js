@@ -582,15 +582,20 @@ class Arbiter {
 
         if (enemyTeam.length==0 || playerTeam.length==0){
             console.warn("Le combat est fini")
+            for (let hero of playerTeam){
+                hero.destroyGraphics()
+            }
             if(playerTeam.length==0){  //on vérifie d'abord l'équipe du joueur, en cas d'égalité (impossible pour l'instant), il a perdu car il n'a plus de héros pour continuer
+                playerTeam = []
+                enemyTeam = []
                 game.scene.stop(this.fight_scene)
                 game.scene.start("GameOver")
-                console.log("avant destroy")
-                this.destroy()
-                console.log("après destroy")
             }
             else{
+                playerTeam = []//we put that on both side of condition for convenience reasons
+                enemyTeam = []
                 listSelectedHeroes = heroList
+                heroList = []
                 game.scene.stop(this.fight_scene)
                 Salle.returnToRoom()
                 

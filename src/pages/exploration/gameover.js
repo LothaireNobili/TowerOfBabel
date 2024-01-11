@@ -4,10 +4,10 @@ class GameOver extends Phaser.Scene {
     super({ key: "GameOver" });
   }
   preload() {
-    for (var i = 0; i < EQUIPE.length; i++) {
+    for (var i = 0; i < listSelectedHeroes.length; i++) {
       this.load.image(
-        EQUIPE[i] + "_iconsDeath",
-        "./assets/images/heroes/" + EQUIPE[i] + "/portrait.png"
+        listSelectedHeroes[i] + "_iconsDeath",
+        "./assets/images/heroes/" + listSelectedHeroes[i] + "/portrait.png"
       );
     }
     this.load.image("defeat", "./assets/images/exploration/defeat.jpg");
@@ -28,8 +28,8 @@ class GameOver extends Phaser.Scene {
       game.config.height / 2 + 100,
       "Total Earnt Gold : " + (user.coins - GOLDEARNT)
     );
-    for (var i = 0; i < EQUIPE.length; i++) {
-      this.add.image(this.position[i], 600, EQUIPE[i] + "_iconsDeath");
+    for (var i = 0; i < listSelectedHeroes.length; i++) {
+      this.add.image(this.position[i], 600, listSelectedHeroes[i] + "_iconsDeath");
     }
     var enseigne = this.add.image(200, 85, "retour_hameau").setScale(0.55);
     createEnseigneReturnBtn(this, enseigne);
