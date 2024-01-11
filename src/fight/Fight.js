@@ -8,6 +8,7 @@ class Fight extends Phaser.Scene {
     }
 
     create(){
+        console.log("poke")
         this.add.text(20, 20, "Fight in progress...", {font: "40px Arial", fill:"white"}); //deletable
 
         this.background = this.add.image(0,0,"background");
@@ -23,14 +24,14 @@ class Fight extends Phaser.Scene {
 
 
         for (let i = 0; i < heroList.length; i++){
-            var hero = this.add.sprite(arbiter.getVerticalPosition(i+1, "hero"),arbiter.floor,heroList[i]).play(heroList[i]+"_wait"); //place each hero
+            let hero = this.add.sprite(arbiter.getVerticalPosition(i+1, "hero"),arbiter.floor,heroList[i]).play(heroList[i]+"_wait"); //place each hero
             hero.setOrigin(0.5, 1);  //center them properly
             hero.setScale(arbiter.defaultScale)
             this.heroSprites.push(hero);
         }
         
         for (let i = 0; i < enemyList.length; i++){
-            var enemy = this.add.sprite(arbiter.getVerticalPosition(i+1, "enemy"),arbiter.floor,enemyList[i]).play(enemyList[i]+"_wait"); //place each enemy
+            let enemy = this.add.sprite(arbiter.getVerticalPosition(i+1, "enemy"),arbiter.floor,enemyList[i]).play(enemyList[i]+"_wait"); //place each enemy
             enemy.setOrigin(0.5, 1);  //center them properly
             enemy.setScale(arbiter.defaultScale)
             enemy.flipX = true;
@@ -62,5 +63,7 @@ class Fight extends Phaser.Scene {
 
         arbiter.startFight()
     }
+
+    update(){}
 }
 

@@ -58,7 +58,7 @@ class FighterBluePrint{
                         target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                         type: "single",//one target only
                         reach: [2, 3, 4], //spot reach
-                        requiered_pos : [3, 4], //where the hero must be placed to cast it
+                        requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
                         damage_low: 13, //minimum damage
                         damage_high: 16, //max damage
                         move: 1, //forward 1
@@ -132,7 +132,7 @@ class FighterBluePrint{
                         target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                         type: "single",//one target only
                         reach: [2, 3, 4], //spot reach
-                        requiered_pos : [2, 3, 4], //where the hero must be placed to cast it
+                        requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
                         damage_low: 8, //minimum damage
                         damage_high: 10, //max damage
                         crit_mod: 15 //flat modifier in %
@@ -339,7 +339,7 @@ class FighterBluePrint{
                         animation: "skill2",
                         target: "enemy", //enemy is offensive, team is passive for the team, self is only for the caster
                         type: "single",//one target only
-                            reach: [4], //spot reach
+                        reach: [4], //spot reach
                         requiered_pos : [1], //where the hero must be placed to cast it
                         damage_low: 11, //minimum damage
                         damage_high: 17, //max damage

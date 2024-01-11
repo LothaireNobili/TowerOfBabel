@@ -583,13 +583,15 @@ class Arbiter {
         if (enemyTeam.length==0 || playerTeam.length==0){
             console.warn("Le combat est fini")
             if(playerTeam.length==0){  //on vérifie d'abord l'équipe du joueur, en cas d'égalité (impossible pour l'instant), il a perdu car il n'a plus de héros pour continuer
-                game.scene.start("GameOver")
                 game.scene.stop(this.fight_scene)
+                game.scene.start("GameOver")
+                
             }
             else{
                 listSelectedHeroes = heroList
-                Salle.returnToRoom()
                 game.scene.stop(this.fight_scene)
+                Salle.returnToRoom()
+                
             }
         }
 
