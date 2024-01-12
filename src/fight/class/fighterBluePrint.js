@@ -772,10 +772,12 @@ class FighterBluePrint{
                         
                         if (critRoll >= critCheck){ //if crit fails
                             let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
+                            damage = Math.round(damage - (damage * (this.prot/100)))
                             this.applyNormalDamage(damage, 'normal')
                         }
                         else{
                             let damage = Math.round(skill.damage_high * 1.5 * caster.damage_mult)
+                            damage = Math.round(damage - (damage * (this.prot/100)))
                             this.applyNormalDamage(damage, 'crit')
                         }
                         
