@@ -9,7 +9,7 @@ class FighterBluePrint{
 
                 name : "crusader",
 
-                max_hp: 50,  
+                max_hp: 100,  
         
                 dodge: 10,
         
@@ -82,9 +82,9 @@ class FighterBluePrint{
             bandit: {
                 name : "bandit",
 
-                max_hp : 25,   
+                max_hp : 60,   
         
-                dodge : 50,
+                dodge : 60,
         
                 prot : 0, 
         
@@ -155,7 +155,7 @@ class FighterBluePrint{
             plaguedoctor: {
                 name : "plaguedoctor",
 
-                max_hp : 30,
+                max_hp : 60,
 
                 dodge : 40,
 
@@ -230,7 +230,7 @@ class FighterBluePrint{
             vestal: {
 
                 name: "vestal",
-                max_hp : 45,  
+                max_hp : 100,  
 
                 dodge : 15,
 
@@ -301,15 +301,15 @@ class FighterBluePrint{
             hellion: {
 
                 name: "hellion",
-                max_hp : 30,  
+                max_hp : 60,  
     
-                dodge : 50,
+                dodge : 60,
     
                 prot : 0, 
     
                 speed : 7,
     
-                crit : 20, //in %
+                crit : 30, //in %
     
                 damage_mult : 1,
     
@@ -374,15 +374,15 @@ class FighterBluePrint{
             graverobber: {
                 name : "graverobber",
 
-                max_hp : 25,   
+                max_hp : 60,   
         
-                dodge : 60,
+                dodge : 75,
         
                 prot : 0, 
         
                 speed : 9,
         
-                crit : 35, //in %
+                crit : 40, //in %
         
                 damage_mult : 1,
         
@@ -772,10 +772,12 @@ class FighterBluePrint{
                         
                         if (critRoll >= critCheck){ //if crit fails
                             let damage = Math.round((Math.random() * (skill.damage_high - skill.damage_low) + skill.damage_low) * caster.damage_mult)
+                            damage = Math.round(damage - (damage * (this.prot/100)))
                             this.applyNormalDamage(damage, 'normal')
                         }
                         else{
                             let damage = Math.round(skill.damage_high * 1.5 * caster.damage_mult)
+                            damage = Math.round(damage - (damage * (this.prot/100)))
                             this.applyNormalDamage(damage, 'crit')
                         }
                         
