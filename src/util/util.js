@@ -67,7 +67,8 @@ function createPositionCard(scene, y, teamPosition, attackRange, type) {
     // Parcourez teamPosition, modifiez l’icône de la position
     teamPosition.forEach(e => {
         if (positions[e - 1]) {
-            positions[e - 1].setTexture("cercleYellow");
+            let index = Math.abs((e) -5 ) - 1
+            positions[index].setTexture("cercleYellow");
         }
     });
 
@@ -82,7 +83,9 @@ function createPositionCard(scene, y, teamPosition, attackRange, type) {
         // Parcourez attackRange, modifiez l’icône de la position
         attackRange.forEach(e => {
             if (ranges[e - 1]) {
-                ranges[e - 1].setTexture("cercleRed");
+                //let index = Math.abs((e - 1) -5)
+                let index = e - 1
+                ranges[index].setTexture("cercleRed");
             }
         });
     }
