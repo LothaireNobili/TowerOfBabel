@@ -70,15 +70,8 @@ class Diligence extends Phaser.Scene {
       image.displayHeight = 65;
       image.displayWidth = 230;
 
-      if(key == "plaguedoctor"){
-        var name = scene.add.text(-47, -30, "Plague Doctor", setFontStyles("20px"));
-      }
-      else if(key == "graverobber"){
-        var name = scene.add.text(-47, -30, "Grave Robber", setFontStyles("20px"));
-      }
-      else{
-        var name = scene.add.text(-47, -30, key.slice(0,1).toUpperCase()+key.slice(1), setFontStyles("20px"));
-      }
+      let theName = heroList[key].displaye_name.replace(" ", " \n")
+      var name = scene.add.text(-47, -30, theName, setFontStyles("20px"));
       card.add([image, portrait, name]);
 
       if (prix !== undefined) {
@@ -96,15 +89,8 @@ class Diligence extends Phaser.Scene {
       descriptionBg.displayWidth = 460;
       descriptionBg.displayHeight = 500;
 
-      if(key == "plaguedoctor"){
-        var heroName = scene.add.text(-200, -200, "PLAGUE DOCTOR", setFontStyles());
-      }
-      else if(key == "graverobber"){
-        var heroName = scene.add.text(-200, -200, "GRAVE ROBBER", setFontStyles());
-      }
-      else{
-        var heroName = scene.add.text(-200, -200, key.toUpperCase(), setFontStyles());
-      }
+      let theHeroName = heroList[key].displaye_name
+      var heroName = scene.add.text(-180, -220, theHeroName.toUpperCase(), setFontStyles("32px", "#D2BA70"));
       
       var heroImage = scene.add.sprite(-130, 20, "idle_" + key).play(key+"_idle").setOrigin(0.5, 0.5).setScale(0.95);
 

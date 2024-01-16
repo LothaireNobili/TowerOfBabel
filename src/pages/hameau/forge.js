@@ -24,6 +24,9 @@ class Forge extends Phaser.Scene {
   }
   create() {
     document.body.style.cursor = "default";
+    
+    const heroListClass = new FighterBluePrint()
+    var heroList = heroListClass.classBlueprints
 
     this.add.image(540, 360, "hameauBg");
 
@@ -111,16 +114,9 @@ class Forge extends Phaser.Scene {
 
       const portrait = scene.add.image(-85, 0, "portrait_" + key);
       portrait.setScale(0.75);
-
-      if(key == "plaguedoctor"){
-        var name = scene.add.text(-47, -30, "Plague \nDoctor", setFontStyles("20px"));
-      }
-      else if(key == "graverobber"){
-        var name = scene.add.text(-47, -30, "Grave \nRobber", setFontStyles("20px"));
-      }
-      else{
-        var name = scene.add.text(-47, -30, key.slice(0,1).toUpperCase()+key.slice(1), setFontStyles("20px"));
-      }
+  
+      let theName = heroList[key].displaye_name.replace(" ", " \n")
+      var name = scene.add.text(-47, -30, theName, setFontStyles("20px"));
 
       container.add([image, portrait, name]);
 

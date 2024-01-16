@@ -119,11 +119,8 @@ class ComposerEquipe extends Phaser.Scene {
       var portrait = scene.add.image(-85, 0, "portrait_" + key);
       portrait.setScale(0.75);
 
-      if(key == "plaguedoctor"){
-        var name = scene.add.text(-47, -30, "Plague \nDoctor", setFontStyles("20px"));
-      }else{
-        var name = scene.add.text(-47, -30, key.slice(0,1).toUpperCase()+key.slice(1), setFontStyles("20px"));
-      }
+      let theName = heroList[key].displaye_name.replace(" ", " \n")
+      var name = scene.add.text(-47, -30, theName, setFontStyles("20px"));
       card.add([image, portrait, name]);
 
       image.setInteractive();
@@ -134,14 +131,9 @@ class ComposerEquipe extends Phaser.Scene {
       descriptionBg.displayWidth = 700;
       descriptionBg.displayHeight = 400;
       
-      if(key == "plaguedoctor"){
-        var heroName = scene.add.text(-60, -155,"PLAGUE DOCTOR", setFontStyles("24px", "#D2BA70"));
-      }else if(key == "graverobber"){
-        var heroName = scene.add.text(-60, -155,"GRAVE ROBBER", setFontStyles("24px", "#D2BA70"));
-      }
-      else{
-        var heroName = scene.add.text(-60, -155, key.toUpperCase(), setFontStyles("24px", "#D2BA70"));
-      }
+      let theHeroName = heroList[key].displaye_name
+      var heroName = scene.add.text(-60, -155, theHeroName.toUpperCase(), setFontStyles("24px", "#D2BA70"));
+
       var heroImage = scene.add.sprite(-210, 160, "idle_" + key).play(key + "_idle").setOrigin(0.5, 1).setScale(0.9);
 
       descriptionContainer.add([descriptionBg, heroName, heroImage]);
