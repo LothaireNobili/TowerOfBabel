@@ -135,14 +135,18 @@
 
 
        if (storedUserData) {
-           var user = new User();
-           user.upDateUserClass();
+            var user = new User();
+            user.upDateUserClass();
+        }
+        else{//to play as a guest, we create artificial data
+            const storedUserData = {"userId":0,"username":"Guest","coins":10000,"heroes":[],"potions":[]}
+            var user = new User();
+            user.upDateUnconnectedUserClass(); // a version of upDateUserClass that works with Guest data
+        }
 
-
-           userId.style.display = "block";
-           loginBtn.style.display = "none";
-           context.textContent = "Bonjour, " + user.username;
-       }
+        userId.style.display = "block";
+        loginBtn.style.display = "none";
+        context.textContent = "Bonjour, " + user.username;
 
 
        function logout() {

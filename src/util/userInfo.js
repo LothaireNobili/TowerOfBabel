@@ -33,6 +33,14 @@ class User {
         }
     }
 
+    upDateUnconnectedUserClass() {
+            this.userId = -1
+            this.username = "Guest"
+            this.coins = 10000
+            this.heroes = []
+            this.potions = []
+        
+    }
 
     // Ajouter des informations sur le héros et l'équipement
     addHero(heroName, attackEquipment, defenseEquipment) {
