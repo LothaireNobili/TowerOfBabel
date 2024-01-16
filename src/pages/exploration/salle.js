@@ -347,7 +347,6 @@ class Salle extends Phaser.Scene {
         this.coffre.disableInteractive();
         this.turnOff(this.content);
       });
-      console.log(child)
     }
   }
 }
