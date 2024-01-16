@@ -36,7 +36,7 @@ class User {
     upDateUnconnectedUserClass() {
             this.userId = -1
             this.username = "Guest"
-            this.coins = 10000
+            this.coins = 100000
             this.heroes = []
             this.potions = []
         

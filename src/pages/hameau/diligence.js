@@ -142,13 +142,13 @@ class Diligence extends Phaser.Scene {
             //exemple
             let eqpWeapon = {
               equipmentName: "eqpWeapon",
-              level: 1,
-              attack: 5
+              level: 0,
+              attack: 1
             }
             let eqpArmour = {
               equipmentName: "eqpArmour",
-              level: 1,
-              defense: 3
+              level: 0,
+              defense: 1
             }
 
             // Retirer le héros de la boutique
