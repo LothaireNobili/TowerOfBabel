@@ -49,7 +49,7 @@
 <body>
    <nav class="navbar bg-dark border-bottom border-body z-index-top" data-bs-theme="dark">
        <div class="container-fluid">
-           <a class="navbar-brand">Tower of Babel</a>
+           <a class="navbar-brand">Tower of Babel (/!\ login system is undermaintenance, should be up at 10am)</a>
            <div class="d-flex">
                <div id="loginBtn">
                    <a class="btn btn-outline-warning btn-login" href="./src/login/login.html">
@@ -134,19 +134,27 @@
        let context = document.getElementById("context");
 
 
-       if (storedUserData) {
-            var user = new User();
+       var user = new User();
+       console.log("user : " + user)
+       if (user){
+        console.log("user.connected : " + user.connected)
+       }
+       
+       if (user && user.connected) { //we check both to avoid error messages
+            console.log("poke")
+            //var user = new User();
             user.upDateUserClass();
+            userId.style.display = "block";
+            loginBtn.style.display = "none";
+            context.textContent = "Bonjour, " + user.username;
         }
         else{//to play as a guest, we create artificial data
             const storedUserData = {"userId":0,"username":"Guest","coins":10000,"heroes":[],"potions":[]}
-            var user = new User();
+            //var user = new User();
             user.upDateUnconnectedUserClass(); // a version of upDateUserClass that works with Guest data
         }
 
-        userId.style.display = "block";
-        loginBtn.style.display = "none";
-        context.textContent = "Bonjour, " + user.username;
+        
 
 
        function logout() {
