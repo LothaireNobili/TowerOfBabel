@@ -120,8 +120,6 @@ class Hameau extends Phaser.Scene {
             
 
             image.on("pointerdown", function () {
-
-                console.log(user.heroes.length)
                 if (key == "Depart") {
                     game.scene.stop('Hameau')
                     game.scene.start("ComposerEquipe");
