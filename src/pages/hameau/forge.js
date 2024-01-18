@@ -1,6 +1,6 @@
 const MAX_EQUIPEMENT_LEVEL = 4
 const UPGRADE_PRICE_LIST = [300, 1000, 4000, 10000]
-const UPGRADE_VALUE = 2
+const UPGRADE_VALUE = 0.25
 
 class Forge extends Phaser.Scene {
   constructor() {
@@ -24,6 +24,9 @@ class Forge extends Phaser.Scene {
   }
   create() {
     document.body.style.cursor = "default";
+    
+    const heroListClass = new FighterBluePrint()
+    var heroList = heroListClass.classBlueprints
 
     this.add.image(540, 360, "hameauBg");
 
@@ -111,12 +114,9 @@ class Forge extends Phaser.Scene {
 
       const portrait = scene.add.image(-85, 0, "portrait_" + key);
       portrait.setScale(0.75);
-
-      if(key == "plaguedoctor"){
-        var name = scene.add.text(-47, -30, "Plague \nDoctor", setFontStyles("20px"));
-      }else{
-        var name = scene.add.text(-47, -30, key.slice(0,1).toUpperCase()+key.slice(1), setFontStyles("20px"));
-      }
+  
+      let theName = heroList[key].displaye_name.replace(" ", " \n")
+      var name = scene.add.text(-47, -30, theName, setFontStyles("20px"));
 
       container.add([image, portrait, name]);
 
@@ -151,8 +151,8 @@ class Forge extends Phaser.Scene {
         typeIcon.setTexture("defense");
     
       typeIcon.setScale(0.12);
-      var valueCard = scene.add.text(25, -12, eqpValue + (level) * UPGRADE_VALUE, setFontStyles("20px"));
-      var addValue = scene.add.text(50, -13, "+" + UPGRADE_VALUE, setFontStyles("22px", "#D2BA70"));
+      var valueCard = scene.add.text(25, -12, "x" + (eqpValue + (level) * UPGRADE_VALUE), setFontStyles("20px"));
+      var addValue = scene.add.text(80, -12, "+ " + UPGRADE_VALUE, setFontStyles("22px", "#D2BA70"));
       addValue.visible = false;
     
       description.add([typeIcon, valueCard, addValue]);
@@ -233,8 +233,8 @@ class Forge extends Phaser.Scene {
 
             // mise à jour le value
 
-            valueCard.setText((value + (level) * UPGRADE_VALUE).toString());
-            valueCard.setText((value + (level) * UPGRADE_VALUE).toString());
+            valueCard.setText(("x" + (value + (level) * UPGRADE_VALUE)));
+            valueCard.setText(("x" + (value + (level) * UPGRADE_VALUE)));
 
             // Désactive l'interactivité de l'icône actuelle après l'avoir déverrouillée
             padlockList.list[i].disableInteractive();

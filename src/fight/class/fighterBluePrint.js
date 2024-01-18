@@ -6,15 +6,11 @@ class FighterBluePrint{
 
             //!Heroes//
             crusader: {
-
                 name : "crusader",
-
+                displaye_name : "Crusader",
                 max_hp: 100,  
-        
                 dodge: 10,
-        
                 prot: 20, //20% of protection
-        
                 speed: 3,
                 crit: 5, //in %
         
@@ -81,15 +77,11 @@ class FighterBluePrint{
         
             bandit: {
                 name : "bandit",
-
+                displaye_name : "Bandit",
                 max_hp : 60,   
-        
                 dodge : 60,
-        
                 prot : 0, 
-        
                 speed : 8,
-        
                 crit : 15, //in %
         
                 damage_mult : 1,
@@ -154,15 +146,11 @@ class FighterBluePrint{
 
             plaguedoctor: {
                 name : "plaguedoctor",
-
+                displaye_name : "Plague Doctor", //capitalize each word for better display (more convenient with Upper() and Lower())
                 max_hp : 60,
-
                 dodge : 40,
-
                 prot : 0, 
-
                 speed : 5,
-
                 crit : 5, //in %
 
                 damage_mult : 1,
@@ -228,16 +216,12 @@ class FighterBluePrint{
             },
 
             vestal: {
-
                 name: "vestal",
+                displaye_name : "Vestal",
                 max_hp : 100,  
-
                 dodge : 15,
-
                 prot : 15, 
-
                 speed : 4,
-
                 crit : 5, //in %
 
                 damage_mult : 1,
@@ -299,16 +283,12 @@ class FighterBluePrint{
             },
 
             hellion: {
-
                 name: "hellion",
-                max_hp : 60,  
-    
+                displaye_name : "Hellion",
+                max_hp : 60,     
                 dodge : 60,
-    
                 prot : 0, 
-    
                 speed : 7,
-    
                 crit : 30, //in %
     
                 damage_mult : 1,
@@ -373,15 +353,11 @@ class FighterBluePrint{
 
             graverobber: {
                 name : "graverobber",
-
+                displaye_name : "Grave Robber", //capitalize each word for better display (more convenient with Upper() and Lower())
                 max_hp : 60,   
-        
                 dodge : 75,
-        
                 prot : 0, 
-        
                 speed : 9,
-        
                 crit : 40, //in %
         
                 damage_mult : 1,

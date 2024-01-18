@@ -33,6 +33,14 @@ class User {
         }
     }
 
+    upDateUnconnectedUserClass() {
+            this.userId = -1
+            this.username = "Guest"
+            this.coins = 100000
+            this.heroes = []
+            this.potions = []
+        
+    }
 
     // Ajouter des informations sur le héros et l'équipement
     addHero(heroName, attackEquipment, defenseEquipment) {
@@ -99,7 +107,7 @@ class User {
         if (heroIndex !== -1) {
             this.heroes[heroIndex].equipment[eqpType].level = newLevel;
         } else {
-            console.log(`Hero ${heroName} not found.`);
+            console.error(`Hero ${heroName} not found.`);
         }
         this.saveToLocalStorage()
     }
@@ -109,7 +117,7 @@ class User {
             this.coins = this.coins + value
             this.saveToLocalStorage()
         } else {
-            console.log("Gold coins cannot be less than 0");
+            console.error("Gold coins cannot be less than 0");
         }
     }
 
