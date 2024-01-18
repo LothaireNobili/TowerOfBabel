@@ -115,7 +115,7 @@ class Forge extends Phaser.Scene {
       const portrait = scene.add.image(-85, 0, "portrait_" + key);
       portrait.setScale(0.75);
   
-      let theName = heroList[key].displaye_name.replace(" ", " \n")
+      let theName = heroList[key].display_name.replace(" ", " \n")
       var name = scene.add.text(-47, -30, theName, setFontStyles("20px"));
 
       container.add([image, portrait, name]);

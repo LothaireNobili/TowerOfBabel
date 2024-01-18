@@ -7,7 +7,7 @@ class FighterBluePrint{
             //!Heroes//
             crusader: {
                 name : "crusader",
-                displaye_name : "Crusader",
+                display_name : "Crusader",
                 max_hp: 100,  
                 dodge: 10,
                 prot: 20, //20% of protection
@@ -77,7 +77,7 @@ class FighterBluePrint{
         
             bandit: {
                 name : "bandit",
-                displaye_name : "Bandit",
+                display_name : "Bandit",
                 max_hp : 60,   
                 dodge : 60,
                 prot : 0, 
@@ -146,7 +146,7 @@ class FighterBluePrint{
 
             plaguedoctor: {
                 name : "plaguedoctor",
-                displaye_name : "Plague Doctor", //capitalize each word for better display (more convenient with Upper() and Lower())
+                display_name : "Plague Doctor", //capitalize each word for better display (more convenient with Upper() and Lower())
                 max_hp : 60,
                 dodge : 40,
                 prot : 0, 
@@ -217,7 +217,7 @@ class FighterBluePrint{
 
             vestal: {
                 name: "vestal",
-                displaye_name : "Vestal",
+                display_name : "Vestal",
                 max_hp : 100,  
                 dodge : 15,
                 prot : 15, 
@@ -284,7 +284,7 @@ class FighterBluePrint{
 
             hellion: {
                 name: "hellion",
-                displaye_name : "Hellion",
+                display_name : "Hellion",
                 max_hp : 60,     
                 dodge : 60,
                 prot : 0, 
@@ -353,7 +353,7 @@ class FighterBluePrint{
 
             graverobber: {
                 name : "graverobber",
-                displaye_name : "Grave Robber", //capitalize each word for better display (more convenient with Upper() and Lower())
+                display_name : "Grave Robber", //capitalize each word for better display (more convenient with Upper() and Lower())
                 max_hp : 60,   
                 dodge : 75,
                 prot : 0, 

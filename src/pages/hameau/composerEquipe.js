@@ -119,7 +119,7 @@ class ComposerEquipe extends Phaser.Scene {
       var portrait = scene.add.image(-85, 0, "portrait_" + key);
       portrait.setScale(0.75);
 
-      let theName = heroList[key].displaye_name.replace(" ", " \n")
+      let theName = heroList[key].display_name.replace(" ", " \n")
       var name = scene.add.text(-47, -30, theName, setFontStyles("20px"));
       card.add([image, portrait, name]);
 
@@ -131,7 +131,7 @@ class ComposerEquipe extends Phaser.Scene {
       descriptionBg.displayWidth = 700;
       descriptionBg.displayHeight = 400;
       
-      let theHeroName = heroList[key].displaye_name
+      let theHeroName = heroList[key].display_name
       var heroName = scene.add.text(-60, -155, theHeroName.toUpperCase(), setFontStyles("24px", "#D2BA70"));
 
       var heroImage = scene.add.sprite(-210, 160, "idle_" + key).play(key + "_idle").setOrigin(0.5, 1).setScale(0.9);

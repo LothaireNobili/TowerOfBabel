@@ -70,7 +70,7 @@ class Diligence extends Phaser.Scene {
       image.displayHeight = 65;
       image.displayWidth = 230;
 
-      let theName = heroList[key].displaye_name.replace(" ", " \n")
+      let theName = heroList[key].display_name
       var name = scene.add.text(-47, -30, theName, setFontStyles("20px"));
       card.add([image, portrait, name]);
 
@@ -89,7 +89,7 @@ class Diligence extends Phaser.Scene {
       descriptionBg.displayWidth = 460;
       descriptionBg.displayHeight = 500;
 
-      let theHeroName = heroList[key].displaye_name
+      let theHeroName = heroList[key].display_name
       var heroName = scene.add.text(-180, -220, theHeroName.toUpperCase(), setFontStyles("32px", "#D2BA70"));
       
       var heroImage = scene.add.sprite(-130, 20, "idle_" + key).play(key+"_idle").setOrigin(0.5, 0.5).setScale(0.95);
