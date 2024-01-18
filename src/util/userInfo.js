@@ -30,6 +30,7 @@ class User {
             this.coins = reloadedUser.coins;
             this.heroes = reloadedUser.heroes;
             this.potions = reloadedUser.potions;
+            this.connected = 1
         }
     }
 
@@ -39,6 +40,7 @@ class User {
             this.coins = 10000
             this.heroes = []
             this.potions = []
+            this.connected = 0
         
     }
 
