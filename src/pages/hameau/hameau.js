@@ -107,6 +107,7 @@ class Hameau extends Phaser.Scene {
                 image.setTexture(key + "Focus");
                 description.visible = true; // Afficher le texte de description
                 document.body.style.cursor = "pointer"; // Définir le style de curseur comme une main
+                
             });
 
             // Restaurer l'image d'origine lors du retrait de la souris
@@ -116,20 +117,34 @@ class Hameau extends Phaser.Scene {
                 document.body.style.cursor = "default"; // Configurer le style du curseur en tant que style par défaut
             });
 
+            
+
             image.on("pointerdown", function () {
 
-                game.scene.stop('Hameau')
+                console.log(user.heroes.length)
                 if (key == "Depart") {
-
+                    game.scene.stop('Hameau')
                     game.scene.start("ComposerEquipe");
 
                 }
+                else if (key == "Forge"){
+                    if(user.heroes.length >= 4){
+                        game.scene.stop('Hameau')
+                        game.scene.start(key);
+                    }
+                    else{
+                        barreInfo.message("You need to recruit 4 heroes.")
+                    }
+                    
+                }
                 else {
-
+                    game.scene.stop('Hameau')
                     game.scene.start(key);
                 }
 
             });
+
+            
 
             return image;
         }

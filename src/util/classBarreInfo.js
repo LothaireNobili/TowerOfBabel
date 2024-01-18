@@ -32,10 +32,13 @@ class BarreInfo {
     }
 
     message(text) {
-        let message = this.scene.add.text(450, 70, text, setFontStyles(undefined, "red"))
+        let message = this.scene.add.text(540, 70, text, setFontStyles("Arial", "red"))
+        message.setOrigin(0.5, 0);
+        message.setFontSize(50);
+        message.setStroke('#000000', 6);
         setTimeout(() => {
             message.destroy();
-        }, 1500);
+        }, 2500);
 
     }
 }

@@ -1,5 +1,5 @@
 const MAX_EQUIPEMENT_LEVEL = 4
-const UPGRADE_PRICE_LIST = [300, 1000, 4000, 10000]
+const UPGRADE_PRICE_LIST = [500, 1500, 5000, 12000]
 const UPGRADE_VALUE = 0.25
 
 class Forge extends Phaser.Scene {
@@ -256,7 +256,7 @@ class Forge extends Phaser.Scene {
             barreInfo.updateCoins(user.coins)
           }
           else {
-            barreInfo.message("Pas assez de pièces")
+            barreInfo.message("Not enough coins.")
           }
 
         });
