@@ -73,6 +73,7 @@ async function register() {
 
 
     // Effectuer une requête Fetch
+    //fetch("https://devweb.iutmetz.univ-lorraine.fr/~nobili2u/TowerOfBabel/PI/NewUser.php", {
     fetch("../../API/NewUser.php", {
       method: "POST",
       headers: {
@@ -87,6 +88,7 @@ async function register() {
         }
       })
       .catch((error) => {
+        //console.log(response)
         console.error("Error:", error);
       });
   }

@@ -49,7 +49,7 @@
 <body>
    <nav class="navbar bg-dark border-bottom border-body z-index-top" data-bs-theme="dark">
        <div class="container-fluid">
-           <a class="navbar-brand">Tower of Babel (/!\ login system is undermaintenance, should be up at 10am)</a>
+           <a class="navbar-brand">Tower of Babel (/!\ login system is undermaintenance, should be up at 2pm)</a>
            <div class="d-flex">
                <div id="loginBtn">
                    <a class="btn btn-outline-warning btn-login" href="./src/login/login.html">
@@ -135,22 +135,27 @@
 
 
        var user = new User();
-       console.log("user : " + user)
-       if (user){
-        console.log("user.connected : " + user.connected)
-       }
+
+       console.log(storedUserData)
        
-       if (user && user.connected) { //we check both to avoid error messages
-            console.log("poke")
-            //var user = new User();
-            user.upDateUserClass();
-            userId.style.display = "block";
-            loginBtn.style.display = "none";
-            context.textContent = "Bonjour, " + user.username;
+       //if (user && user.connected) { //we check both to avoid error messages
+        if(storedUserData){ 
+            //user.upDateUserClass();
+            console.log(storedUserData.userId)
+            console.log(user)
+            if (storedUserData.userId != undefined) {
+                user.upDateUserClass();
+                userId.style.display = "block";
+                loginBtn.style.display = "none";
+                context.textContent = "Bonjour, " + user.username;
+            }
+            else{
+                user.upDateUnconnectedUserClass(); // a version of upDateUserClass that works with Guest data
+            }
+            
         }
         else{//to play as a guest, we create artificial data
-            const storedUserData = {"userId":0,"username":"Guest","coins":10000,"heroes":[],"potions":[]}
-            //var user = new User();
+            storedUserData = {"userId":0,"username":"Guest","coins":10000,"heroes":[],"potions":[]}
             user.upDateUnconnectedUserClass(); // a version of upDateUserClass that works with Guest data
         }
 
