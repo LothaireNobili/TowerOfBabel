@@ -112,6 +112,7 @@ function connecter() {
           loginCorrrect = true;
           let tmpUser = new User(userInfo.id, userInfo.login, 10000, [], [], 1); // ....
           tmpUser.saveToLocalStorage();
+          sessionStorage.setItem("isLoggedIn", "true");//explicitely say the user is logged in with session storage
           window.location.href = "../../index.html";
         }
       }
