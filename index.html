@@ -49,7 +49,7 @@
 <body>
    <nav class="navbar bg-dark border-bottom border-body z-index-top" data-bs-theme="dark">
        <div class="container-fluid">
-           <a class="navbar-brand">Tower of Babel</a>
+           <a class="navbar-brand">Tower of Babel (/!\ Login system under maintenance, should be back at 5pm)</a>
            <div class="d-flex">
                <div id="loginBtn">
                    <a class="btn btn-outline-warning btn-login" href="./src/login/login.html">
@@ -128,9 +128,6 @@
    </div>
    <script type="text/javascript">
        var storedUserData = localStorage.getItem("userData");
-       /*if (storedUserData === null) {
-        storedUserData = {"userId":0,"username":"Guest","coins":10000,"heroes":[],"potions":[]}
-       }*/
        let logoutBtn = document.getElementById("logoutBtn");
        let userId = document.getElementById("userId");
        let loginBtn = document.getElementById("loginBtn");
@@ -138,29 +135,22 @@
 
        var user = new User();
        
-       //if (user && user.connected) { //we check both to avoid error messages
-       // if(storedUserData){ 
         if (sessionStorage.getItem("isLoggedIn") === "true"){
-            //user.upDateUserClass();
             console.log(storedUserData.userId)
             console.log(user)
-            //if (storedUserData.userId != undefined) {
             user.upDateUserClass();
             userId.style.display = "block";
             loginBtn.style.display = "none";
-            context.textContent = "Bonjour, " + user.username;
-            /*}
-            else{
-                user.upDateUnconnectedUserClass(); // a version of upDateUserClass that works with Guest data
-            }*/
-            
+            context.textContent = "Bonjour, " + user.username;            
         }
         else{//to play as a guest, we create artificial data
-            //storedUserData = {"userId":0,"username":"Guest","coins":10000,"heroes":[],"potions":[]}
             console.log(storedUserData)
-            //if(!storedUserData){
+            if(!storedUserData){
                 user.upDateUnconnectedUserClass(); // a version of upDateUserClass that works with Guest data
-            //}
+            }
+            else{
+                user.upDateUserClass(); //only load cached datas
+            }
         }
 
         
