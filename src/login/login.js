@@ -73,6 +73,7 @@ async function register() {
 
 
     // Effectuer une requête Fetch
+    //fetch("https://devweb.iutmetz.univ-lorraine.fr/~nobili2u/TowerOfBabel/PI/NewUser.php", {
     fetch("../../API/NewUser.php", {
       method: "POST",
       headers: {
@@ -87,6 +88,7 @@ async function register() {
         }
       })
       .catch((error) => {
+        //console.log(response)
         console.error("Error:", error);
       });
   }
@@ -108,8 +110,9 @@ function connecter() {
       for (let userInfo of data) {
         if (userInfo.login == login && userInfo.password == password) {
           loginCorrrect = true;
-          let tmpUser = new User(userInfo.id, userInfo.login, 10000); // ....
+          let tmpUser = new User(userInfo.id, userInfo.login, 10000, [], [], 1); // ....
           tmpUser.saveToLocalStorage();
+          sessionStorage.setItem("isLoggedIn", "true");//explicitely say the user is logged in with session storage
           window.location.href = "../../index.html";
         }
       }

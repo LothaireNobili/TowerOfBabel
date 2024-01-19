@@ -101,6 +101,7 @@
                        Ce projet se déroule dans le cadre d'un projet universitaire.
                    </p>
                </div>
+               
            </div>
        </div>
        <footer class="footer" style="margin-top: 1300px;">
@@ -127,30 +128,35 @@
        </footer>
    </div>
    <script type="text/javascript">
-       const storedUserData = localStorage.getItem("userData");
+       var storedUserData = localStorage.getItem("userData");
        let logoutBtn = document.getElementById("logoutBtn");
        let userId = document.getElementById("userId");
        let loginBtn = document.getElementById("loginBtn");
        let context = document.getElementById("context");
 
-
-       if (storedUserData) {
-            var user = new User();
+       var user = new User();
+       
+        if (sessionStorage.getItem("isLoggedIn") === "true"){
             user.upDateUserClass();
+            userId.style.display = "block";
+            loginBtn.style.display = "none";
+            context.textContent = "Bonjour, " + user.username;            
         }
         else{//to play as a guest, we create artificial data
-            const storedUserData = {"userId":0,"username":"Guest","coins":10000,"heroes":[],"potions":[]}
-            var user = new User();
-            user.upDateUnconnectedUserClass(); // a version of upDateUserClass that works with Guest data
+            if(!storedUserData){
+                user.upDateUnconnectedUserClass(); // a version of upDateUserClass that works with Guest data
+            }
+            else{
+                user.upDateUserClass(); //only load cached datas
+            }
         }
 
-        userId.style.display = "block";
-        loginBtn.style.display = "none";
-        context.textContent = "Bonjour, " + user.username;
+        
 
 
        function logout() {
            localStorage.removeItem("userData");
+           sessionStorage.setItem("isLoggedIn", "false");
            window.location.reload();
        }
 

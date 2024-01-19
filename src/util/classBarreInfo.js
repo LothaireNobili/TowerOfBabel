@@ -2,8 +2,15 @@
 class BarreInfo {
 
     constructor(scene) {
-        this.userID = user.username; // Obtenez ID depuis le class User
-        this.nbPieces = user.coins; // Obtenez nombre de pièces depuis depuis le class User
+        //if(user.connected){
+            this.userID = user.username; // Obtenez ID depuis le class User
+            this.nbPieces = user.coins; // Obtenez nombre de pièces depuis depuis le class User
+        //}
+        /*else{
+            this.userID = "Guest"
+            this.nbPieces = 10000
+        }//<- good idea but won't work as intended. If no other solution find a way to work around with a savefile*/
+        
         this.scene = scene;
 
         // Créer des éléments dans la scène

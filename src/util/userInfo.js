@@ -1,10 +1,13 @@
 class User {
-    constructor(id, username, coins, heroes, potions) {
+    constructor(id, username, coins, heroes, potions, connected) {
         this.userId = id || null;
         this.username = username || null;
         this.coins = coins || null;
         this.heroes = heroes || []; // heroes:[{heroName, equipment:[{equipmentName, level, attack},{equipmentName, level, defense}]}]
         this.potions = potions || []; // potions:[{potionName, qte}]
+        if (connected){
+            this.connected = 1
+        }
     }
 
     saveToLocalStorage() {
@@ -30,6 +33,7 @@ class User {
             this.coins = reloadedUser.coins;
             this.heroes = reloadedUser.heroes;
             this.potions = reloadedUser.potions;
+            this.connected = 1
         }
     }
 
@@ -39,6 +43,7 @@ class User {
             this.coins = 10000
             this.heroes = []
             this.potions = []
+            this.connected = 0
         
     }
 
