@@ -9,13 +9,14 @@ var config = {
     backgroundColor: 0x000000,
 
     scene: [
+        LoadingFight,  
         Accueil,
         Hameau, 
         Laboratoire, 
         Forge, 
         Diligence,
         ComposerEquipe,
-        LoadingFight,  
+        
         Fight,
         Couloir,
         Salle,

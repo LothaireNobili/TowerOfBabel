@@ -617,7 +617,7 @@ class FighterBluePrint{
                     case 'crit':
                         color = "#db6a00"
                         stroke = '#b82e00'
-                        text = amount+"!"
+                        text = "Crit! "+amount
                         break;
                     default:
                         color = '#ffffff';
@@ -630,7 +630,7 @@ class FighterBluePrint{
                     targetY, 
                     text, 
                     {   
-                        fontFamily: 'comic sans MS', 
+                        fontFamily: 'Pixel', 
                         fontSize: '45px', 
                         color: color, 
                         stroke: stroke, 

@@ -1,5 +1,5 @@
-var heroList //= ["hellion", "bandit" , "graverobber", "vestal"];
-var enemyList //= ["spider","spider","spider", "spider"];
+var heroList = ["hellion", "bandit" , "graverobber", "vestal"];
+var enemyList = ["spider","spider","spider", "spider"];
 
 class LoadingFight extends Phaser.Scene {
     constructor(){
@@ -10,8 +10,8 @@ class LoadingFight extends Phaser.Scene {
 
     preload(){
 
-        heroList = listSelectedHeroes
-        enemyList = this.generateRandomEnemyTeam()
+        //heroList = listSelectedHeroes
+        //enemyList = this.generateRandomEnemyTeam()
 
         document.body.style.cursor = "default";
 
