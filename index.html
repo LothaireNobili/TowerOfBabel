@@ -136,15 +136,12 @@
        var user = new User();
        
         if (sessionStorage.getItem("isLoggedIn") === "true"){
-            console.log(storedUserData.userId)
-            console.log(user)
             user.upDateUserClass();
             userId.style.display = "block";
             loginBtn.style.display = "none";
             context.textContent = "Bonjour, " + user.username;            
         }
         else{//to play as a guest, we create artificial data
-            console.log(storedUserData)
             if(!storedUserData){
                 user.upDateUnconnectedUserClass(); // a version of upDateUserClass that works with Guest data
             }
