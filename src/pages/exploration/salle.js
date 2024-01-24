@@ -1,13 +1,4 @@
 //const listSelectedHeroes = ["crusader", "bandit", "bandit", "vestal"];
-
-const BACKGROUNDS = ["ruin_background2.png", "ruin_background1.png"];
-const TYPE_SALLE = [
-  ["Vide", 2],
-  ["Combat", 3],
-  ["Combat&Curio", 4],
-  ["Curio", 1],
-];
-
 class Salle extends Phaser.Scene {
   etage = 0; //etage actuelle
   clear; //si on peut passer a la salle suivant
@@ -40,37 +31,7 @@ class Salle extends Phaser.Scene {
     this.graphicManager = new GraphicManager();
   }
 
-  preload() {
-    var chosenGround =
-      BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)];
-
-    this.load.image(
-      "background_salle",
-      "./assets/images/exploration/" + chosenGround
-    );
-    this.load.image("chest", "./assets/images/exploration/chest.jpg");
-
-    /*for (let hero of listSelectedHeroes) {
-      this.load.spritesheet(
-        hero+"_walk",
-        "./images/heroes/" + hero + "/animations/walk.png",
-        {
-          frameWidth:
-            this.graphicManager.spriteSheetDatas[hero].walk.frameWidth,
-          frameHeight:
-            this.graphicManager.spriteSheetDatas[hero].walk.frameHeight,
-        }
-
-      );
-    }*/
-    this.load.image("money", "./assets/icons/piece.png");
-    this.load.image("couloir", "./assets/icons/yellow_right_arrow.png");
-    this.load.image("closeButton", "./assets/icons/red_cross.png");
-    this.load.image(
-      "startFight",
-      "./assets/images/exploration/start_fight.png"
-    );
-  }
+ 
 
   create() {
     for (var i = 0; i < 10; i++) this.reset();

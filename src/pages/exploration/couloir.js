@@ -12,21 +12,6 @@ class Couloir extends Phaser.Scene {
     this.graphicManager = new GraphicManager();
   }
 
-  preload() {
-    this.load.image(
-      "background_corridor",
-      "./assets/images/exploration/Corridor1.png"
-    );
-    this.load.image("chest", "./assets/images/exploration/chest.jpg");
-    this.load.image("move", "./assets/icons/yellow_right_arrow.png");
-
-    this.load.image(
-      "prochaineSalle",
-      "./assets/images/exploration/mapBackground.jpg"
-    );
-
-  }
-
   create() {
     for (let hero of listSelectedHeroes) {
       this.anims.create({

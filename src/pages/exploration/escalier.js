@@ -2,18 +2,6 @@ class Escalier extends Phaser.Scene {
   constructor() {
     super({ key: "Escalier" });
   }
-
-
-    preload(){
-        this.load.image("feu", "./assets/images/exploration/escalier.jpg");
-        for (var i = 0; i < listSelectedHeroes.length; i++) {
-          this.load.image(
-            listSelectedHeroes[i] + "_escalier",
-            "./assets/images/heroes/" + listSelectedHeroes[i] + "/idle.png"
-          );
-        }
-      }
-
       create()
       {
         var positions=[[500,500],[400,600],[700,500],[800,600]]
@@ -39,9 +27,6 @@ class Escalier extends Phaser.Scene {
           const barreInfo = new BarreInfo(this);
         barreInfo.creerBarreInfo();
       }
-  
-
-  update() {}
 
   determinerMaxSalle() {
     var max_salle = [
@@ -65,6 +50,12 @@ class Escalier extends Phaser.Scene {
       Math.random() * (max_salle[max][2] - max_salle[max][1]) +
         max_salle[max][1]
     );
+  }
+
+
+  construireEtage()
+  {
+    
   }
 
   goToNextFloor(){

@@ -64,7 +64,7 @@ class ComposerEquipe extends Phaser.Scene {
         GOLDEARNT = user.coins
         message.setVisible(false);
         game.scene.stop("ComposerEquipe")
-        game.scene.start('Salle');
+        game.scene.start('LoadingExploration');
         document.body.style.cursor = "default";
       }
     });
