@@ -2,7 +2,7 @@ let nbSalle = 0;
 class Salle extends Phaser.Scene {
   etage = 0; //etage actuelle
   clear; //si on peut passer a la salle suivant
-  type = "Debut"; //type de la salle actuelle
+  type = null //type de la salle actuelle
   prochaineSalle; // type de la prochaine salle
   curio; // determine si il il y a un curio dans cette salle
   fight;
@@ -20,21 +20,25 @@ class Salle extends Phaser.Scene {
   salleVisitee = 0;
   position;
 
-  speedrun=true;
-  constructor() {
-    super({ key: "Salle" });
+  nord=false;
+  est=false;
+  sud=false;
+  ouest=false;
 
-    if (this.etage == 0 && this.type == "Debut") {
+  speedrun=true;
+  constructor(type) {
+    super({ key: "Salle" });
+    if (this.etage == 0 && type==null){
+      this.type="Debut"
       this.premiereSalle = true;
       this.curio = true;
-      this.prochaineSalle = "Fin";
+      this.prochaineSalle;
       this.clear = true;
       this.fight = false;
+      this.est=new Salle("Fin")
     }else
-    {
-      this.type=type;
-    }
-    this.graphicManager = new GraphicManager();
+    this.type=type
+    {    this.graphicManager = new GraphicManager();}
   }
 
  
@@ -44,8 +48,8 @@ class Salle extends Phaser.Scene {
     for (var i = 0; i < 10; i++) this.reset();
     window.myScene = this;
 
-    if (!(this.prochaineSalle == null || this.premiereSalle))
-      this.type = this.prochaineSalle;
+    if (!(this.est == null || this.premiereSalle))
+      this.type = this.est.type;
 
     var background = this.add.image(540, 360, "background_salle");
     this.setRoomContent();
@@ -241,14 +245,12 @@ class Salle extends Phaser.Scene {
   }
 
   determinerProchaineSalle() {
-   /* if(this.type=="Debut"&&this.nbSalle==0){nbSalle+=1; window.myScene=etage[0].type}
-    else
-    {*/
+
       if(this.type!="Fin"){
       nbSalle+=1
-      this.prochaineSalle=etage[nbSalle-1].type
-      console.log(etage[nbSalle-1].type)}
-   // }
+      this.est=etage[nbSalle-1]
+  }
+
   }
 
   determinerGold() {
@@ -271,6 +273,7 @@ class Salle extends Phaser.Scene {
   }
 
   goToprochaineSalle() {
+    window.myScene=this.est;
     game.scene.stop("Salle");
     if (this.type == "Fin") {
       game.scene.start("Escalier");
@@ -283,14 +286,12 @@ class Salle extends Phaser.Scene {
     try {
       if (window.myScene.nouvelEtage) {
         nbSalle=1
-        this.prochaineSalle = "Debut";
+        this.type = "Debut";
         this.etage += 1;
         this.clear = true;
         this.fight = false;
         this.nouvelEtage = false;
-        this.nbSalle = window.myScene.nbSalle;
         window.myScene = this;
-        this.salleVisitee = 0;
       }
     } catch (e) {}
   }
