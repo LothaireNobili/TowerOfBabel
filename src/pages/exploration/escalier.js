@@ -1,4 +1,6 @@
-const TYPE_SALLE=[["Vide",2],["Combat",5],["Curio",4],["Combat&Curio",8]]
+const TYPE_SALLE=[["Vide",2],["Combat",5],["Curio",4],["Combat&Curio",8]];
+let etage=[];
+nbSalle=0
 class Escalier extends Phaser.Scene {
 
   salles=[]
@@ -32,8 +34,9 @@ class Escalier extends Phaser.Scene {
           const barreInfo = new BarreInfo(this);
         barreInfo.creerBarreInfo();
 
-        this.remplireSalles()
-        console.log(this.salles)
+        this.construireEtage()
+          etage=this.salles
+        console.log(this.toString())
       }
 
   determinerMaxSalle() {
@@ -80,13 +83,12 @@ class Escalier extends Phaser.Scene {
     while(salles.length<max_salle)
     {
       let prochaineSalle = this.determinerProchaineSalle()
-      if(prochaineSalle.type!="Debut") salles.push(prochaineSalle);
-      console.log(this.choisirSalleAleatoire(salles).type)
-
-   
+      prochaineSalle.position=this.determinerProchainePosition(salles)
+      if(prochaineSalle.type!="Debut") salles.push(prochaineSalle);   
     }
     salle=new Salle()
     salle.type="Fin"
+    salle.position=this.determinerProchainePosition(salles)
     salles.push(salle)
 
     this.salles=salles;
@@ -101,7 +103,7 @@ class Escalier extends Phaser.Scene {
     return total;
   }
 
-  remplireSalles()
+  /*remplireSalles()
   {
       let rooms=this.construireEtage()
       for (room in rooms)
@@ -109,14 +111,18 @@ class Escalier extends Phaser.Scene {
           position=this.determinerProchainePosition()
           this.salles.push([room,position]);
       }
-  }
+  }*/
 
-  determinerProchainePosition()
+  determinerProchainePosition(salles)
   {
-      if(this.salles.length==0)return [0,0]
+      if(salles.length==0)return [0,0]
       else 
       {
-        
+        let precedente=this.choisirSalleAleatoire(salles)
+        console.log(salles[salles.length-1].position[1])
+        let positionPlus=[0,salles[salles.length-1].position[1]+1]
+
+        return positionPlus
       }
 
   }
@@ -137,8 +143,22 @@ class Escalier extends Phaser.Scene {
     return prochaineSalle
   }
 
+  choisirIndexSalleAleatoire(salles)
+  {
+      return Math.floor(Math.random()*salles.length)
+  }
   choisirSalleAleatoire(salles)
   {
-      return salles[Math.floor(Math.random()*salles.length)]
+    return salles[this.choisirIndexSalleAleatoire(salles)]
+  }
+
+  toString()
+  {
+    let str="";
+    for (let i=0;i<this.salles.length;i++)
+    {
+      str += this.salles[i].type + " " + this.salles[i].position + "\n"
+    }
+    return str
   }
 }

@@ -1,3 +1,4 @@
+let nbSalle = 0;
 class Salle extends Phaser.Scene {
   etage = 0; //etage actuelle
   clear; //si on peut passer a la salle suivant
@@ -10,7 +11,7 @@ class Salle extends Phaser.Scene {
   fighting;
   coffre;
   nouvelEtage = false;
-  nbSalle = 0;
+  
   content;
   battleBegin;
   fightStartGroup;
@@ -39,6 +40,7 @@ class Salle extends Phaser.Scene {
  
 
   create() {
+
     for (var i = 0; i < 10; i++) this.reset();
     window.myScene = this;
 
@@ -76,6 +78,13 @@ class Salle extends Phaser.Scene {
       30,
       game.config.height - 50,
       "FLOOR : " + this.etage,
+      setFontStyles("40px")
+    );
+
+    this.add.text(
+      game.config.width-250,
+      game.config.height - 50,
+      "TYPE : " + this.type,
       setFontStyles("40px")
     );
 
@@ -232,28 +241,14 @@ class Salle extends Phaser.Scene {
   }
 
   determinerProchaineSalle() {
-
-    if (this.type == "Debut") {
-     
-      this.prochaineSalle = "Curio";
-    } else {
-
-      var totalPoidsSalle = this.getTotalPoidsSalle();
-      var random = Math.floor(Math.random() * totalPoidsSalle);
-
-      for (var i = 0; i < TYPE_SALLE.length - 1; i++) {
-        random -= TYPE_SALLE[i][1];
-        if (random <= 0) {
-          this.prochaineSalle = TYPE_SALLE[i][0];
-          i = TYPE_SALLE.length + 1;
-        }
-      }
-
-      this.salleVisitee += 1;
-    }
-    if (this.nbSalle <= this.salleVisitee) {
-      this.prochaineSalle = "Fin";
-    }
+   /* if(this.type=="Debut"&&this.nbSalle==0){nbSalle+=1; window.myScene=etage[0].type}
+    else
+    {*/
+      if(this.type!="Fin"){
+      nbSalle+=1
+      this.prochaineSalle=etage[nbSalle-1].type
+      console.log(etage[nbSalle-1].type)}
+   // }
   }
 
   determinerGold() {
@@ -284,17 +279,10 @@ class Salle extends Phaser.Scene {
     }
   }
 
-  getTotalPoidsSalle() {
-    var total = 0;
-    for (var i = 0; i < TYPE_SALLE.length; i++) {
-      total += TYPE_SALLE[i][1];
-    }
-    return total;
-  }
-
   reset() {
     try {
       if (window.myScene.nouvelEtage) {
+        nbSalle=1
         this.prochaineSalle = "Debut";
         this.etage += 1;
         this.clear = true;
