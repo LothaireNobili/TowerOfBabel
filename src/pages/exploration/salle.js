@@ -1,4 +1,3 @@
-//const listSelectedHeroes = ["crusader", "bandit", "bandit", "vestal"];
 class Salle extends Phaser.Scene {
   etage = 0; //etage actuelle
   clear; //si on peut passer a la salle suivant
@@ -18,6 +17,9 @@ class Salle extends Phaser.Scene {
   positions = [400, 300, 200, 100];
   barreInfo
   salleVisitee = 0;
+  position;
+
+  speedrun=true;
   constructor() {
     super({ key: "Salle" });
 
@@ -27,6 +29,9 @@ class Salle extends Phaser.Scene {
       this.prochaineSalle = "Fin";
       this.clear = true;
       this.fight = false;
+    }else
+    {
+      this.type=type;
     }
     this.graphicManager = new GraphicManager();
   }
@@ -79,6 +84,8 @@ class Salle extends Phaser.Scene {
 
     this.barreInfo = new BarreInfo(this);
     this.barreInfo.creerBarreInfo();
+
+    if (this.speedrun)this.clear=true
   }
 
   update() {
@@ -90,6 +97,11 @@ class Salle extends Phaser.Scene {
       window.myScene.returnFromFight = false;
       this.clear = true;
     }
+  }
+
+  setType(type)
+  {
+    this.type=type;
   }
 
   placerlistSelectedHeroes() {
@@ -220,9 +232,12 @@ class Salle extends Phaser.Scene {
   }
 
   determinerProchaineSalle() {
+
     if (this.type == "Debut") {
+     
       this.prochaineSalle = "Curio";
     } else {
+
       var totalPoidsSalle = this.getTotalPoidsSalle();
       var random = Math.floor(Math.random() * totalPoidsSalle);
 
