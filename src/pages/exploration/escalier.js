@@ -49,6 +49,7 @@ class Escalier extends Phaser.Scene {
 
     this.construireEtage();
     etage = this.salles;
+    console.log(etage[0])
   }
 
   determinerMaxSalle() {
@@ -102,7 +103,7 @@ class Escalier extends Phaser.Scene {
       case precedente.sud:{precedente.sud=salle;salle.nord=precedente; break}
       default : console.log("unforseen events happen sometimes")
      } 
-
+     console.log(precedente)
       salles.push(salle)
     }
 
@@ -115,16 +116,6 @@ class Escalier extends Phaser.Scene {
     salles.forEach((salle) => {
       i++
       salle.etage = window.myScene.etage + 1;
-           console.warn(salle.type)
-     console.log(i)
-     console.log("est:")
-     console.log(salle.est)
-     console.log("nord:")
-     console.log(salle.nord)
-     console.log("sud:")
-     console.log(salle.sud)
-     console.log("ouest:")
-     console.log(salle.ouest)
     });
 
     this.salles = salles;

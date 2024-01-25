@@ -2,7 +2,7 @@ let nbSalle = 0;
 class Salle extends Phaser.Scene {
   etage = 0; //etage actuelle
   clear; //si on peut passer a la salle suivant
-  type = null //type de la salle actuelle
+  type = null; //type de la salle actuelle
   prochaineSalle; // type de la prochaine salle
   curio; // determine si il il y a un curio dans cette salle
   fight;
@@ -11,45 +11,47 @@ class Salle extends Phaser.Scene {
   fighting;
   coffre;
   nouvelEtage = false;
-  
+  prochainEtage;
+
   content;
   battleBegin;
   fightStartGroup;
   positions = [400, 300, 200, 100];
-  barreInfo
+  barreInfo;
   salleVisitee = 0;
   position;
 
-  nord=false;
-  est=false;
-  sud=false;
-  ouest=false;
+  nord = false;
+  est = false;
+  sud = false;
+  ouest = false;
 
-  speedrun=true;
+  couloirNord;
+  couloirEst;
+  couloirSud;
+  couloirOuest;
+
+  speedrun = true;
   constructor(type) {
     super({ key: "Salle" });
-    if (this.etage == 0 && type==null){
-      this.type="Debut"
+    if (this.etage == 0 && type == null) {
+      this.type = "Debut";
       this.premiereSalle = true;
       this.curio = true;
       this.prochaineSalle;
       this.clear = true;
       this.fight = false;
-      this.est=new Salle("Fin")
-    }else
-    this.type=type
-    {    this.graphicManager = new GraphicManager();}
+      this.est = new Salle("Fin");
+    } else this.type = type;
+    {
+      this.graphicManager = new GraphicManager();
+    }
   }
 
- 
-
   create() {
-
     for (var i = 0; i < 10; i++) this.reset();
+    this.updateSalle();
     window.myScene = this;
-
-    if (!(this.est == null || this.premiereSalle))
-      this.type = this.est.type;
 
     var background = this.add.image(540, 360, "background_salle");
     this.setRoomContent();
@@ -64,7 +66,7 @@ class Salle extends Phaser.Scene {
     this.placerCoffre();
     this.placerCouloir();
     this.creerCurio();
-
+    this.placerProchainEtage();
     this.fighting = this.add.image(540, 300, "startFight").setScale(0.5);
 
     this.fighting.setInteractive();
@@ -86,25 +88,26 @@ class Salle extends Phaser.Scene {
     );
 
     this.add.text(
-      game.config.width-250,
+      game.config.width - 250,
       game.config.height - 50,
       "TYPE : " + this.type,
       setFontStyles("40px")
     );
 
-    if (this.etage != 0) this.determinerProchaineSalle();
+    //if (this.etage != 0) this.determinerProchaineSalle();
     this.premiereSalle = false;
 
     this.barreInfo = new BarreInfo(this);
     this.barreInfo.creerBarreInfo();
 
-    if (this.speedrun)this.clear=true
+    if (this.speedrun) this.clear = true;
+    this.updateSalle();
   }
 
   update() {
-    this.couloir.setVisible(this.clear);
+    this.setCouloirVisible()
+   
     this.fighting.setVisible(!this.clear);
-
     if (this.curio && this.clear) this.coffre.setVisible(true);
     if (window.myScene.returnFromFight) {
       window.myScene.returnFromFight = false;
@@ -112,9 +115,8 @@ class Salle extends Phaser.Scene {
     }
   }
 
-  setType(type)
-  {
-    this.type=type;
+  setType(type) {
+    this.type = type;
   }
 
   placerlistSelectedHeroes() {
@@ -127,6 +129,21 @@ class Salle extends Phaser.Scene {
       equipier.setScale(0.3);
     }
   }
+
+  placerProchainEtage() {
+    if (this.type == "Fin") {
+      console.log("icitte biloutte");
+      this.prochainEtage = this.add
+        .image(game.config.width / 2 - 50, 100, "move")
+        .setScale(0.1);
+      this.prochainEtage.setInteractive();
+      this.prochainEtage.on("pointerdown", () => {
+        game.scene.stop("Salle");
+        game.scene.start("Escalier");
+      });
+    }
+  }
+
   placerCoffre() {
     this.coffre = this.add.image(540, 450, "chest");
     this.coffre.setScale(0.15);
@@ -140,13 +157,46 @@ class Salle extends Phaser.Scene {
     }
   }
   placerCouloir() {
-    this.couloir = this.add.image(1000, 400, "couloir");
-    this.couloir.setInteractive();
-    this.couloir.on("pointerdown", () => {
-      this.goToprochaineSalle();
-    });
-
-    this.couloir.setScale(0.2);
+    this.voisinsToString();
+    if (this.est) {
+      this.couloirEst = this.add.image(975, 400, "couloir");
+      this.couloirEst.setInteractive();
+      this.couloirEst.on("pointerdown", () => {
+        this.goToprochaineSalle(this.est);
+        if (this.est != null || this.premiereSalle) window.myScene = this.est;
+      });
+      this.couloirEst.setScale(0.1);
+    }
+    if (this.nord) {
+      this.couloirNord = this.add.image(900, 350, "couloir");
+      this.couloirNord.angle = -90;
+      this.couloirNord.setInteractive();
+      this.couloirNord.on("pointerdown", () => {
+        this.goToprochaineSalle(this.nord);
+        if (this.nord != null || this.premiereSalle) window.myScene = this.nord;
+      });
+      this.couloirNord.setScale(0.1);
+    }
+    if (this.sud) {
+      this.couloirSud = this.add.image(900, 450, "couloir");
+      this.couloirSud.angle = 90;
+      this.couloirSud.setInteractive();
+      this.couloirSud.on("pointerdown", () => {
+        this.goToprochaineSalle(this.sud);
+        if (this.sud != null || this.premiereSalle) window.myScene = this.sud;
+      });
+      this.couloirSud.setScale(0.1);
+    }
+    if (this.ouest) {
+      this.couloirOuest = this.add.image(825, 400, "couloir");
+      this.couloirOuest.angle = 180;
+      this.couloirOuest.setInteractive();
+      this.couloirOuest.on("pointerdown", () => {
+        this.goToprochaineSalle(this.sud);
+        if (this.sud != null || this.premiereSalle) window.myScene = this.ouest;
+      });
+      this.couloirOuest.setScale(0.1);
+    }
   }
   creerCurio() {
     //image de fond des curios
@@ -191,7 +241,7 @@ class Salle extends Phaser.Scene {
     this.content.add(loot);
     this.content.add(moneyValue);
     this.content.add(closeButton);
-    this.setChildInteractive(this.content,addedGold);
+    this.setChildInteractive(this.content, addedGold);
 
     this.turnOff(this.content);
   }
@@ -244,15 +294,13 @@ class Salle extends Phaser.Scene {
     }
   }
 
-  determinerProchaineSalle() {
-
-      if(this.type!="Fin"){
-      nbSalle+=1
-      this.est=etage[nbSalle-1]
+  setCouloirVisible() {
+    if (this.est) this.couloirEst.setVisible(this.clear);
+    if (this.nord) this.couloirNord.setVisible(this.clear);
+    if (this.sud) this.couloirSud.setVisible(this.clear);
+    if (this.ouest) this.couloirOuest.setVisible(this.clear);
+    if(this.prochainEtage)this.prochainEtage.setVisible(this.clear);
   }
-
-  }
-
   determinerGold() {
     var goldPerFloor = [
       [3, 500, 750],
@@ -272,27 +320,34 @@ class Salle extends Phaser.Scene {
     return 5000;
   }
 
-  goToprochaineSalle() {
-    window.myScene=this.est;
+  goToprochaineSalle(salle) {
+    window.myScene = salle;
     game.scene.stop("Salle");
-    if (this.type == "Fin") {
-      game.scene.start("Escalier");
-    } else {
-      game.scene.start("Couloir");
-    }
+    game.scene.start("Couloir");
   }
 
   reset() {
     try {
       if (window.myScene.nouvelEtage) {
-        nbSalle=1
-        this.type = "Debut";
-        this.etage += 1;
+        nbSalle = 1;
+        window.myScene = etage[0];
+        this.updateSalle();
         this.clear = true;
         this.fight = false;
         this.nouvelEtage = false;
-        window.myScene = this;
+        console.log(this.type);
       }
+    } catch (e) {}
+  }
+
+  updateSalle() {
+    try {
+      this.etage = window.myScene.etage;
+      this.type = window.myScene.type;
+      this.est = window.myScene.est;
+      this.ouest = window.myScene.ouest;
+      this.sud = window.myScene.sud;
+      this.nord = window.myScene.nord;
     } catch (e) {}
   }
 
@@ -302,16 +357,27 @@ class Salle extends Phaser.Scene {
     game.scene.start(window.myScene);
   }
 
-  setChildInteractive(content,addedGold) {
+  setChildInteractive(content, addedGold) {
     for (let i = 0; i < content.children.entries.length; i++) {
       let child = content.children.entries[i];
       child.setInteractive();
       child.on("pointerdown", () => {
         user.updateCoins(addedGold);
-        this.barreInfo.updateCoins(user.coins)
+        this.barreInfo.updateCoins(user.coins);
         this.coffre.disableInteractive();
         this.turnOff(this.content);
       });
     }
+  }
+
+  voisinsToString() {
+    console.log("nord");
+    console.log(this.nord);
+    console.log("est");
+    console.log(this.est);
+    console.log("sud");
+    console.log(this.sud);
+    console.log("ouest");
+    console.log(this.ouest);
   }
 }
