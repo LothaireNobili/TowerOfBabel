@@ -132,7 +132,6 @@ class Salle extends Phaser.Scene {
 
   placerProchainEtage() {
     if (this.type == "Fin") {
-      console.log("icitte biloutte");
       this.prochainEtage = this.add
         .image(game.config.width / 2 - 50, 100, "move")
         .setScale(0.1);
@@ -157,7 +156,6 @@ class Salle extends Phaser.Scene {
     }
   }
   placerCouloir() {
-    this.voisinsToString();
     if (this.est) {
       this.couloirEst = this.add.image(975, 400, "couloir");
       this.couloirEst.setInteractive();
@@ -335,7 +333,6 @@ class Salle extends Phaser.Scene {
         this.clear = true;
         this.fight = false;
         this.nouvelEtage = false;
-        console.log(this.type);
       }
     } catch (e) {}
   }
