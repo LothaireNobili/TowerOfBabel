@@ -1,9 +1,12 @@
+
 /**
  * Enregistrer les liste des héros choisis sur localStorage
  * Item: listSelectedHeroes
+ * Le format de chaque élément :
+ { heroName, potionName, potionQte }
  */
+var listSelectedHeroes;
 var GOLDEARNT;
-var listSelectedHeroes = ['null', 'null', 'null', 'null'];
 
 class ComposerEquipe extends Phaser.Scene {
   constructor() {
@@ -14,14 +17,21 @@ class ComposerEquipe extends Phaser.Scene {
     this.load.image("frame", "icons/frame.png")
     this.load.image("goBtn", "icons/go.png")
     this.load.image("goBtnFocus", "icons/go_focus.png")
+    this.load.image("potionIcon", "icons/potion.png")
+    this.load.image("potionIconFocus", "icons/potion-focus.png")
+    this.load.image("closeIcon", "icons/red_cross.png")
 
-    localStorage.setItem("listSelectedHeroes", ["null", "null", "null", "null"]); //initalize the list of selected heroes
+    // localStorage.setItem("listSelectedHeroes", JSON.stringify([null, null, null, null])); //initalize the list of selected heroes
   }
   create() {
+    document.body.style.cursor = "default";
+
     const heroListClass = new FighterBluePrint()
     var heroList = heroListClass.classBlueprints
+    listSelectedHeroes = Array.from({ length: 4 }, () => (createSelectedHeroObject(null, null, 0)));
+    saveListSelectedHeroes()
 
-    document.body.style.cursor = "default";
+    let positionSelectedFocus; // Pour ajouter une potion à un héros désigné
 
     this.add.image(540, 360, "hameauBg");
 
@@ -31,7 +41,8 @@ class ComposerEquipe extends Phaser.Scene {
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();  // Crée la barre d'information
 
-    var message = this.add.text(195, 576, "Formez un groupe à partir de la liste de recrues", setFontStyles("18px", "#ff6666"));
+    var message = this.add.text(320, 75, "Formez un groupe à partir de la liste de recrues", setFontStyles("24px", "#ff6666"));
+    message.setDepth(99);
     message.setVisible(false);
 
     // button start
@@ -54,7 +65,7 @@ class ComposerEquipe extends Phaser.Scene {
       // Vérifier le nombre de heros
       var go = true;
       for (let i = 0; i < 4; i++) {
-        if (listSelectedHeroes[i] === "null") {
+        if (!listSelectedHeroes[i].heroName) {
           go = false;
           message.setVisible(true);
           break;
@@ -63,12 +74,37 @@ class ComposerEquipe extends Phaser.Scene {
       if (go) {
         GOLDEARNT = user.coins
         message.setVisible(false);
+
+        saveListSelectedHeroes()
+        deletePotionSelectedToUserClass()
+
         game.scene.stop("ComposerEquipe")
         game.scene.start('Salle');
         document.body.style.cursor = "default";
       }
     });
 
+    // inventaire de potions
+    let inventaireContainer = this.add.container(200, 400)
+    let inventaireBg = this.add.image(245, 20, "boutiqueBg")
+    inventaireBg.displayWidth = 600
+    inventaireBg.displayHeight = 220
+    let closeIcon = this.add.image(525, -80, "closeIcon");
+    closeIcon.setScale(0.03);
+    closeIcon.setInteractive();
+    closeIcon.on("pointerover", function () { document.body.style.cursor = "pointer"; });
+    closeIcon.on("pointerout", function () { document.body.style.cursor = "default"; });
+    closeIcon.on('pointerdown', function () { inventaireContainer.setVisible(false) });
+
+    inventaireContainer.add([inventaireBg, closeIcon])
+
+    let intervalleX = 110
+    for (let i = 0; i < user.potions.length; i++) {
+      let image = createPotionCard(this, 20 + i * intervalleX, 0, user.potions[i].potionName, user.potions[i].qte)
+      inventaireContainer.add(image)
+    }
+
+    inventaireContainer.setVisible(false);
 
     // equipe
     var cadreSelected = this.add.container(400, 650);
@@ -84,33 +120,41 @@ class ComposerEquipe extends Phaser.Scene {
 
     var intervalleY = 65
     for (let i = 0; i < user.heroes.length; i++) {
-      createEquipeCard(this, 1012, 185 + i * intervalleY, user.heroes[i].heroName, cadreSelected)
+      createHeroCard(this, 1012, 185 + i * intervalleY, user.heroes[i].heroName, cadreSelected)
     }
 
-    //
+    // Cadre de sélection des équipes
     var cadreBG = this.add.image(0, 0, "boutiqueBg");
     cadreBG.displayWidth = 440
     cadreBG.displayHeight = 110
     cadreSelected.add([cadreBG])
 
+    let list = []; //liste de framePotion
     for (let i = 0; i < 4; i++) {
-      let frame = this.add.image(-140 + i * 95, 0, "frame")
-      frame.displayWidth = 80
-      frame.displayHeight = 80
-      cadreSelected.add(frame)
+      // heros
+      let frameHero = this.add.image(-140 + i * 95, 0, "frame")
+      frameHero.displayWidth = 80
+      frameHero.displayHeight = 80
+      // potions
+      let framePotion = this.add.image(-140 + i * 95, -80, "potionIcon")
+      framePotion.setScale(0.125)
+      // événement
+      framePotion.setInteractive()
+      framePotion.on("pointerover", function () { document.body.style.cursor = "pointer"; });
+      framePotion.on("pointerout", function () { document.body.style.cursor = "default"; });
+      framePotion.on('pointerdown', function () {
+        list.forEach(e => { e[0].setTexture("potionIcon"); });
+        framePotion.setTexture("potionIconFocus");
+        positionSelectedFocus = 3 - i
+        inventaireContainer.setVisible(true)
+      });
+
+      cadreSelected.add([frameHero, framePotion])
+      list.push([framePotion]) //liste de framePotion
     }
-
-    //loadListSelectedHeroes()
-
-    for (let i = 0; i < listSelectedHeroes.length; i++) {
-      if (listSelectedHeroes[i] !== 'null') {
-        createSelectedPortrait(this, 145 - i * 95, 0, listSelectedHeroes[i], cadreSelected, i)
-      }
-    }
-
 
     // Créez une fonction pour les objets image, les paramètres de description
-    function createEquipeCard(scene, x, y, key, selectedContainer) {
+    function createHeroCard(scene, x, y, key, selectedContainer) {
       var card = scene.add.container(x, y);
       var image = scene.add.image(0, 0, "card");
       image.displayHeight = 65;
@@ -126,11 +170,11 @@ class ComposerEquipe extends Phaser.Scene {
       image.setInteractive();
 
       var descriptionContainer = scene.add.container(450, 380);
-
+      descriptionContainer.setDepth(90);
       var descriptionBg = scene.add.image(0, 0, "boutiqueBg");
       descriptionBg.displayWidth = 700;
       descriptionBg.displayHeight = 400;
-      
+
       let theHeroName = heroList[key].display_name
       var heroName = scene.add.text(-60, -155, theHeroName.toUpperCase(), setFontStyles("24px", "#D2BA70"));
 
@@ -152,9 +196,9 @@ class ComposerEquipe extends Phaser.Scene {
         skillCard.setScale(0.6);
         var skillName = scene.add.text(15, -70 + i * 65, heroList[key].skills[i].name, setFontStyles("18px"));
         skillContainer.add([skillCard, skillName]);
-        
+
         var positionCard = createPositionCard(scene, -36 + i * 65, heroList[key].skills[i].requiered_pos, heroList[key].skills[i].reach, heroList[key].skills[i].target);
-        
+
         skillContainer.add(positionCard);
       }
 
@@ -175,10 +219,9 @@ class ComposerEquipe extends Phaser.Scene {
 
       image.on("pointerdown", function () {
         for (let i = 0; i < 4; i++) {
-          if (listSelectedHeroes[i] === 'null' && !listSelectedHeroes.includes(key)) {
-            listSelectedHeroes[i] = key;
+          if (!listSelectedHeroes[i].heroName && !listSelectedHeroes.some(obj => obj.heroName === key)) { //  && !listSelectedHeroes.includes(key)
+            listSelectedHeroes[i].heroName = key;
             createSelectedPortrait(scene, 145 - i * 95, 0, key, selectedContainer, i)
-            saveListSelectedHeroes()
             break;
           }
         }
@@ -204,33 +247,114 @@ class ComposerEquipe extends Phaser.Scene {
       });
 
       portrait.on("pointerdown", function () {
-        listSelectedHeroes[index] = 'null'
+        listSelectedHeroes[index].heroName = key
         portrait.destroy();
         document.body.style.cursor = "default";
-        saveListSelectedHeroes()
       });
 
       container.add(portrait)
     }
 
-    function loadListSelectedHeroes() {
-      // L'ajout d'un horodatage, obliger le navigateur à recharger les dernières données à chaque appel.
-      const storedListData = localStorage.getItem("listSelectedHeroes");
+    function createPotionCard(scene, x, y, key) {
+      let card = scene.add.container(x, y);
+      let bg = scene.add.image(0, 0, "card");
+      bg.setScale(0.18);
 
-      if (storedListData === null) {
-        // Sélectionnez d’abord les quatre premiers héros dans l’ordre de l’équipe
-        for (let i = 0; i < 4; i++) {
-          if (i < user.heroes.length) {
-            listSelectedHeroes[i] = user.heroes[i].heroName;
-          } else {
-            break;
+      let image = scene.add.image(0, -20, "potionIcon");
+      image.displayHeight = 80;
+      image.displayWidth = 80;
+
+      let name = scene.add.text(-40, 70, key, setFontStyles("18px"))
+      let qteIcon = scene.add.image(13, 53, "inventaire")
+      qteIcon.setScale(0.08)
+      let qte = user.getPotionQte(key) // inventaire de potions
+      let qteTxt = scene.add.text(25, 45, qte, setFontStyles("18px"))
+
+      bg.setInteractive()
+
+      bg.on("pointerover", function () {
+        bg.setTexture("cardFocus");
+        document.body.style.cursor = "pointer";
+      });
+
+      bg.on("pointerout", function () {
+        bg.setTexture("card");
+        document.body.style.cursor = "default";
+      });
+
+      let listSelectedPotionQte = [null, null, null, null];
+      bg.on("pointerdown", function () {
+        let hero = listSelectedHeroes[positionSelectedFocus]
+        if (qte > 0) {
+          if (!hero.potionName) {
+            // ajouter la potion
+            hero.potionName = key
+            hero.potionQte = 1
+            let potionSelectedContainer = scene.add.container(543 - positionSelectedFocus * 95, 570)
+            let image = scene.add.image(0, 0, "potionIcon") //CHANGE
+            image.setScale(0.13) //CHANGE
+            let qteTextSelected = scene.add.text(15, 5, hero.potionQte, setFontStyles("20px"))
+            potionSelectedContainer.add([image, qteTextSelected])
+            listSelectedPotionQte[positionSelectedFocus] = qteTextSelected
+
+            qte-- // inventaire de potions
+            qteTxt.setText(qte)
+
+            // Supprimer la potion
+            image.setInteractive()
+            image.on("pointerover", function () {
+              console.log(1)
+              image.setScale(0.15)
+              document.body.style.cursor = "pointer";
+            });
+
+            image.on("pointerout", function () {
+              image.setScale(0.13)
+              document.body.style.cursor = "default";
+            });
+
+            image.on("pointerdown", function () {
+              hero.potionQte--
+              qteTextSelected.setText(hero.potionQte)
+              qte++  // inventaire de potions
+              qteTxt.setText(qte)
+
+              if (hero.potionQte === 0) {
+                hero.potionName = null
+                potionSelectedContainer.destroy();
+              }
+
+              document.body.style.cursor = "default";
+            });
+
+          }
+          else if (hero.potionName === key && hero.potionQte + 1 <= 5) {
+            qte-- // inventaire de potions
+            qteTxt.setText(qte)
+            hero.potionQte++
+            listSelectedPotionQte[positionSelectedFocus].setText(hero.potionQte)
+          }
+          else{
+            listSelectedPotionQte[positionSelectedFocus].setText('MAX').setStyle({ fontSize: '20px', color: '#ff0000' });
+            setTimeout(() => {
+              listSelectedPotionQte[positionSelectedFocus].setText(hero.potionQte).setStyle(setFontStyles("20px"))
+          }, 2500);
           }
         }
-        saveListSelectedHeroes()
-      }
-      else {
-        listSelectedHeroes = JSON.parse(storedListData)
-      }
+      });
+
+      card.add([bg, image, name, qteIcon, qteTxt])
+      return card
+    }
+
+    function createSelectedHeroObject(heroName, potionName, potionQte) {
+      var heroInfo = {
+        heroName: heroName,
+        potionName: potionName,
+        potionQte: potionQte
+      };
+
+      return heroInfo;
     }
 
     // Enregistrer les liste des héros choisis sur localStorage
@@ -238,12 +362,13 @@ class ComposerEquipe extends Phaser.Scene {
       localStorage.setItem("listSelectedHeroes", JSON.stringify(listSelectedHeroes));
     }
 
-    // supprimer les liste des héros choisis sur localStorage
-    function delListSelectedHeroes() {
-      localStorage.removeItem("listSelectedHeroes");
+    // Enregistrer les liste des héros choisis sur localStorage
+    function deletePotionSelectedToUserClass() {
+      listSelectedHeroes.forEach(e => {
+        user.usePotion(e.potionName, e.potionQte)
+      });
     }
 
   }
   update() { }
 }
-

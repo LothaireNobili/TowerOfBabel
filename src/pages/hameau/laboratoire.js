@@ -5,7 +5,6 @@ class Laboratoire extends Phaser.Scene {
   preload() {
     this.load.setBaseURL('./assets/')
     this.load.image("gandoulf", "images/hameau/Gandoulf_ancien.png")
-    this.load.image("inventaire", "icons/inventaire.png")
   }
   create() {
    
