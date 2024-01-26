@@ -247,8 +247,9 @@ class ComposerEquipe extends Phaser.Scene {
       });
 
       portrait.on("pointerdown", function () {
-        listSelectedHeroes[index].heroName = key
+        listSelectedHeroes[index].heroName = null
         portrait.destroy();
+        saveListSelectedHeroes()
         document.body.style.cursor = "default";
       });
 
