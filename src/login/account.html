@@ -54,33 +54,33 @@
             <div id="userInfoForm">
                 <div style="margin: 100px 150px;">
                     <h1 class="mb-80" style="text-align: center; color: white;">
-                    <div class="input-group mb-3">
-                        <label for="login" class="col-sm-3 col-form-label">Login :</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control border-3 bg-transparent custom-input" id="login">
+                        <div class="input-group mb-3">
+                            <label for="login" class="col-sm-3 col-form-label">Login :</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control border-3 bg-transparent custom-input" id="login">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="input-group mb-3">
-                        <label for="login" class="col-sm-3 col-form-label">Mot de passe :</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control border-3 bg-transparent custom-input" id="mdp">
+                        <div class="input-group mb-3">
+                            <label for="login" class="col-sm-3 col-form-label">Mot de passe :</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control border-3 bg-transparent custom-input" id="mdp">
+                            </div>
                         </div>
-                    </div>
-                    <div class="alert alert-danger hide" id="message_register" role="alert">
-                        A simple danger alert—check it out!
-                    </div>
+                        <div class="alert alert-danger hide" id="message_register" role="alert">
+                            A simple danger alert—check it out!
+                        </div>
 
-                    <nav style="padding: 0 100px; margin-top: 80px;">
-                        <button type="button" onclick="editUserInfo()" class="btn btn-style btn-outline-success"
-                       style="float: left;" id="modifBtn">Modifier</button>
-                        <button type="button" class="btn btn-style btn-outline-success"
-                            style="float: left; display: none;" onclick="saveUserInfo()" id="saveBtn">Valider</button>
-                        <a href="../../index.html">
-                            <button type="button" class="btn btn-style btn-outline-secondary"
-                                style="float: right;">Retour</button>
-                        </a>
-                    </nav>
+                        <nav style="padding: 0 100px; margin-top: 80px;">
+                            <button type="button" onclick="editUserInfo()" class="btn btn-style btn-outline-success"
+                                style="float: left;" id="modifBtn">Modifier</button>
+                            <button type="button" class="btn btn-style btn-outline-success"
+                                style="float: left; display: none;" id="saveBtn" onclick="update()">Valider</button>
+                            <a href="../../index.html">
+                                <button type="button" class="btn btn-style btn-outline-secondary"
+                                    style="float: right;">Retour</button>
+                            </a>
+                        </nav>
 
                 </div>
             </div>
@@ -127,6 +127,7 @@
     // let mel = document.getElementById('userMel')
     // let birthday = document.getElementById('userBirthday')
     let login = document.getElementById('login')
+    let oldLogin
     let mdp = document.getElementById('mdp')
 
     let tmpUser = new User();
@@ -160,9 +161,6 @@
     // Function to save edited user information
     function saveUserInfo() {
         // Disable input fields and hide the save button
-        document.querySelectorAll('#userInfoForm input').forEach(input => {
-            input.setAttribute('readonly', true);
-        });
         update()
     }
 
@@ -176,6 +174,7 @@
                     if (userInfo.id == id) {
                         login.value = userInfo.login
                         mdp.value = userInfo.password
+                        oldLogin = userInfo.login
                     }
                 }
             })
@@ -183,63 +182,71 @@
     }
 
     async function update() {
-  // Récupérer la valeur d'un champ de formulaire
-  const login = document.getElementById("login").value;
-  const password = document.getElementById("mdp").value;
-  const message = document.getElementById("message_register");
+        // Récupérer la valeur d'un champ de formulaire
+        const login = document.getElementById("login").value;
+        const password = document.getElementById("mdp").value;
+        const message = document.getElementById("message_register");
 
 
-  // message d'erreur
-  // Valider les données du formulaire
-  if (
-    login.trim() === "" ||
-    password.trim() === ""
-  ) {
-    // Si l’un des champs est vide, un message d’erreur cs’affiche
-    message.textContent = "Veuillez remplir tous les champs.";
-    message.classList.remove("hide");
-  } else if (await isLoginExist(login)) {
-    message.textContent = "Le compte existe déja.";
-    message.classList.remove("hide");
-  } else if (!isValidPassword(password)) {
-    message.textContent =c
-      "Mot de passe doit être entre 6 et 20 caractères.";
-    message.classList.remove("hide");
-  } else {
-    const userData = {
-        id: userId,
-        login: login,
-        password: password,
-        salt: "salt",
-    };
-    console.log(JSON.stringify(userData))
-    // Effacer le message d’erreur
-    message.classList.add("hide");
-    document.getElementById('modifBtn').style.display = 'block';
-    document.getElementById('saveBtn').style.display = 'none';
-
-    // Effectuer une requête Fetch
-    //!here to change local/web
-    //fetch("https://devweb.iutmetz.univ-lorraine.fr/~nobili2u/TowerOfBabel/API/ModifierUser.php", {
-    fetch("../../API/ModifierUser.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === "success") {
-        //   goToConnexion();
-        location.reload();
+        // message d'erreur
+        // Valider les données du formulaire
+        if (
+            login.trim() === "" ||
+            password.trim() === ""
+        ) {
+            // Si l’un des champs est vide, un message d’erreur cs’affiche
+            message.textContent = "Veuillez remplir tous les champs.";
+            message.classList.remove("hide");
+        } else if (login != oldLogin && await isLoginExist(login)) {
+            message.textContent = "Le compte existe déja.";
+            message.classList.remove("hide");
+        } else if (!isValidPassword(password)) {
+            message.textContent =
+                "Mot de passe doit être entre 6 et 20 caractères.";
+            message.classList.remove("hide");
+        } else {
+            const userData = {
+                id: userId,
+                login: login,
+                password: password,
+                salt: "salt",
+            };
+            console.log(JSON.stringify(userData))
+            // Effacer le message d’erreur
+            message.classList.add("hide");
+            let saveBtn = document.getElementById('saveBtn')
+            document.getElementById('modifBtn').style.display = 'block';
+            saveBtn.style.display = 'none';
+            saveBtn.addEventListener("click", function () {
+                document.querySelectorAll('#userInfoForm input').forEach(input => {
+                    input.setAttribute('readonly', true);
+                });
+            })
+            // Effectuer une requête Fetch
+            //!here to change local/web
+            //fetch("https://devweb.iutmetz.univ-lorraine.fr/~nobili2u/TowerOfBabel/API/ModifierUser.php", {
+            fetch("../../API/ModifierUser.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.status === "success") {
+                        let user = new User()
+                        user.upDateUserClass()
+                        user.username = login
+                        user.saveToLocalStorage()
+                        location.reload();
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
         }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-}
+    }
 </script>
 
 
