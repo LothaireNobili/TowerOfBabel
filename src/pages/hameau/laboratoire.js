@@ -5,6 +5,7 @@ class Laboratoire extends Phaser.Scene {
   preload() {
     this.load.setBaseURL('./assets/')
     this.load.image("gandoulf", "images/hameau/Gandoulf_ancien.png")
+    this.load.image("potionIcon", "icons/potion.png")
   }
   create() {
    
@@ -58,6 +59,9 @@ class Laboratoire extends Phaser.Scene {
       var image = scene.add.image(x, y, "card");
       image.setScale(0.18);
       image.setInteractive();
+
+      var potionImage = scene.add.image(x,y-20,'potionIcon')
+      potionImage.setScale(0.18)
 
       // Créer un conteneur pour contenir les éléments de détail
       if (left == true)
