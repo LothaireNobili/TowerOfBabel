@@ -125,6 +125,32 @@ class User {
         }
     }
 
+    getSaveFile(){
+        const saveFileData = {
+            coins: this.coins,
+            heroes: this.heroes,
+            potions: this.potions,
+        };
+
+        const saveFileJson = JSON.stringify(saveFileData);
+
+        return saveFileJson;
+    }
+
+    loadFromSaveFile(saveFileData) {
+        try {
+            // Mettre à jour les propriétés de l'instance de la classe User
+            this.coins = saveFileData.coins;
+            this.heroes = saveFileData.heroes;
+            this.potions = saveFileData.potions;
+
+            // Enregistrer les données mises à jour sur localStorage
+            this.saveToLocalStorage();
+        } catch (error) {
+            console.error("Error loading data from save file:", error);
+        }
+    }
+
 }
 
 
