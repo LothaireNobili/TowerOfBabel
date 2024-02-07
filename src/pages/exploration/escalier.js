@@ -49,10 +49,10 @@ class Escalier extends Phaser.Scene {
 
     this.construireEtage();
     etage = this.salles;
-
   }
 
   determinerMaxSalle() {
+    return 6
     var max_salle = [
       [0, 3, 5],
       [2, 5, 7],
@@ -78,45 +78,42 @@ class Escalier extends Phaser.Scene {
 
   goToNextFloor() {
     window.myScene.nouvelEtage = true;
+    window.myScene=etage[0]
     window.myScene.nbSalle = this.determinerMaxSalle();
-    this.scene.start("Salle");
+    Salle.reset()
   }
 
   construireEtage() {
     this.salle = [];
     let salle=[];
     etage=[]
-    salle = new Salle("Debut");
-    salle.position = [0, 0];
+    salle = new Salle("Debut",[0, 0]);
+    numeroEtage+=1
+    storedRoom=salle;
     let salles = [salle];
     let max_salle = this.determinerMaxSalle();
 
     while (salles.length < max_salle) {
       let salle = this.determinerProchaineSalle();
-      let precedenteIndex = this.choisirIndexSalleAleatoire(salles);
+      let precedenteIndex = this.choisirIndexSalleAleatoireLibre(salles);
       let precedente = salles[precedenteIndex];
-     switch(false)
-     {
-      case precedente.est:{salle.position=[precedente.position[0]+1,precedente.position[1]];precedente.est=salle; salle.ouest=precedente; break}
-      case precedente.nord:{salle.position=[precedente.position[0],precedente.position[1]+1];precedente.nord=salle; salle.sud=precedente; break}
-      case precedente.ouest:{salle.position=[precedente.position[0]-1,precedente.position[1]];precedente.ouest=salle; salle.est=precedente; break}
-      case precedente.sud:{salle.position=[precedente.position[0],precedente.position[1]-1];precedente.sud=salle;salle.nord=precedente; break}
-      default : console.log("unforseen events happen sometimes")
-     } 
+      this.placerSalle(salle,precedente)
       salles.push(salle)
     }
-
-    let precedente = this.choisirIndexSalleAleatoire(salles);
+    let precedenteIndex = this.choisirIndexSalleAleatoireLibre(salles);
+    let precedente = salles[precedenteIndex];
     salle = new Salle("Fin");
     salle.position = [0, 0]; //this.determinerProchainePosition(salles,precedente)
+    console.log("salle")
+    console.log(salle)
+    this.placerSalle(salle,precedente)
 
     salles.push(salle);
     var i = 0
-    salles.forEach((salle) => {
+    /*salles.forEach((salle) => {
       i++
       salle.etage = window.myScene.etage + 1;
-    });
-
+    });*/
     this.salles = salles;
   }
 
@@ -146,12 +143,23 @@ class Escalier extends Phaser.Scene {
       }
     }
     prochaineSalle.setType(TYPE_SALLE[0][0]);
+
     return prochaineSalle;
   }
 
   choisirIndexSalleAleatoire(salles) {
     return Math.floor(Math.random() * salles.length);
   }
+
+  choisirIndexSalleAleatoireLibre(salles)
+  {
+    let indexSalle=this.choisirIndexSalleAleatoire(salles)
+    let salle =  salles[indexSalle]
+    let isLibre = false
+    if(salle.est==false || salle.nord==false || salle.ouest ==false|| salle.sud==false)isLibre = true
+    return isLibre?indexSalle:this.choisirIndexSalleAleatoireLibre(salles)
+  }
+
   choisirSalleAleatoire(salles) {
     return salles[this.choisirIndexSalleAleatoire(salles)];
   }
@@ -164,5 +172,15 @@ class Escalier extends Phaser.Scene {
     return str;
   }
 
-  
+  placerSalle(salle,precedente)
+  {
+    switch(false)
+     {
+      case precedente.est:{salle.position=[precedente.position[0]+1,precedente.position[1]];precedente.est=salle; salle.ouest=precedente; break}
+      case precedente.ouest:{salle.position=[precedente.position[0]-1,precedente.position[1]];precedente.ouest=salle; salle.est=precedente; break}
+      case precedente.nord:{salle.position=[precedente.position[0],precedente.position[1]+1];precedente.nord=salle; salle.sud=precedente; break} 
+      case precedente.sud:{salle.position=[precedente.position[0],precedente.position[1]-1];precedente.sud=salle;salle.nord=precedente; break}
+      default : {console.log("unforseen events happen sometimes")}
+     } 
+  }
 }

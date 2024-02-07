@@ -1,6 +1,7 @@
 let nbSalle = 0;
+let numeroEtage = 0;
+let storedRoom = false;
 class Salle extends Phaser.Scene {
-  etage = 0; //etage actuelle
   clear; //si on peut passer a la salle suivant
   type = null; //type de la salle actuelle
   prochaineSalle; // type de la prochaine salle
@@ -12,6 +13,8 @@ class Salle extends Phaser.Scene {
   coffre;
   nouvelEtage = false;
   prochainEtage;
+
+  position;
 
   content;
   battleBegin;
@@ -32,27 +35,34 @@ class Salle extends Phaser.Scene {
   couloirOuest;
 
   speedrun = true;
-  constructor(type) {
+  constructor(type, position) {
     super({ key: "Salle" });
-    if (this.etage == 0 && type == null) {
+    if (numeroEtage == 0 && type == null) {
+      this.position = [0, 0];
       this.type = "Debut";
+      let fin = new Salle("Fin", [0, 1]);
       this.premiereSalle = true;
       this.curio = true;
       this.prochaineSalle;
       this.clear = true;
       this.fight = false;
-      this.est = new Salle("Fin");
-    } else this.type = type;
+      this.est = fin;
+    } else {
+      this.type = type;
+      this.position = position;
+    }
     {
       this.graphicManager = new GraphicManager();
     }
   }
 
   create() {
-    for (var i = 0; i < 10; i++) this.reset();
-    this.updateSalle();
-    window.myScene = this;
+    //this.updateSalle();
 
+    window.myScene = this;
+    if (storedRoom) {
+      this.updateSalle(storedRoom);
+    }
     var background = this.add.image(540, 360, "background_salle");
     this.setRoomContent();
 
@@ -83,9 +93,25 @@ class Salle extends Phaser.Scene {
     this.floor = this.add.text(
       30,
       game.config.height - 50,
-      "FLOOR : " + this.etage,
+      "FLOOR : " + numeroEtage,
       setFontStyles("40px")
     );
+    this.add.text(
+      game.config.width / 2,
+      50,
+      "type : " + this.type,
+      setFontStyles("40px")
+    );
+    try {
+      this.add.text(
+        30,
+        game.config.height - 100,
+        this.position[0] + ";" + this.position[1],
+        setFontStyles("40px")
+      );
+    } catch (e) {
+      console.error("cette fonction n'est pas définie");
+    }
 
     this.add.text(
       game.config.width - 250,
@@ -94,7 +120,7 @@ class Salle extends Phaser.Scene {
       setFontStyles("40px")
     );
 
-    //if (this.etage != 0) this.determinerProchaineSalle();
+    //if (numeroEtage != 0) this.determinerProchaineSalle();
     this.premiereSalle = false;
 
     this.barreInfo = new BarreInfo(this);
@@ -102,14 +128,13 @@ class Salle extends Phaser.Scene {
 
     if (this.speedrun) this.clear = true;
 
-    this.afficherMinimap()
-    this.updateSalle();
-   
+    this.afficherMinimap();
+    //this.updateSalle();
   }
 
   update() {
-    this.setCouloirVisible()
-   
+    this.setCouloirVisible();
+
     this.fighting.setVisible(!this.clear);
     if (this.curio && this.clear) this.coffre.setVisible(true);
     if (window.myScene.returnFromFight) {
@@ -164,7 +189,7 @@ class Salle extends Phaser.Scene {
       this.couloirEst.setInteractive();
       this.couloirEst.on("pointerdown", () => {
         this.goToprochaineSalle(this.est);
-        if (this.est != null || this.premiereSalle) window.myScene = this.est;
+        if (this.est != null || this.premiereSalle) storedRoom = this.est;
       });
       this.couloirEst.setScale(0.1);
     }
@@ -174,7 +199,7 @@ class Salle extends Phaser.Scene {
       this.couloirNord.setInteractive();
       this.couloirNord.on("pointerdown", () => {
         this.goToprochaineSalle(this.nord);
-        if (this.nord != null || this.premiereSalle) window.myScene = this.nord;
+        if (this.nord != null || this.premiereSalle) storedRoom = this.nord;
       });
       this.couloirNord.setScale(0.1);
     }
@@ -184,7 +209,7 @@ class Salle extends Phaser.Scene {
       this.couloirSud.setInteractive();
       this.couloirSud.on("pointerdown", () => {
         this.goToprochaineSalle(this.sud);
-        if (this.sud != null || this.premiereSalle) window.myScene = this.sud;
+        if (this.sud != null || this.premiereSalle) storedRoom = this.sud;
       });
       this.couloirSud.setScale(0.1);
     }
@@ -194,7 +219,7 @@ class Salle extends Phaser.Scene {
       this.couloirOuest.setInteractive();
       this.couloirOuest.on("pointerdown", () => {
         this.goToprochaineSalle(this.sud);
-        if (this.sud != null || this.premiereSalle) window.myScene = this.ouest;
+        if (this.sud != null || this.premiereSalle) storedRoom = this.ouest;
       });
       this.couloirOuest.setScale(0.1);
     }
@@ -300,7 +325,7 @@ class Salle extends Phaser.Scene {
     if (this.nord) this.couloirNord.setVisible(this.clear);
     if (this.sud) this.couloirSud.setVisible(this.clear);
     if (this.ouest) this.couloirOuest.setVisible(this.clear);
-    if(this.prochainEtage)this.prochainEtage.setVisible(this.clear);
+    if (this.prochainEtage) this.prochainEtage.setVisible(this.clear);
   }
   determinerGold() {
     var goldPerFloor = [
@@ -311,7 +336,7 @@ class Salle extends Phaser.Scene {
     ];
 
     for (var i = 0; i < goldPerFloor.length; i++) {
-      if (this.etage == 0) return 250;
+      if (numeroEtage == 0) return 250;
       if (window.myScene.etage < goldPerFloor[i][0])
         return Math.floor(
           Math.random() * (goldPerFloor[i][2] - goldPerFloor[i][1]) +
@@ -327,28 +352,35 @@ class Salle extends Phaser.Scene {
     game.scene.start("Couloir");
   }
 
-  reset() {
+  static reset() {
+    game.scene.stop("Escalier");
+    game.scene.start("Salle");
+    storedRoom = etage[0];
     try {
       if (window.myScene.nouvelEtage) {
         nbSalle = 1;
-        window.myScene = etage[0];
-        this.updateSalle();
         this.clear = true;
         this.fight = false;
         this.nouvelEtage = false;
+
+        this.updateSalle(etage[0]);
+        // this.updateSalle();
       }
     } catch (e) {}
   }
 
-  updateSalle() {
-    try {
-      this.etage = window.myScene.etage;
-      this.type = window.myScene.type;
-      this.est = window.myScene.est;
-      this.ouest = window.myScene.ouest;
-      this.sud = window.myScene.sud;
-      this.nord = window.myScene.nord;
-    } catch (e) {}
+  updateSalle(nouvelleSalle) {
+    this.type = nouvelleSalle.type;
+    this.nord = nouvelleSalle.nord;
+    this.est = nouvelleSalle.est;
+    this.ouest = nouvelleSalle.ouest;
+    this.sud = nouvelleSalle.sud;
+    this.couloirNord = nouvelleSalle.couloirNord;
+    this.couloirEst = nouvelleSalle.couloirEst;
+    this.couloirSud = nouvelleSalle.couloirSud;
+    this.couloirOuest = nouvelleSalle.couloirOuest;
+
+    this.position = nouvelleSalle.position;
   }
 
   static returnToRoom() {
@@ -381,27 +413,34 @@ class Salle extends Phaser.Scene {
     console.log(this.ouest);
   }
 
-  afficherMinimap()
-  {
-    var minimap_background =this.add.image(game.config.width-120, game.config.height, "minimap_background");
-    let x = game.config.width-240
-    let y = game.config.height-100
-    if(this.etage==0)
-    {
-      this.addSalleToMinimap(x,y)
-      this.addSalleToMinimap(x+100,y)
-    }
-    else
-    {
-      etage.forEach(salle => {
-        console.log(salle.position[0],salle.position[1])
-        this.addSalleToMinimap(x-salle.position[0]*50,y-salle.position[1]*50)
+  afficherMinimap() {
+    var minimap_background = this.add.image(
+      game.config.width - 120,
+      game.config.height,
+      "minimap_background"
+    );
+    let x = game.config.width - 240;
+    let y = game.config.height - 100;
+    if (numeroEtage == 0) {
+      this.addSalleToMinimap(x, y);
+      this.addSalleToMinimap(x + 100, y);
+    } else {
+      etage.forEach((salle) => {
+        this.addSalleToMinimap(
+          x + salle.position[0] * 50,
+          y - salle.position[1] * 50
+        );
+        this.add.text(
+          x + salle.position[0] * 50,
+          y - salle.position[1] * 50,
+          salle.position[0] + ";" + salle.position[1],
+          setFontStyles("10px")
+        );
       });
     }
-    
   }
 
   addSalleToMinimap(x, y) {
-    this.add.image(x,y,"miniSalle").setScale(0.05);
+    this.add.image(x, y, "miniSalle").setScale(0.05);
   }
 }
