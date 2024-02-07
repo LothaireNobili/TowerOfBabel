@@ -5,6 +5,7 @@ const TYPE_SALLE = [
   ["Combat&Curio", 8],
 ];
 let etage = [];
+let couloirs=[]
 nbSalle = 0;
 class Escalier extends Phaser.Scene {
   salles = [];
@@ -52,7 +53,6 @@ class Escalier extends Phaser.Scene {
   }
 
   determinerMaxSalle() {
-    return 6
     var max_salle = [
       [0, 3, 5],
       [2, 5, 7],
