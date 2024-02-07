@@ -9,11 +9,11 @@ let couloirs=[]
 nbSalle = 0;
 class Escalier extends Phaser.Scene {
   salles = [];
-  couloirs = [];
   constructor() {
     super({ key: "Escalier" });
   }
   create() {
+    couloirs=[]
     var positions = [
       [500, 500],
       [400, 600],
@@ -52,7 +52,7 @@ class Escalier extends Phaser.Scene {
     etage = this.salles;
   }
 
-  determinerMaxSalle() {
+  determinerMaxSalle() {  
     var max_salle = [
       [0, 3, 5],
       [2, 5, 7],
@@ -62,8 +62,8 @@ class Escalier extends Phaser.Scene {
     var max = max_salle.length - 1;
     for (var i = 0; i < max_salle.length - 1; i++) {
       if (
-        max_salle[i][0] <= window.myScene.etage &&
-        window.myScene.etage < max_salle[i + 1][0]
+        max_salle[i][0] <= numeroEtage &&
+        numeroEtage < max_salle[i + 1][0]
       ) {
         return Math.floor(
           Math.random() * (max_salle[i][2] - max_salle[i][1]) + max_salle[i][1]
@@ -77,9 +77,9 @@ class Escalier extends Phaser.Scene {
   }
 
   goToNextFloor() {
-    window.myScene.nouvelEtage = true;
+    /*window.myScene.nouvelEtage = true;
     window.myScene=etage[0]
-    window.myScene.nbSalle = this.determinerMaxSalle();
+    window.myScene.nbSalle = this.determinerMaxSalle();*/
     Salle.reset()
   }
 
@@ -98,6 +98,7 @@ class Escalier extends Phaser.Scene {
       let precedenteIndex = this.choisirIndexSalleAleatoireLibre(salles);
       let precedente = salles[precedenteIndex];
       this.placerSalle(salle,precedente)
+      couloirs.push([this.precedente,salle])
       salles.push(salle)
     }
     let precedenteIndex = this.choisirIndexSalleAleatoireLibre(salles);
@@ -110,10 +111,6 @@ class Escalier extends Phaser.Scene {
 
     salles.push(salle);
     var i = 0
-    /*salles.forEach((salle) => {
-      i++
-      salle.etage = window.myScene.etage + 1;
-    });*/
     this.salles = salles;
   }
 

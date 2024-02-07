@@ -1,6 +1,7 @@
 let nbSalle = 0;
 let numeroEtage = 0;
 let storedRoom = false;
+let clearedRoom = []
 class Salle extends Phaser.Scene {
   clear; //si on peut passer a la salle suivant
   type = null; //type de la salle actuelle
@@ -145,6 +146,28 @@ class Salle extends Phaser.Scene {
 
   setType(type) {
     this.type = type;
+  }
+  
+  checkIfCleared()
+  {
+    if (clearedRoom.includes(this.position)&&!["Fin","Debut"].includes(this.type))
+    {
+      if(!window.myScene.returnFromFight)
+      {
+        this.type="vide"
+        this.curio=false
+      }
+      this.clear=true;
+      this.fight=false;
+
+      console.error("this room has been checked")
+    }
+    else
+    {
+      console.error("this room is yet to be checked")
+      clearedRoom.push(this.position);
+      window.myScene.returnFromFight=false
+    }
   }
 
   placerlistSelectedHeroes() {
@@ -337,7 +360,7 @@ class Salle extends Phaser.Scene {
 
     for (var i = 0; i < goldPerFloor.length; i++) {
       if (numeroEtage == 0) return 250;
-      if (window.myScene.etage < goldPerFloor[i][0])
+      if (numeroEtage< goldPerFloor[i][0])
         return Math.floor(
           Math.random() * (goldPerFloor[i][2] - goldPerFloor[i][1]) +
             goldPerFloor[i][1]
@@ -356,6 +379,7 @@ class Salle extends Phaser.Scene {
     game.scene.stop("Escalier");
     game.scene.start("Salle");
     storedRoom = etage[0];
+    clearedRoom=[]
     try {
       if (window.myScene.nouvelEtage) {
         nbSalle = 1;
@@ -379,8 +403,9 @@ class Salle extends Phaser.Scene {
     this.couloirEst = nouvelleSalle.couloirEst;
     this.couloirSud = nouvelleSalle.couloirSud;
     this.couloirOuest = nouvelleSalle.couloirOuest;
-
     this.position = nouvelleSalle.position;
+    this.checkIfCleared()
+    console.log(clearedRoom)
   }
 
   static returnToRoom() {
