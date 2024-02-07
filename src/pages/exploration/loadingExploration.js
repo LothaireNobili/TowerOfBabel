@@ -38,9 +38,10 @@ preload() {
     this.load.image("move", "./assets/icons/yellow_right_arrow.png");
 
     this.load.image(
-      "prochaineSalle",
-      "./assets/images/exploration/mapBackground.jpg"
+      "minimap_background",
+      "./assets/images/hameau/boutique_bg.png"
     );
+    this.load.image("miniSalle", "./assets/images/exploration/mapBackground.jpg");
 
   
   }

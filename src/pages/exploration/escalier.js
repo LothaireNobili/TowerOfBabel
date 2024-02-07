@@ -128,16 +128,7 @@ class Escalier extends Phaser.Scene {
     return total;
   }
 
-  /*remplireSalles()
-  {
-      let rooms=this.construireEtage()
-      for (room in rooms)
-      {
-          position=this.determinerProchainePosition()
-          this.salles.push([room,position]);
-      }
-  }*/
-
+ 
   determinerProchainePosition(salles, precedente) {
     if (salles.length == 0) return [0, 0];
       return [0,0];

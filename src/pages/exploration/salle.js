@@ -101,7 +101,10 @@ class Salle extends Phaser.Scene {
     this.barreInfo.creerBarreInfo();
 
     if (this.speedrun) this.clear = true;
+
+    this.afficherMinimap()
     this.updateSalle();
+   
   }
 
   update() {
@@ -376,5 +379,29 @@ class Salle extends Phaser.Scene {
     console.log(this.sud);
     console.log("ouest");
     console.log(this.ouest);
+  }
+
+  afficherMinimap()
+  {
+    var minimap_background =this.add.image(game.config.width-120, game.config.height, "minimap_background");
+    let x = game.config.width-240
+    let y = game.config.height-100
+    if(this.etage==0)
+    {
+      this.addSalleToMinimap(x,y)
+      this.addSalleToMinimap(x+100,y)
+    }
+    else
+    {
+      etage.forEach(salle => {
+        console.log(salle.position[0],salle.position[1])
+        this.addSalleToMinimap(x-salle.position[0]*50,y-salle.position[1]*50)
+      });
+    }
+    
+  }
+
+  addSalleToMinimap(x, y) {
+    this.add.image(x,y,"miniSalle").setScale(0.05);
   }
 }
