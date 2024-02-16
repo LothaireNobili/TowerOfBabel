@@ -113,6 +113,7 @@ class Laboratoire extends Phaser.Scene {
               user.addPotion(key, 1)
               user.updateCoins(-prix)
 
+              user.saveToLocalStorage()
               scene.scene.restart();
             } else {
               console.log("Out of stock or no sellable quantity.");

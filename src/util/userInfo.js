@@ -83,7 +83,7 @@ class User {
                 qte: quantity
             });
         }
-        this.saveToLocalStorage()
+        // this.saveToLocalStorage()
     }
 
     usePotion(potionName, qte) {
@@ -95,7 +95,7 @@ class User {
         } else {
             // ...
         }
-        this.saveToLocalStorage()
+        // this.saveToLocalStorage()
     }
 
     getPotionQte(potionName) {
