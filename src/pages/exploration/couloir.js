@@ -30,11 +30,11 @@ class Couloir extends Phaser.Scene {
   create() {
     for (let hero of listSelectedHeroes) {
       this.anims.create({
-        key: hero + "_walk", // Animation key (can be any string)
-        frames: this.anims.generateFrameNumbers(hero, {
+        key: hero.heroName + "_walk", // Animation key (can be any string)
+        frames: this.anims.generateFrameNumbers(hero.heroName, {
           scale: 2,
           start: 0,
-          end: this.graphicManager.spriteSheetDatas[hero].walk.end, //index of the last frame of the animation
+          end: this.graphicManager.spriteSheetDatas[hero.heroName].walk.end, //index of the last frame of the animation
         }),
         frameRate: 20, // Number of frames to display per second
         repeat: -1, // Set to -1 to loop the animation continuously, or a positive integer to specify the number of times to repeat
@@ -73,7 +73,7 @@ class Couloir extends Phaser.Scene {
 
 
     for (let hero of listSelectedHeroes) {
-    var equipier = this.add.sprite(0, 0, hero).play(hero+"_walk").setOrigin(0.5, 1);
+    var equipier = this.add.sprite(0, 0, hero.heroName).play(hero.heroName+"_walk").setOrigin(0.5, 1);
     this.listSelectedHeroes.add(equipier);
     equipier.setScale(0.7);
   }
