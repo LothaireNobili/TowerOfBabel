@@ -1,12 +1,13 @@
 class IconDisplayer {
     constructor(combattant) {
         this.combattant = combattant;
-        this.icons = {};  // Un dictionnaire pour stocker les icônes actives
+        this.active_icons = [];  // Un dictionnaire pour stocker les icônes actives
+        this.statut_effect_list = ["bleed", "poison", "stun"]
     }
 
-    displayIcon(icon) {
-        // Vérifie si l'icône n'est pas déjà affichée
-        if (!this.icons[icon]) {
+    displayIcon(effect) {
+        // check if the icon is already displayed
+        if (!this.active_icons.includes(effect)) {
             // Affiche l'icône en utilisant Phaser ou toute autre logique d'affichage
             // Remplacez cela par votre propre code d'affichage
             console.log(`Affichage de l'icône : ${icon}`);

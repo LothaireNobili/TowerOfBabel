@@ -42,7 +42,7 @@ class Arbiter {
 
 
 
-    getVerticalPosition(rank, team){
+    static getHorizontalPosition(rank, team){
         //1 front, 4 back, shouldn't be called for anything but 1,2,3,4
 
         let result = this.firstOffSet + (rank - 1) * this.fightersOffSet
@@ -98,7 +98,7 @@ class Arbiter {
         return new Promise((resolve) => {
             this.fight_scene.tweens.add({
                 targets: sprite,
-                x: that.getVerticalPosition(character.position, that.getFighterTeam(character)),
+                x: that.getHorizontalPosition(character.position, that.getFighterTeam(character)),
                 y: that.floor,  
                 ease: 'Power2.inOut',  //we can change the parameter to have different effects
                 duration: 150,
@@ -178,7 +178,7 @@ class Arbiter {
             for(let targetPos of foundSkill.reach){
                 if (targetPos <= enemyTeam.length){
     
-                    tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(targetPos, "enemy")
+                    tempoTargetCursor = this.fight_scene.add.image(this.getHorizontalPosition(targetPos, "enemy")
                         ,this.floor+this.cursorOffSet,"target_select");
     
                     tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
@@ -213,7 +213,7 @@ class Arbiter {
                     if (foundSkill.type == "continuous" && targetPos>foundSkill.reach[0]){  //we don't add the + cursor for first target 
 
                         tempoTargetCursor = this.fight_scene.add.image(
-                            ((this.getVerticalPosition(targetPos, "enemy") + this.getVerticalPosition(targetPos-1, "enemy")) / 2)
+                            ((this.getHorizontalPosition(targetPos, "enemy") + this.getHorizontalPosition(targetPos-1, "enemy")) / 2)
                             ,this.floor+this.plusCursorVerticalOffSet,"target_plus");
                         
                         tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
@@ -227,7 +227,7 @@ class Arbiter {
         else if(foundSkill.target === "team"){
             for(let targetPos of foundSkill.reach){
                 if (targetPos <= playerTeam.length){
-                    tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(targetPos, "hero")
+                    tempoTargetCursor = this.fight_scene.add.image(this.getHorizontalPosition(targetPos, "hero")
                     ,this.floor+this.cursorOffSet,"passive_select");
     
                     tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
@@ -260,7 +260,7 @@ class Arbiter {
                 if (foundSkill.type == "continuous" && targetPos>1){  //we don't add the + cursor for target in pos1 
 
                     tempoTargetCursor = this.fight_scene.add.image(
-                        ((this.getVerticalPosition(targetPos, "hero") + this.getVerticalPosition(targetPos-1, "hero")) / 2)
+                        ((this.getHorizontalPosition(targetPos, "hero") + this.getHorizontalPosition(targetPos-1, "hero")) / 2)
                         ,this.floor+this.plusCursorVerticalOffSet,"passive_plus");
                     
                     tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
@@ -432,7 +432,7 @@ class Arbiter {
 
     placeTurnCursor(){
         let team = this.getFighterTeam(this.currentFighter)
-        this.currentFighterCursor = this.fight_scene.add.image(this.getVerticalPosition(this.currentFighter.position, team)
+        this.currentFighterCursor = this.fight_scene.add.image(this.getHorizontalPosition(this.currentFighter.position, team)
             ,this.floor+this.cursorOffSet,"current_fighter_select");
         this.currentFighterCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
         this.currentFighterCursor.setScale(this.cursorScale)
@@ -459,7 +459,7 @@ class Arbiter {
         var tempoTargetCursor
 
         for (let target of this.currentTarget){
-            tempoTargetCursor = this.fight_scene.add.image(this.getVerticalPosition(target.position, "hero")//ennemies only have offensive move
+            tempoTargetCursor = this.fight_scene.add.image(this.getHorizontalPosition(target.position, "hero")//ennemies only have offensive move
                 ,this.floor+this.cursorOffSet,"target_select");
             tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
             tempoTargetCursor.setScale(this.cursorScale)
