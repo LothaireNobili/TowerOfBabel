@@ -3,25 +3,27 @@
 const registerButton = document.querySelector("#valider");
 const connecterButton = document.querySelector("#connecter");
 
-$(document).ready(function () {
-  $("#datetimepicker").datetimepicker({
-    format: "YYYY-MM-DD", // Mettre en forme la date
-    viewMode: "years", // Définissez le mode d’affichage sur Année
-    maxDate: moment(), // Définissez la date maximale sur la date du jour
-    useCurrent: false, // Désactiver la sélection automatique de la date du jour
-    icons: {
-      time: "far fa-clock",
-      date: "far fa-calendar",
-      up: "fas fa-arrow-up",
-      down: "fas fa-arrow-down",
-      previous: "fas fa-chevron-left",
-      next: "fas fa-chevron-right",
-      today: "fas fa-calendar-day",
-      clear: "far fa-trash-alt",
-      close: "fas fa-times",
-    },
-  });
-});
+
+// $(document).ready(function () {
+//   $("#datetimepicker").datetimepicker({
+//     format: "YYYY-MM-DD", // Mettre en forme la date
+//     viewMode: "years", // Définissez le mode d’affichage sur Année
+//     maxDate: moment(), // Définissez la date maximale sur la date du jour
+//     useCurrent: false, // Désactiver la sélection automatique de la date du jour
+//     icons: {
+//       time: "far fa-clock",
+//       date: "far fa-calendar",
+//       up: "fas fa-arrow-up",
+//       down: "fas fa-arrow-down",
+//       previous: "fas fa-chevron-left",
+//       next: "fas fa-chevron-right",
+//       today: "fas fa-calendar-day",
+//       clear: "far fa-trash-alt",
+//       close: "fas fa-times",
+//     },
+//   });
+// });
+
 
 async function register() {
   // Récupérer la valeur d'un champ de formulaire
@@ -29,6 +31,7 @@ async function register() {
   const password = document.getElementById("mdp_inscription").value;
   const password2 = document.getElementById("mdp2_inscription").value;
   const message = document.getElementById("message_register");
+
 
   // message d'erreur
   // Valider les données du formulaire
@@ -85,6 +88,7 @@ async function register() {
   }
 }
 
+
 function connecter() {
   // Récupérer la valeur d'un champ de formulaire
   const login = document.getElementById("login").value;
@@ -115,19 +119,19 @@ function connecter() {
                 loginCorrrect = true
                 //explicitely say the user is logged in with session storage
                 sessionStorage.setItem("isLoggedIn", "true");
+                window.location.href = "../../index.html";
               }
             })
             .catch((error) => {
               console.error("Error:", error);
             });
-
-          window.location.href = "../../index.html";
         }
       }
       message.style.display = loginCorrrect ? "none" : "block";
     })
     .catch((error) => console.error("Error:", error));
 }
+
 
 function goToInscription() {
   let inscription = document.getElementById("inscrption-card");
@@ -136,12 +140,14 @@ function goToInscription() {
   connexion.classList.add("hide");
 }
 
+
 function goToConnexion() {
   let inscription = document.getElementById("inscrption-card");
   let connexion = document.getElementById("connexion-card");
   inscription.classList.add("hide");
   connexion.classList.remove("hide");
 }
+
 
 // Vérifier le format de l’e-mail
 // function isValidEmail(email) {
@@ -154,10 +160,12 @@ function isValidPassword(psd) {
   return verifRegex.test(psd);
 }
 
+
 async function isLoginExist(login) {
   try {
     const response = await fetch("../../API/SelectAllUser.php");
     const data = await response.json();
+
 
     for (let userInfo of data) {
       if (userInfo.login === login) {
@@ -168,6 +176,11 @@ async function isLoginExist(login) {
     // console.error("Error:", error);
   }
 
+
   return false;
 }
+
+
+
+
 

@@ -86,6 +86,9 @@ class ComposerEquipe extends Phaser.Scene {
         saveListSelectedHeroes()
         deletePotionSelectedToUserClass()
 
+        user.saveToLocalStorage()
+        user.saveToBDD()
+
         console.log(listSelectedHeroes)
         game.scene.stop("ComposerEquipe")
         game.scene.start('Salle');

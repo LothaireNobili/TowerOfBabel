@@ -25,6 +25,22 @@ class User {
         return storedUserData ? JSON.parse(storedUserData) : null;
     }
 
+    saveToBDD() {
+        fetch("./API/UpdateSaveFile.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: this.userId, saveFileData: this.getSaveFile() })
+        })
+            .then((response) => response.json())
+            .then((data) => { })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+ 
+
     upDateUserClass() {
         const reloadedUser = this.loadUserFromLocalStorage();
         if (reloadedUser) {

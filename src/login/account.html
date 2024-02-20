@@ -54,50 +54,33 @@
             <div id="userInfoForm">
                 <div style="margin: 100px 150px;">
                     <h1 class="mb-80" style="text-align: center; color: white;">
-                        Informations du compte</h1>
-                    <div class="input-group  mb-3">
-                        <label for="name" class="col-sm-3 col-form-label">Nom et prénom : </label>
-                        <input type="text" aria-label="nom" id="userNom"
-                            class="form-control border-3 bg-transparent custom-input">
-                        <input type="text" aria-label="prenom" id="userPrenom"
-                            class="form-control border-3 bg-transparent custom-input">
-                    </div>
-
-
-                    <div class="input-group mb-3">
-                        <label for="email" class="col-sm-3 col-form-label">Email :</label>
-                        <div class="col-sm-9">
-                            <input type="email" class="form-control border-3 bg-transparent custom-input" id="userMel">
+                        <div class="input-group mb-3">
+                            <label for="login" class="col-sm-3 col-form-label">Login :</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control border-3 bg-transparent custom-input" id="login">
+                            </div>
                         </div>
-                    </div>
 
-
-                    <div class="input-group mb-3">
-                        <label for="date" class="col-sm-6 col-form-label">Date de naissance :</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control border-3 bg-transparent custom-input" maxlength="5"
-                                id="userBirthday">
+                        <div class="input-group mb-3">
+                            <label for="login" class="col-sm-3 col-form-label">Mot de passe :</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control border-3 bg-transparent custom-input" id="mdp">
+                            </div>
                         </div>
-                    </div>
-
-
-                    <div class="input-group mb-3">
-                        <label for="login" class="col-sm-3 col-form-label">Login :</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control border-3 bg-transparent custom-input" id="login">
+                        <div class="alert alert-danger hide" id="message_register" role="alert">
+                            A simple danger alert—check it out!
                         </div>
-                    </div>
 
-                    <nav style="padding: 0 100px; margin-top: 80px;">
-                        <!-- <button type="button" onclick="editUserInfo()" class="btn btn-style btn-outline-success"
-                       style="float: left;" id="modifBtn">Modifier</button> -->
-                        <button type="button" class="btn btn-style btn-outline-success"
-                            style="float: left; display: none;" onclick="saveUserInfo()" id="saveBtn">Valider</button>
-                        <a href="../../index.html">
-                            <button type="button" class="btn btn-style btn-outline-secondary"
-                                style="float: right;">Retour</button>
-                        </a>
-                    </nav>
+                        <nav style="padding: 0 100px; margin-top: 80px;">
+                            <button type="button" onclick="editUserInfo()" class="btn btn-style btn-outline-success"
+                                style="float: left;" id="modifBtn">Modifier</button>
+                            <button type="button" class="btn btn-style btn-outline-success"
+                                style="float: left; display: none;" id="saveBtn" onclick="update()">Valider</button>
+                            <a href="../../index.html">
+                                <button type="button" class="btn btn-style btn-outline-secondary"
+                                    style="float: right;">Retour</button>
+                            </a>
+                        </nav>
 
                 </div>
             </div>
@@ -139,14 +122,13 @@
     let logoutBtn = document.getElementById("logoutBtn");
     let userInfo = document.getElementById("userInfo");
     let context = document.getElementById("context");
-
-
-    let nom = document.getElementById('userNom')
-    let prenom = document.getElementById('userPrenom')
-    let mel = document.getElementById('userMel')
-    let birthday = document.getElementById('userBirthday')
+    // let nom = document.getElementById('userNom')
+    // let prenom = document.getElementById('userPrenom')
+    // let mel = document.getElementById('userMel')
+    // let birthday = document.getElementById('userBirthday')
     let login = document.getElementById('login')
-    // let mdp = document.getElementById('mdp')
+    let oldLogin
+    let mdp = document.getElementById('mdp')
 
     let tmpUser = new User();
     tmpUser.upDateUserClass();
@@ -161,6 +143,7 @@
 
     function logout() {
         localStorage.removeItem("userData");
+        sessionStorage.setItem("isLoggedIn", "false");
         window.location.href = "../../index.html";
     }
 
@@ -178,10 +161,7 @@
     // Function to save edited user information
     function saveUserInfo() {
         // Disable input fields and hide the save button
-        document.querySelectorAll('#userInfoForm input').forEach(input => {
-            input.setAttribute('readonly', true);
-        });
-        document.getElementById('saveBtn').style.display = 'none';
+        update()
     }
 
 
@@ -192,17 +172,81 @@
                 // Traiter les données JSON renvoyées par PHP, parcourir les données et traiter les informations utilisateur
                 for (let userInfo of data) {
                     if (userInfo.id == id) {
-                        nom.value = userInfo.nom
-                        prenom.value = userInfo.prenom
-                        mel.value = userInfo.mel
-                        birthday.value = userInfo.date_naiss
                         login.value = userInfo.login
+                        mdp.value = userInfo.password
+                        oldLogin = userInfo.login
                     }
                 }
             })
             .catch((error) => console.error("Error:", error));
+    }
+
+    async function update() {
+        // Récupérer la valeur d'un champ de formulaire
+        const login = document.getElementById("login").value;
+        const password = document.getElementById("mdp").value;
+        const message = document.getElementById("message_register");
 
 
+        // message d'erreur
+        // Valider les données du formulaire
+        if (
+            login.trim() === "" ||
+            password.trim() === ""
+        ) {
+            // Si l’un des champs est vide, un message d’erreur cs’affiche
+            message.textContent = "Veuillez remplir tous les champs.";
+            message.classList.remove("hide");
+        } else if (login != oldLogin && await isLoginExist(login)) {
+            message.textContent = "Le compte existe déja.";
+            message.classList.remove("hide");
+        } else if (!isValidPassword(password)) {
+            message.textContent =
+                "Mot de passe doit être entre 6 et 20 caractères.";
+            message.classList.remove("hide");
+        } else {
+            const userData = {
+                id: userId,
+                login: login,
+                password: password,
+                salt: "salt",
+            };
+            console.log(JSON.stringify(userData))
+            // Effacer le message d’erreur
+            message.classList.add("hide");
+            let saveBtn = document.getElementById('saveBtn')
+            document.getElementById('modifBtn').style.display = 'block';
+            saveBtn.style.display = 'none';
+            saveBtn.addEventListener("click", function () {
+                document.querySelectorAll('#userInfoForm input').forEach(input => {
+                    input.setAttribute('readonly', true);
+                });
+            })
+            // Effectuer une requête Fetch
+            //!here to change local/web
+            //fetch("https://devweb.iutmetz.univ-lorraine.fr/~wang318u/TowerOfBabel/API/ModifierUser.php", {
+
+            fetch("../../API/ModifierUser.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.status === "success") {
+                        let user = new User()
+                        user.upDateUserClass()
+                        user.username = login
+                        user.saveToLocalStorage()
+                        location.reload();
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
     }
 </script>
 
