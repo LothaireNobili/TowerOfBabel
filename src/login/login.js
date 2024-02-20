@@ -119,13 +119,12 @@ function connecter() {
                 loginCorrrect = true
                 //explicitely say the user is logged in with session storage
                 sessionStorage.setItem("isLoggedIn", "true");
+                window.location.href = "../../index.html";
               }
             })
             .catch((error) => {
               console.error("Error:", error);
             });
-
-          window.location.href = "../../index.html";
         }
       }
       message.style.display = loginCorrrect ? "none" : "block";
