@@ -36,6 +36,8 @@ class LoadingFight extends Phaser.Scene {
         this.load.image("target_select", "./assets/images/fight_misc/target_select.png")
         this.load.image("target_plus", "./assets/images/fight_misc/target_plus.png")
 
+        this.load.image("generic_potion", "./assets/images/fight_misc/generic_potion.png")
+
         let heroSpriteList = [
             "defend",
             "skill1",

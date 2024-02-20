@@ -1,5 +1,11 @@
 // supprimer /--
-var allPotionsList = [{ name: "exemple1", description: "description", prix: 550, sellQuantity: 1 }, { name: "exemple2", description: "description", prix: 300, sellQuantity: 1 }];
+var allPotionsList = [
+                { name: "healPotion", description: "heals a target", prix: 550, sellQuantity: 1 }, 
+                { name: "bleedPotion", description: "makes a target bleed", prix: 300, sellQuantity: 1 },
+                { name: "posionPotion", description: "makes a target poisoned", prix: 300, sellQuantity: 1 },
+                { name: "wideBleedPotion", description: "makes all targets bleed", prix: 300, sellQuantity: 1 },
+                { name: "widePoisonPotion", description: "makes all targets poisoned", prix: 300, sellQuantity: 1 }
+            ];
 addSellQuantityToPotions(allPotionsList)
 // --/
 

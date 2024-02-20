@@ -274,6 +274,124 @@ class Arbiter {
 
     }
 
+    //this is a bit redundant, fix it later
+    placeTargetCursorsPotion(potion){
+        var that = this// save the context
+
+        //erase the previous cursors
+        for (let cursor of this.currentTargetCursor){
+            cursor.destroy()
+        }
+        this.currentTargetCursor = []
+
+        var foundSkill = potion
+        //initialize temporary variable
+        var tempoTargetCursor
+
+
+        //* The code below looks redoundant but making it smoother would imply to make a lot of ugy code elsewhere
+        //(we use a lot of different variables that don't have the same nomenclature)
+
+        if (foundSkill.target === "enemy"){
+            for(let targetPos of foundSkill.reach){
+                if (targetPos <= enemyTeam.length){
+    
+                    tempoTargetCursor = this.fight_scene.add.image(this.getHorizontalPosition(targetPos, "enemy")
+                        ,this.floor+this.cursorOffSet,"target_select");
+    
+                    tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
+                    tempoTargetCursor.setScale(this.cursorScale)
+
+                    tempoTargetCursor.setInteractive({ cursor: 'pointer' })
+                        .on('pointerdown', function () {
+
+                            if (foundSkill.type == "single"){
+                                that.currentTarget.push(enemyTeam[targetPos - 1]) //!here
+                            }
+
+                            else if (foundSkill.type == "continuous"){
+                                for(let thisTarget of foundSkill.reach){
+                                    if (thisTarget <= enemyTeam.length){
+                                        that.currentTarget.push(enemyTeam[thisTarget - 1])
+                                    }
+                                }
+                            }
+
+                            for (let icon of that.currentFighterSkillIcons){
+                                icon.destroy()
+                            }
+                            this.currentFighterSkillIcons = []
+                            that.engageAttackAnimation()
+                            
+                    }); 
+    
+                    that.currentTargetCursor.push(tempoTargetCursor)
+
+                    //to check if the skill type is on several targets or not
+                    if (foundSkill.type == "continuous" && targetPos>foundSkill.reach[0]){  //we don't add the + cursor for first target 
+
+                        tempoTargetCursor = this.fight_scene.add.image(
+                            ((this.getHorizontalPosition(targetPos, "enemy") + this.getHorizontalPosition(targetPos-1, "enemy")) / 2)
+                            ,this.floor+this.plusCursorVerticalOffSet,"target_plus");
+                        
+                        tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
+                        tempoTargetCursor.setScale(this.plusCursorScale)
+                        that.currentTargetCursor.push(tempoTargetCursor)
+                    }
+                }
+            }
+        }
+
+        else if(foundSkill.target === "team"){
+            for(let targetPos of foundSkill.reach){
+                if (targetPos <= playerTeam.length){
+                    tempoTargetCursor = this.fight_scene.add.image(this.getHorizontalPosition(targetPos, "hero")
+                    ,this.floor+this.cursorOffSet,"passive_select");
+    
+                    tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
+                    tempoTargetCursor.setScale(this.cursorScale)
+
+                    tempoTargetCursor.setInteractive({ cursor: 'pointer' })
+                        .on('pointerdown', function () {
+
+                            if (foundSkill.type == "single"){
+                                that.currentTarget.push(playerTeam[targetPos - 1])
+                            }  
+                            else if (foundSkill.type == "continuous"){
+                                for(let thisTarget of foundSkill.reach){
+                                    if (thisTarget <= playerTeam.length){
+                                        that.currentTarget.push(playerTeam[thisTarget - 1])
+                                    }
+                                }
+                            }
+                            for (let icon of that.currentFighterSkillIcons){
+                                icon.destroy()
+                            }
+                            this.currentFighterSkillIcons = []
+                            that.engageAttackAnimation()
+                    }); 
+    
+                    that.currentTargetCursor.push(tempoTargetCursor)
+                }
+
+                //to check if the skill type is on several targets or not
+                if (foundSkill.type == "continuous" && targetPos>1){  //we don't add the + cursor for target in pos1 
+
+                    tempoTargetCursor = this.fight_scene.add.image(
+                        ((this.getHorizontalPosition(targetPos, "hero") + this.getHorizontalPosition(targetPos-1, "hero")) / 2)
+                        ,this.floor+this.plusCursorVerticalOffSet,"passive_plus");
+                    
+                    tempoTargetCursor.setOrigin(0.5, 1);  //the cursor pic is about the same size of a fighter, so it must have the same origin
+                    tempoTargetCursor.setScale(this.plusCursorScale)
+                    that.currentTargetCursor.push(tempoTargetCursor)
+                }
+
+            }
+        }
+        
+
+    }
+
     placeSkillIcon(hero) {
         // Variable pour stocker la valeur
         var selectedValue = null;
@@ -287,6 +405,13 @@ class Arbiter {
             { key: hero.name+'_skill3_icon', value: hero.skills[2].id },
             { key: hero.name+'_skill4_icon', value: hero.skills[3].id }
         ];
+
+        console.log(hero.equipedPotion)
+        console.log(hero.equipedPotionStock)
+        if(hero.equipedPotion && hero.equipedPotionStock){
+            icons.push({ key: 'generic_potion', value: hero.equipedPotion });
+            console.log("potion check is ok")
+        }
     
         // Créer les icônes cliquables
         icons.forEach((icon, index) => {
@@ -294,18 +419,35 @@ class Arbiter {
             var yPosition = that.skillYPlacement;
             
             var clickableIcon = that.fight_scene.add.sprite(xPosition, yPosition, icon.key)
-            if (this.checkIfSkillIsAvaible(icon.value)){
-                clickableIcon.setInteractive({ cursor: 'pointer' })
-                    .on('pointerdown', function () {
-
-                        that.currentAttack = that.getSKill(that.currentFighter, icon.value)  
-                        that.placeTargetCursors(icon.value)
-
-                }); 
+            if (icon.key != "generic_potion"){
+                if (this.checkIfSkillIsAvaible(icon.value)){
+                    clickableIcon.setInteractive({ cursor: 'pointer' })
+                        .on('pointerdown', function () {
+    
+                            that.currentAttack = that.getSKill(that.currentFighter, icon.value)  
+                            that.placeTargetCursors(icon.value)
+    
+                    }); 
+                }
+                else{
+                    clickableIcon.setTint(0x808080);
+                }
             }
             else{
-                clickableIcon.setTint(0x808080);
+                if (hero.equipedPotionStock>0){
+                    clickableIcon.setInteractive({ cursor: 'pointer' })
+                        .on('pointerdown', function () {
+    
+                            that.currentAttack = hero.equipedPotion  
+                            that.placeTargetCursorsPotion(hero.equipedPotion)
+    
+                    }); 
+                }
+                else{
+                    clickableIcon.setTint(0x808080);
+                }
             }
+            
             
             that.currentFighterSkillIcons.push(clickableIcon)
         });
