@@ -87,7 +87,7 @@ class Vestal {
     }
 
     displayDamage(damageAmount, type){
-        let targetX = this.arbiter.getVerticalPosition(this.position, this.arbiter.getFighterTeam(this))
+        let targetX = this.arbiter.getHorizontalPosition(this.position, this.arbiter.getFighterTeam(this))
         let targetY = 250
         let amount = damageAmount
 
@@ -123,7 +123,7 @@ class Vestal {
     }
 
     displayDamage(damageAmount, type){
-        let targetX = this.arbiter.getVerticalPosition(this.position, this.arbiter.getFighterTeam(this))
+        let targetX = this.arbiter.getHorizontalPosition(this.position, this.arbiter.getFighterTeam(this))
         let targetY = 250
         let amount = damageAmount
 

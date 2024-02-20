@@ -566,58 +566,76 @@ class FighterBluePrint{
         this.commonFunctions = {
             
             displayDamage(damageAmount, type){
-                let targetX = this.arbiter.getVerticalPosition(this.position, this.arbiter.getFighterTeam(this))
+                let targetX = this.arbiter.getHorizontalPosition(this.position, this.arbiter.getFighterTeam(this))
                 let targetY = 250
                 let amount = damageAmount
         
                 let text
                 let color
+                let stroke
                 switch (type) {
                     case 'normal':
                         color = '#ff2929';
+                        stroke = '#8a0404'
                         text = amount;
                         break;
                     case 'bleed':
                         color = '#cc0000';
+                        stroke = '#7a0101'
                         text = "Bleed! " + amount
                         break;
                     case 'poison':
                         color = '#1cc202';
+                        stroke = '#15590a'
                         text = "Poison! " + amount
                         break;
                     case 'stun':
                         color = "#e3c23d"
+                        stroke = '#b0931e'
                         text = "Stun!"
                         break;
                     case 'heal':
                         color = "#05f238"
+                        stroke = '#059c25'
                         text = amount
                         break;
                     case 'regen':
                         color = "#00ff94"
+                        stroke = '#059659'
                         text = "Regen! "+amount
                         break;
                     case 'cure':
                         color = "#ffd299"
+                        stroke = '#ab906f'
                         text = "Cured!"
                         break;
                     case 'miss':
                         color = "#b8b8b8"
+                        stroke = '#787878'
                         text = 'Dodge!'
                         break;
                     case 'crit':
                         color = "#db6a00"
-                        text = amount+"!"
+                        stroke = '#b82e00'
+                        text = "Crit! "+amount
                         break;
                     default:
                         color = '#ffffff';
+                        stroke = '#000000';
+                        text = "there is not text"
                   }
             
                 let damageText = new DamageText(this.arbiter.fight_scene, 
                     targetX, 
                     targetY, 
                     text, 
-                    { fontFamily: 'pixel', fontSize: '45px', color: color });
+                    {   
+                        fontFamily: 'Pixel', 
+                        fontSize: '45px', 
+                        color: color, 
+                        stroke: stroke, 
+                        strokeThickness: 4  
+                    });
                 
             },
         

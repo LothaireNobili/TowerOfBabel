@@ -1,5 +1,7 @@
+
 var heroList = [] //= ["hellion", "bandit" , "graverobber", "vestal"];
 var enemyList = [] //= ["spider","spider","spider", "spider"];
+
 
 class LoadingFight extends Phaser.Scene {
     constructor(){
@@ -9,7 +11,6 @@ class LoadingFight extends Phaser.Scene {
     }
 
     preload(){
-
         //let heroList
         console.log(listSelectedHeroes)
         for(let h of listSelectedHeroes){

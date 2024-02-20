@@ -46,18 +46,18 @@ class Accueil extends Phaser.Scene {
         function isLogged(message) {
             
             //that if is functionnaly useless but we keep it to investigate about an issue
-            if (storedUserData) {
+            //if (storedUserData) {
                 game.scene.start('Hameau');
                 game.scene.stop('Accueil');
                 document.body.style.cursor = "default";
-            } else {
+            /*} else {
                 //for some reasons, even if storedUserData is null in that scope, it doesn't matter
                 //invastigate when we have time
                 game.scene.start('Hameau');
                 game.scene.stop('Accueil');
                 document.body.style.cursor = "default";
                 //message.setVisible(true);
-            }
+            }*/
         }
     }
 
