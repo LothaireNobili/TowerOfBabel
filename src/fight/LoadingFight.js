@@ -11,13 +11,12 @@ class LoadingFight extends Phaser.Scene {
     }
 
     preload(){
-        //let heroList
-        console.log(listSelectedHeroes)
-        for(let h of listSelectedHeroes){
-            heroList.push(h.heroName)
+
+        if (listSelectedHeroes){
+            for(let h of listSelectedHeroes){
+                heroList.push(h.heroName)
+            }
         }
-           
-        console.log(heroList)
        
         enemyList = this.generateRandomEnemyTeam()
 
@@ -32,6 +31,8 @@ class LoadingFight extends Phaser.Scene {
         this.load.image("passive_plus", "./assets/images/fight_misc/passive_plus.png")
         this.load.image("target_select", "./assets/images/fight_misc/target_select.png")
         this.load.image("target_plus", "./assets/images/fight_misc/target_plus.png")
+
+        this.load.image("generic_potion", "./assets/images/fight_misc/generic_potion.png")
 
         let heroSpriteList = [
             "defend",

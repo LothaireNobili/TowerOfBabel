@@ -2,7 +2,7 @@ class HealthBar {
     constructor(scene, character, team, arbiter) {
         this.scene = scene;
         this.character = character;
-        //this.helper = arbiter;
+        this.helper = arbiter;
         this.team = team;
         this.offSet = 25
         this.size = 100

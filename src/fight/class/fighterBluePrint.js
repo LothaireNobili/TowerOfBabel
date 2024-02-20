@@ -563,6 +563,60 @@ class FighterBluePrint{
             }
         },
 
+
+        this.potionBlueprints = {
+            healPotion: {
+                id:"healPotion",
+                name: 'Heal Potion',
+                animation: "skill1",
+                target: "team", //enemy is offensive, team is passive for the team, self is only for the caster
+                type: "single",//one target only
+                reach: [1, 2, 3, 4], //spot reach
+                requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
+                heal: 15,  //how much it heals
+            },
+            bleedPotion: {
+                id: "bleedPotion",
+                name: 'Bleed potion',
+                animation: "skill1",
+                target: "enemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                type: "single",//one target only
+                reach: [1, 2, 3, 4], //spot reach
+                requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
+                bleed: [120, 3, 3], 
+            },
+            posionPotion: {
+                id: "poisonPotion",
+                name: 'Poison potion',
+                animation: "skill1",
+                target: "enemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                type: "single",//one target only
+                reach: [1, 2, 3, 4], //spot reach
+                requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
+                poison: [120, 3],  
+            },
+            wideBleedPotion: {
+                id: "wideBleedPotion",
+                name: 'Wide bleed potion',
+                animation: "skill1",
+                target: "enemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                type: "continuous",//one target only
+                reach: [1, 2, 3, 4], //spot reach
+                requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
+                bleed: [120, 2, 3],  
+            },
+            widePoisonPotion: {
+                id: "widePoisonPotion",
+                name: 'Wide poison potion',
+                animation: "skill1",
+                target: "enemy", //ennemy is offensive, team is passive for the team, self is only for the caster
+                type: "continuous",//one target only
+                reach: [1, 2, 3, 4], //spot reach
+                requiered_pos : [1, 2, 3, 4], //where the hero must be placed to cast it
+                poison: [120, 2],  
+            },
+        }
+
         this.commonFunctions = {
             
             displayDamage(damageAmount, type){

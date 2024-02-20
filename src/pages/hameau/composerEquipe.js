@@ -89,7 +89,6 @@ class ComposerEquipe extends Phaser.Scene {
         user.saveToLocalStorage()
         user.saveToBDD()
 
-        console.log(listSelectedHeroes)
         game.scene.stop("ComposerEquipe")
         game.scene.start('Salle');
         document.body.style.cursor = "default";
