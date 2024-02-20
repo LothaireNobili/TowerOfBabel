@@ -291,7 +291,7 @@ class Salle extends Phaser.Scene {
     ];
 
     for (var i = 0; i < goldPerFloor.length; i++) {
-      if (this.etage == 0) return 25000;
+      if (this.etage == 0) return 250;
       if (window.myScene.etage < goldPerFloor[i][0])
         return Math.floor(
           Math.random() * (goldPerFloor[i][2] - goldPerFloor[i][1]) +
