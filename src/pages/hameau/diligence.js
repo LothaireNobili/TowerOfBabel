@@ -143,6 +143,7 @@ class Diligence extends Phaser.Scene {
 
             user.addHero(key, eqpWeapon, eqpArmour)
             user.updateCoins(-prix)
+            user.saveToBDD()
 
             scene.scene.restart();
           }

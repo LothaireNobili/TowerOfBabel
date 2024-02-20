@@ -8,28 +8,9 @@ error_reporting(E_ALL);
 $json_data = file_get_contents("php://input");
 $data = json_decode($json_data, true);
 
-<<<<<<< HEAD
-   if(isset($_POST["id_user"]) && isset($_POST["save_file"])){
-       $id = $_POST["id_user"];
-       $saveFile = $_POST["save_file"];
-       try {
-           $query = $db->prepare("UPDATE `USER` SET `save_file` = :id  WHERE `USER`.`id` = :id ");
-           $query->bindParam(":id", $id);
-           $query->bindParam(":saveFile", $saveFile);
-           $query->execute();
-   
-           $res["status"] = "success";
-           $res["message"] = "modification réussie";
-           $res["data"] = true;
-       } catch(PDOException $e) {
-           $res["status"] = "error";
-           $res["message"] = "Une erreur est survenue : " . $e->getMessage();
-           $res["data"] = false;
-=======
 if ($data && isset($data['userId']) && isset($data['saveFileData'])) {
     $userId = $data['userId'];
     $saveFileData = $data['saveFileData']; // Convert the data to JSON format
->>>>>>> main
 
     try {
         // Check if the user already has a save_file_id

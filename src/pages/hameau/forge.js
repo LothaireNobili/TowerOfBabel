@@ -229,7 +229,7 @@ class Forge extends Phaser.Scene {
             
             level++;
             user.updateEqpLevel(heroName, eqpType, level)
-            
+            user.saveToBDD()
 
             // mise à jour le value
 

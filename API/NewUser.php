@@ -10,25 +10,9 @@ $data = json_decode($json_data, true);
 
 if ($data) {
     $login = $data['login'];
-<<<<<<< HEAD
-    // $nom = $data['nom'];
-    // $prenom = $data['prenom'];
-    // $mel = $data['mel'];
-    // $date_naiss = $data['date_naiss'];
-=======
->>>>>>> main
     $password = $data['password'];
     $save_data = $data['save_file'];
 
-<<<<<<< HEAD
-    $query = $db->prepare("INSERT INTO `USER` (`id`, `login`, `password`, `salt`, `save_file`) VALUES (NULL, :login, :password, :salt, :save_file)");
-
-    $query->bindValue(':login', $login);
-    // $query->bindValue(':nom', $nom);
-    // $query->bindValue(':prenom', $prenom);
-    // $query->bindValue(':mel', $mel);
-    // $query->bindValue(':date_naiss', $date_naiss);
-=======
     // Créer un nouvel enregistrement save_file
     $save_query = $db->prepare("INSERT INTO `SAVE_FILE` (`data`) VALUES (:save_data)");
     $save_query->bindValue(':save_data', $save_data);
@@ -40,7 +24,6 @@ if ($data) {
     $query = $db->prepare("INSERT INTO `USER` (`id`, `login`, `password`, `save_file`) VALUES (NULL, :login, :password, :save_file)");
 
     $query->bindValue(':login', $login);
->>>>>>> main
     $query->bindValue(':password', $password);
     $query->bindValue(':save_file', $save_id, PDO::PARAM_INT);
 
