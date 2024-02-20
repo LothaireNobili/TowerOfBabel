@@ -12,12 +12,15 @@ class LoadingFight extends Phaser.Scene {
 
     preload(){
         //let heroList
-        console.log(listSelectedHeroes)
-        for(let h of listSelectedHeroes){
-            heroList.push(h.heroName)
+        //console.log(listSelectedHeroes)
+        if (listSelectedHeroes){
+            for(let h of listSelectedHeroes){
+                heroList.push(h.heroName)
+            }
         }
+        
            
-        console.log(heroList)
+        //console.log(heroList)
        
         enemyList = this.generateRandomEnemyTeam()
 

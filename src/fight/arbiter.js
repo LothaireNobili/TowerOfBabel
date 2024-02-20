@@ -42,7 +42,7 @@ class Arbiter {
 
 
 
-    static getHorizontalPosition(rank, team){
+    getHorizontalPosition(rank, team){
         //1 front, 4 back, shouldn't be called for anything but 1,2,3,4
 
         let result = this.firstOffSet + (rank - 1) * this.fightersOffSet
