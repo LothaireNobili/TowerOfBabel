@@ -153,9 +153,26 @@
 
 
         function logout() {
-            localStorage.removeItem("userData");
-            sessionStorage.setItem("isLoggedIn", "false");
-            window.location.reload();
+
+            fetch("./API/UpdateSaveFile.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ userId: user.userId, saveFileData: user.getSaveFile() })
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    // console.log(data)
+                    if (data.status === "success") {
+                        localStorage.removeItem("userData");
+                        sessionStorage.setItem("isLoggedIn", "false");
+                        window.location.reload();
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
         }
 
 

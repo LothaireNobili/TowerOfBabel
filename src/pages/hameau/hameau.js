@@ -29,7 +29,7 @@ class Hameau extends Phaser.Scene {
         this.load.image("cercleRed", "icons/cercle_red.png")
         this.load.image("cercleWhite", "icons/cercle_white.png")
         this.load.image("cercleYellow", "icons/cercle_yellow.png")
-
+        this.load.image("inventaire", "icons/inventaire.png")
 
         for (let hero of game.config.allHeroList) {
 
@@ -77,7 +77,7 @@ class Hameau extends Phaser.Scene {
 
         // Créez un objet image et stockez-le dans un tableau
         createInteractiveImage(this, 680, 580, 200, 200, "Diligence", "recruter de nouveaux héros")
-        //createInteractiveImage(this, 940, 560, 230, 230, "Laboratoire", "acheter des potion") on retire pour la 1er version
+        createInteractiveImage(this, 940, 560, 230, 230, "Laboratoire", "acheter des potion") //on retire pour la 1er version
         createInteractiveImage(this, 150, 590, 230, 230, "Forge", "acheter des armes et armures")
         createInteractiveImage(this, 400, 570, 200, 200, "Depart", "débuter l'aventure")
 
@@ -107,7 +107,7 @@ class Hameau extends Phaser.Scene {
                 image.setTexture(key + "Focus");
                 description.visible = true; // Afficher le texte de description
                 document.body.style.cursor = "pointer"; // Définir le style de curseur comme une main
-                
+
             });
 
             // Restaurer l'image d'origine lors du retrait de la souris
@@ -117,23 +117,20 @@ class Hameau extends Phaser.Scene {
                 document.body.style.cursor = "default"; // Configurer le style du curseur en tant que style par défaut
             });
 
-            
-
             image.on("pointerdown", function () {
                 if (key == "Depart") {
                     game.scene.stop('Hameau')
                     game.scene.start("ComposerEquipe");
 
                 }
-                else if (key == "Forge"){
-                    if(user.heroes.length >= 4){
+                else if (key == "Forge") {
+                    if (user.heroes.length >= 4) {
                         game.scene.stop('Hameau')
                         game.scene.start(key);
                     }
-                    else{
+                    else {
                         barreInfo.message("You need to recruit 4 heroes.")
                     }
-                    
                 }
                 else {
                     game.scene.stop('Hameau')
@@ -141,8 +138,6 @@ class Hameau extends Phaser.Scene {
                 }
 
             });
-
-            
 
             return image;
         }

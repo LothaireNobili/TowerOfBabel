@@ -34,12 +34,12 @@ function createEnseigneReturnBtn(scene, enseigne) {
     enseigne.on('pointerdown', function () {
         scene.scene.start('Hameau');
         document.body.style.cursor = "default";
-        setTimeout(() => {
-            scene.scene.setVisible(false, 'PassDataScene')
-            setTimeout(() => {
-                scene.scene.setVisible(true, 'PassDataScene')
-            }, 5000)
-        }, 5000)
+        // setTimeout(() => {
+        //     scene.scene.setVisible(false, 'PassDataScene')
+        //     setTimeout(() => {
+        //         scene.scene.setVisible(true, 'PassDataScene')
+        //     }, 5000)
+        // }, 5000)
     }, scene);
 }
 

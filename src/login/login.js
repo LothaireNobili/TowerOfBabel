@@ -54,12 +54,15 @@ async function register() {
     message.classList.remove("hide");
   }
   else {
+    let tmpUser = new User(undefined, undefined, 10000, [], [], 0); 
+    let save_file = tmpUser.getSaveFile();
+
     const userData = {
       login: login,
       password: password,
-      salt: "salt",
-      save_file: 0,
+      save_file: save_file,
     };
+
     // Effacer le message d’erreur
     message.classList.add("hide");
 
@@ -92,7 +95,6 @@ function connecter() {
   const password = document.getElementById("mdp").value;
   const message = document.getElementById("message_login");
 
-
   fetch("../../API/SelectAllUser.php")
     .then((response) => response.json())
     .then((data) => {
@@ -101,9 +103,28 @@ function connecter() {
       for (let userInfo of data) {
         if (userInfo.login == login && userInfo.password == password) {
           loginCorrrect = true;
-          let tmpUser = new User(userInfo.id, userInfo.login, 10000, [], [], 1); // ....
-          tmpUser.saveToLocalStorage();
-          sessionStorage.setItem("isLoggedIn", "true");//explicitely say the user is logged in with session storage
+
+          fetch("../../API/GetSaveFile.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: userInfo.id }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status === "success") {
+                let tmpUser = new User(userInfo.id, userInfo.login, undefined, undefined, undefined, 1)
+                tmpUser.loadFromSaveFile(data.data)
+                loginCorrrect = true
+                //explicitely say the user is logged in with session storage
+                sessionStorage.setItem("isLoggedIn", "true");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+
           window.location.href = "../../index.html";
         }
       }
@@ -134,7 +155,6 @@ function goToConnexion() {
 //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 //   return emailRegex.test(email);
 // }
-
 
 function isValidPassword(psd) {
   const verifRegex = /^.{6,20}$/;
