@@ -73,6 +73,8 @@ class Salle extends Phaser.Scene {
   }
 
   create() {
+
+    console.log(listSelectedHeroes)
     for (var i = 0; i < 10; i++) this.reset();
     window.myScene = this;
 
@@ -84,8 +86,8 @@ class Salle extends Phaser.Scene {
 
     for (var i = 0; i < listSelectedHeroes.length; i++) {
       var equipier = this.add
-        .sprite(this.positions[i], 600, "idle_" + listSelectedHeroes[i])
-        .play(listSelectedHeroes[i] + "_idle")
+        .sprite(this.positions[i], 600, "idle_" + listSelectedHeroes[i].heroName)
+        .play(listSelectedHeroes[i].heroName + "_idle")
         .setOrigin(0.5, 1);
       equipier.setScale(0.7);
     }
@@ -136,7 +138,7 @@ class Salle extends Phaser.Scene {
       var equipier = this.add.image(
         this.positions[i][0],
         this.positions[i][1],
-        listSelectedHeroes[i] + "_exploration"
+        listSelectedHeroes[i].heroName + "_exploration"
       );
       equipier.setScale(0.3);
     }

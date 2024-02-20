@@ -25,54 +25,47 @@ $(document).ready(function () {
 
 async function register() {
   // Récupérer la valeur d'un champ de formulaire
-  const nom = document.querySelector('[aria-label="nom"]').value;
-  const prenom = document.querySelector('[aria-label="prenom"]').value;
-  const mel = document.getElementById("mel").value;
-  const birthday = document.getElementById("datetimepicker").value;
   const login = document.getElementById("login_inscription").value;
   const password = document.getElementById("mdp_inscription").value;
+  const password2 = document.getElementById("mdp2_inscription").value;
   const message = document.getElementById("message_register");
 
   // message d'erreur
   // Valider les données du formulaire
   if (
-    nom.trim() === "" ||
-    prenom.trim() === "" ||
-    mel.trim() === "" ||
-    birthday.trim() === "" ||
     login.trim() === "" ||
     password.trim() === ""
   ) {
-    // Si l’un des champs est vide, un message d’erreur s’affiche
+    // Si l’un des champs est vide, un message d’erreur cs’affiche
     message.textContent = "Veuillez remplir tous les champs.";
     message.classList.remove("hide");
   } else if (await isLoginExist(login)) {
     message.textContent = "Le compte existe déja.";
     message.classList.remove("hide");
-  } else if (!isValidEmail(mel)) {
-    message.textContent = "Veuillez entrer une adresse e-mail valide.";
-    message.classList.remove("hide");
   } else if (!isValidPassword(password)) {
-    message.textContent =
-      "Mot de passe doit être entre 8 et 20 caractères.";
+    message.textContent =c
+      "Mot de passe doit être entre 6 et 20 caractères.";
+    message.classList.remove("hide");
+  } else if (password != password2) {
+    message.textContent = "Les deux saisies de mot de passe ne correspondent pas.";
     message.classList.remove("hide");
   }
   else {
+    let tmpUser = new User(undefined, undefined, 10000, [], [], 0); 
+    let save_file = tmpUser.getSaveFile();
+
     const userData = {
       login: login,
-      nom: nom,
-      prenom: prenom,
-      mel: mel,
-      date_naiss: birthday,
       password: password,
-      salt: 'salt',
-      save_file: 0,
+      save_file: save_file,
     };
+
     // Effacer le message d’erreur
     message.classList.add("hide");
 
-
     // Effectuer une requête Fetch
+    //!here to change local/web
+    //fetch("https://devweb.iutmetz.univ-lorraine.fr/~nobili2u/TowerOfBabel/PI/NewUser.php", {
     fetch("../../API/NewUser.php", {
       method: "POST",
       headers: {
@@ -98,9 +91,7 @@ function connecter() {
   const password = document.getElementById("mdp").value;
   const message = document.getElementById("message_login");
 
-  //!here to change local/web
-  fetch("https://devweb.iutmetz.univ-lorraine.fr/~nobili2u/TowerOfBabel/API/SelectAllUser.php")
-  //fetch("../../API/SelectAllUser.php")
+  fetch("../../API/SelectAllUser.php")
     .then((response) => response.json())
     .then((data) => {
       // Traiter les données JSON renvoyées par PHP, parcourir les données et traiter les informations utilisateur
@@ -108,8 +99,28 @@ function connecter() {
       for (let userInfo of data) {
         if (userInfo.login == login && userInfo.password == password) {
           loginCorrrect = true;
-          let tmpUser = new User(userInfo.id, userInfo.login, 10000); // ....
-          tmpUser.saveToLocalStorage();
+
+          fetch("../../API/GetSaveFile.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: userInfo.id }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status === "success") {
+                let tmpUser = new User(userInfo.id, userInfo.login, undefined, undefined, undefined, 1)
+                tmpUser.loadFromSaveFile(data.data)
+                loginCorrrect = true
+                //explicitely say the user is logged in with session storage
+                sessionStorage.setItem("isLoggedIn", "true");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+
           window.location.href = "../../index.html";
         }
       }
@@ -133,13 +144,13 @@ function goToConnexion() {
 }
 
 // Vérifier le format de l’e-mail
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
+// function isValidEmail(email) {
+//   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//   return emailRegex.test(email);
+// }
 
 function isValidPassword(psd) {
-  const verifRegex = /^.{8,20}$/;
+  const verifRegex = /^.{6,20}$/;
   return verifRegex.test(psd);
 }
 

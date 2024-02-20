@@ -593,7 +593,7 @@ class Arbiter {
             else{
                 playerTeam = []//we put that on both side of condition for convenience reasons
                 enemyTeam = []
-                listSelectedHeroes = heroList
+                //listSelectedHeroes = heroList
                 heroList = []
                 game.scene.stop(this.fight_scene)
                 Salle.returnToRoom()

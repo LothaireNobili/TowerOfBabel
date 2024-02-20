@@ -5,7 +5,7 @@ class Laboratoire extends Phaser.Scene {
   preload() {
     this.load.setBaseURL('./assets/')
     this.load.image("gandoulf", "images/hameau/Gandoulf_ancien.png")
-    this.load.image("inventaire", "icons/inventaire.png")
+    this.load.image("potionIcon", "icons/potion.png")
   }
   create() {
    
@@ -60,6 +60,9 @@ class Laboratoire extends Phaser.Scene {
       image.setScale(0.18);
       image.setInteractive();
 
+      var potionImage = scene.add.image(x,y-20,'potionIcon')
+      potionImage.setScale(0.18)
+
       // Créer un conteneur pour contenir les éléments de détail
       if (left == true)
         var descriptionContainer = scene.add.container(x - 150, y);
@@ -110,6 +113,7 @@ class Laboratoire extends Phaser.Scene {
               user.addPotion(key, 1)
               user.updateCoins(-prix)
 
+              user.saveToLocalStorage()
               scene.scene.restart();
             } else {
               console.log("Out of stock or no sellable quantity.");

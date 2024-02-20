@@ -1,10 +1,13 @@
 class User {
-    constructor(id, username, coins, heroes, potions) {
+    constructor(id, username, coins, heroes, potions, connected) {
         this.userId = id || null;
         this.username = username || null;
         this.coins = coins || null;
         this.heroes = heroes || []; // heroes:[{heroName, equipment:[{equipmentName, level, attack},{equipmentName, level, defense}]}]
         this.potions = potions || []; // potions:[{potionName, qte}]
+        if (connected) {
+            this.connected = 1
+        }
     }
 
     saveToLocalStorage() {
@@ -30,16 +33,18 @@ class User {
             this.coins = reloadedUser.coins;
             this.heroes = reloadedUser.heroes;
             this.potions = reloadedUser.potions;
+            this.connected = 1
         }
     }
 
     upDateUnconnectedUserClass() {
-            this.userId = -1
-            this.username = "Guest"
-            this.coins = 10000
-            this.heroes = []
-            this.potions = []
-        
+        this.userId = -1
+        this.username = "Guest"
+        this.coins = 10000
+        this.heroes = []
+        this.potions = []
+        this.connected = 0
+
     }
 
     // Ajouter des informations sur le héros et l'équipement
@@ -78,20 +83,19 @@ class User {
                 qte: quantity
             });
         }
-        this.saveToLocalStorage()
+        // this.saveToLocalStorage()
     }
 
-    usePotion(potionName) {
+    usePotion(potionName, qte) {
         const targetPotion = this.potions.find(potion => potion.potionName === potionName);
 
-        if (targetPotion && targetPotion.qte > 0) {
-            targetPotion.qte--;
+        if (targetPotion && targetPotion.qte - qte >= 0) {
+            targetPotion.qte = targetPotion.qte - qte
             // ...
         } else {
             // ...
         }
-        this.saveToLocalStorage()
-
+        // this.saveToLocalStorage()
     }
 
     getPotionQte(potionName) {
@@ -118,6 +122,32 @@ class User {
             this.saveToLocalStorage()
         } else {
             console.error("Gold coins cannot be less than 0");
+        }
+    }
+
+    getSaveFile(){
+        const saveFileData = {
+            coins: this.coins,
+            heroes: this.heroes,
+            potions: this.potions,
+        };
+
+        const saveFileJson = JSON.stringify(saveFileData);
+
+        return saveFileJson;
+    }
+
+    loadFromSaveFile(saveFileData) {
+        try {
+            // Mettre à jour les propriétés de l'instance de la classe User
+            this.coins = saveFileData.coins;
+            this.heroes = saveFileData.heroes;
+            this.potions = saveFileData.potions;
+
+            // Enregistrer les données mises à jour sur localStorage
+            this.saveToLocalStorage();
+        } catch (error) {
+            console.error("Error loading data from save file:", error);
         }
     }
 
