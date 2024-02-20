@@ -406,11 +406,9 @@ class Arbiter {
             { key: hero.name+'_skill4_icon', value: hero.skills[3].id }
         ];
 
-        console.log(hero.equipedPotion)
-        console.log(hero.equipedPotionStock)
         if(hero.equipedPotion && hero.equipedPotionStock){
             icons.push({ key: 'generic_potion', value: hero.equipedPotion });
-            console.log("potion check is ok")
+
         }
     
         // Créer les icônes cliquables

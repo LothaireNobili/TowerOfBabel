@@ -74,7 +74,6 @@ class Salle extends Phaser.Scene {
 
   create() {
 
-    console.log(listSelectedHeroes)
     for (var i = 0; i < 10; i++) this.reset();
     window.myScene = this;
 
