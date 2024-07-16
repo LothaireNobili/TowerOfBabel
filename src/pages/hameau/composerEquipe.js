@@ -161,7 +161,7 @@ class ComposerEquipe extends Phaser.Scene {
         inventaireContainer.setVisible(true)
       });
 
-      cadreSelected.add([frameHero, framePotion])
+      cadreSelected.add([frameHero/*, framePotion*/])
       list.push([framePotion]) //liste de framePotion
     }
 

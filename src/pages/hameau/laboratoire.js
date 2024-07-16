@@ -30,7 +30,7 @@ class Laboratoire extends Phaser.Scene {
 
     // Ajouter des potions
     var intervalleX = 135
-    var intervalleY = 230
+    var intervalleY = 230000
 
     for (let i = 0; i < 2; i++) {
       for (let j = i * 4; j < allPotionsList.length; j++) {
@@ -117,11 +117,14 @@ class Laboratoire extends Phaser.Scene {
               user.saveToBDD()
               scene.scene.restart();
             } else {
-              console.log("Out of stock or no sellable quantity.");
+              barreInfo.message("Cette potion n'est plus en stock.")
             }
           }
         }
-        barreInfo.message("Not enough coins.")
+        else{
+          barreInfo.message("Pas assez de pièces.")
+        }
+        
       });
 
 

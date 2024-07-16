@@ -113,10 +113,11 @@ class LoadingFight extends Phaser.Scene {
             ["skeleton", "spider"],
             ["skeleton", "skeleton","skeleton", "skeleton"],
             ["spider", "spider","spider", "spider"],
-            ["skeleton", "skeleton","spider", "spider"]
+            ["skeleton", "skeleton","spider", "spider"],
+            ["spider", "skeleton","spider", "skeleton"]
         ]
 
         let randomIndex = Math.floor(Math.random() * enemyTeams.length);
-        return enemyTeams[randomIndex];
+        return enemyTeams[6/*randomIndex*/];
     }
 }

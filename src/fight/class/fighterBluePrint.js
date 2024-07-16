@@ -429,7 +429,7 @@ class FighterBluePrint{
 
                 prot : 0, 
 
-                speed : 5,
+                speed : 4,
 
                 crit : 5, //in %
 
@@ -676,7 +676,7 @@ class FighterBluePrint{
                     default:
                         color = '#ffffff';
                         stroke = '#000000';
-                        text = "there is not text"
+                        text = "there is no text"
                   }
             
                 let damageText = new DamageText(this.arbiter.fight_scene, 

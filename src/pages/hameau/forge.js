@@ -256,7 +256,7 @@ class Forge extends Phaser.Scene {
             barreInfo.updateCoins(user.coins)
           }
           else {
-            barreInfo.message("Not enough coins.")
+            barreInfo.message("Pas assez de pièces.")
           }
 
         });

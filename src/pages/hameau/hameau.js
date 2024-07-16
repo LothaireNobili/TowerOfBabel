@@ -1,10 +1,8 @@
 // supprimer /--
 var allPotionsList = [
-                { name: "healPotion", description: "heals a target", prix: 550, sellQuantity: 1 }, 
-                { name: "bleedPotion", description: "makes a target bleed", prix: 300, sellQuantity: 1 },
-                { name: "posionPotion", description: "makes a target poisoned", prix: 300, sellQuantity: 1 },
-                { name: "wideBleedPotion", description: "makes all targets bleed", prix: 300, sellQuantity: 1 },
-                { name: "widePoisonPotion", description: "makes all targets poisoned", prix: 300, sellQuantity: 1 }
+                { id: "healPotion", name: "Potion de soin", description: "Soigne une cible", prix: 550, sellQuantity: 1 }, 
+                { id: "bleedPotion", name: "Potion maudite", description: "Fait saigner \nune cible", prix: 300, sellQuantity: 1 },
+                { id: "posionPotion", name: "Potion de poison", description: "Empoisonne \nune cible", prix: 300, sellQuantity: 1 },
             ];
 addSellQuantityToPotions(allPotionsList)
 // --/
@@ -82,10 +80,10 @@ class Hameau extends Phaser.Scene {
         barreInfo.creerBarreInfo();  // Crée la barre d'information
 
         // Créez un objet image et stockez-le dans un tableau
-        createInteractiveImage(this, 680, 580, 200, 200, "Diligence", "recruter de nouveaux héros")
-        createInteractiveImage(this, 940, 560, 230, 230, "Laboratoire", "acheter des potion") //on retire pour la 1er version
-        createInteractiveImage(this, 150, 590, 230, 230, "Forge", "acheter des armes et armures")
-        createInteractiveImage(this, 400, 570, 200, 200, "Depart", "débuter l'aventure")
+        createInteractiveImage(this, 680, 580, 200, 200, "Diligence", "Recruter de nouveaux héros")
+        createInteractiveImage(this, 940, 560, 230, 230, "Laboratoire", "Acheter des potions") //on retire pour la 1er version
+        createInteractiveImage(this, 150, 590, 230, 230, "Forge", "Améliorer vos armes et armures")
+        createInteractiveImage(this, 400, 570, 200, 200, "Depart", "Débuter l'aventure")
 
 
         // Créez une fonction pour les objets image, les paramètres de description
@@ -129,13 +127,13 @@ class Hameau extends Phaser.Scene {
                     game.scene.start("ComposerEquipe");
 
                 }
-                else if (key == "Forge") {
+                else if (key == "Forge" || key == "Laboratoire") {
                     if (user.heroes.length >= 4) {
                         game.scene.stop('Hameau')
                         game.scene.start(key);
                     }
                     else {
-                        barreInfo.message("You need to recruit 4 heroes.")
+                        barreInfo.message("Vous devez d'abord recruter 4 héros.")
                     }
                 }
                 else {
