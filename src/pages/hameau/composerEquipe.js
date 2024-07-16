@@ -49,9 +49,7 @@ class ComposerEquipe extends Phaser.Scene {
     const barreInfo = new BarreInfo(this);
     barreInfo.creerBarreInfo();  // Crée la barre d'information
 
-    var message = this.add.text(320, 75, "Formez un groupe à partir de la liste de recrues", setFontStyles("24px", "#ff6666"));
-    message.setDepth(99);
-    message.setVisible(false);
+    
 
     // button start
     var startBtn = this.add.image(700, 655, "goBtn")
@@ -75,13 +73,13 @@ class ComposerEquipe extends Phaser.Scene {
       for (let i = 0; i < 4; i++) {
         if (!listSelectedHeroes[i].heroName) {
           go = false;
-          message.setVisible(true);
+          barreInfo.message("Formez un groupe à partir de la liste de recrues.");
           break;
         }
       }
       if (go) {
         GOLDEARNT = user.coins
-        message.setVisible(false);
+        
 
         saveListSelectedHeroes()
         deletePotionSelectedToUserClass()
