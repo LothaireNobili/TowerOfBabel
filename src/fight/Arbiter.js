@@ -306,7 +306,7 @@ class Arbiter {
                         .on('pointerdown', function () {
 
                             if (foundSkill.type == "single"){
-                                that.currentTarget.push(enemyTeam[targetPos - 1]) //!here
+                                that.currentTarget.push(enemyTeam[targetPos - 1])
                             }
 
                             else if (foundSkill.type == "continuous"){
@@ -484,6 +484,7 @@ class Arbiter {
     }
 
 
+    //!State Machine Patern starts here
     startFight(){
         var that = this; //to not loose the context
         this.showImage("fight_announcement").then(function(){ //play the a inimation THEN start the fight
@@ -492,18 +493,15 @@ class Arbiter {
     }
 
     startRound(){
-
         this.fighterOrder = this.getBothTeam().sort((a, b) => b.speed - a.speed)
         this.currentFighterTrackNumber = 0;
         this.startTurn()
-
     }
 
     startTurn(){
         var that = this
         this.currentFighter = this.fighterOrder[this.currentFighterTrackNumber]
         this.checkForStatusEffect()
-        
     }
 
     checkForStatusEffect() {
@@ -647,7 +645,7 @@ class Arbiter {
     }
 
 
-    checkDeath(checkTargets){//checkTargets MUST be a list
+    checkDeath(checkTargets){//!checkTargets MUST be a list
         var that = this
         let team = this.getFighterTeam(checkTargets[0])
         let anyDeaths = false
